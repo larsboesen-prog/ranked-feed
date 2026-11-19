@@ -41,9 +41,18 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   **8–10 MB** for restaurant and event questions. Whisper tiny cannot reach that (39M params, ~40 MB at 8 bits), so the
   Whisper fine-tune kit in `tiny-speech/training/asr/` (3,892 restaurant requests, 48 speaker packets, Piper and made-up
   voices, fine-tune + 8-bit export) is parked. The 8–10 MB route: a tiny bilingual phone recognizer (~5–8M params) +
-  matching against a word list built from the city pack (Snips/Sonos pattern), see the "Ears probe" section below.
+  matching against a word list built from the city pack (Snips/Sonos pattern): see "Ears probe" below (it works in the best case).
   Before any training, measure stock models on 5–10 real Mexican speakers.
 - Questions open: GPU rental or Kaggle for the voice; whether sights on /page2 should shuffle too.
+
+## Ears probe (19 Nov 2026): does "small sound recognizer + city word list" work?
+
+`tiny-speech/training/asr/probe/` (README there). Best case: a large sound recognizer (wav2vec2 espeak, 300M) matched against
+a 2,181-word list from the restaurant requests and San Miguel's pack. On 72 held-out synthetic Mexican requests it understood
+**47.2%** as said vs **29–31%** for the sites' Whisper tiny, words wrong 39.8% vs 43–48%, places 9 vs 6 of 12; but language
+right 80.6% vs 94–97%, and 10 of 144 answers came out empty (fixable). So the design works in the best case. Open question:
+how much a tiny 5–8M sound model (the 8–10 MB target) keeps; next step if the ears resume: train it to imitate the large
+one, rerun the probe, then test on 5–10 real Mexican speakers.
 
 ## Measurements to remember
 
