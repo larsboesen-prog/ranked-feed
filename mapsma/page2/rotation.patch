@@ -1,0 +1,29 @@
+--- live-2026-11-19.html	2026-11-19 22:41:01.504247409 +0000
++++ index.html	2026-11-19 22:41:01.546449895 +0000
+@@ -288,6 +288,15 @@
+   return `<button class="pc" data-id="${escH(p.id)}" style="--c:${c.color}"><div class="im">${art}<span class="num" style="${isS(p)?"color:#f2c14e;border-radius:8px":""}">${isS(p)?"★":p.id}</span>${saved.has(p.id)?'<span class="sv">★</span>':""}</div>
+     <div class="tx"><b>${escH(p.name)}</b><small>${line}</small></div></button>`;
+ }
++/* ---------- rotation (Lars, 19 Nov 2026): every visit to this page, each kind's places start one further along the list, so
++   each place has its turn at the top. Sights keep their order. Closing a card with Back is the same visit; coming back from
++   another page (even one the browser kept in memory) is a new one. ---------- */
++let turn=0;
++function nextTurn(){ try{ turn=(parseInt(localStorage.getItem("sma-turn"),10)||0)+1; localStorage.setItem("sma-turn",String(turn)); }
++  catch(e){ turn=Math.floor(Math.random()*1000); } }   // no storage (a private window): a random start instead
++nextTurn();
++addEventListener("pageshow",e=>{ if(e.persisted){ nextTurn(); render(); } });
++const rotate=(xs,n)=>{ if(!xs.length) return xs; const k=n%xs.length; return [...xs.slice(k),...xs.slice(0,k)]; };
+ function render(){
+   chipsEl.querySelectorAll(".chip[data-k]").forEach(c=>c.classList.toggle("on", c.dataset.k==="all"?(!active.size&&!when):active.has(c.dataset.k)));
+   const vis=places.filter(visible), nEat=vis.filter(p=>!isS(p)).length, nS=vis.length-nEat;
+@@ -296,7 +305,9 @@
+   let h="";
+   for(const k in CATS){
+     if(active.size&&!active.has(k)) continue;
+-    const items=vis.filter(p=>cats(p).includes(k)).sort((a,b)=>(PHOTOS[b.id]?1:0)-(PHOTOS[a.id]?1:0)); if(!items.length) continue;
++    const sorted=vis.filter(p=>cats(p).includes(k)).sort((a,b)=>(PHOTOS[b.id]?1:0)-(PHOTOS[a.id]?1:0)); if(!sorted.length) continue;
++    // places with photos still first; within each part, this visit's turn
++    const items=k==="sights"?sorted:[...rotate(sorted.filter(p=>PHOTOS[p.id]),turn),...rotate(sorted.filter(p=>!PHOTOS[p.id]),turn)];
+     h+=`<div class="grp"><i style="background:${CATS[k].color}"></i>${CATS[k].label}</div><div class="cards">${items.map(p=>cardHTML(p,k)).join("")}</div>`;
+   }
+   const g=document.getElementById("grid"); g.innerHTML=h||`<div class="empty">${T("No matches.")}</div>`;

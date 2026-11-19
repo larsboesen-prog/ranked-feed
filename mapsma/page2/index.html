@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>San Miguel de Allende · Places in photos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f0e4;--paper:#fffcf6;--ink:#1f2630;--muted:#7a7268;--line:#e7decd;--accent:#b8452d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit}
+header{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding:12px 16px 10px}
+.titlerow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+h1{font-family:Fraunces,serif;font-weight:700;font-size:clamp(17px,5.2vw,21px);white-space:nowrap;letter-spacing:-.01em;line-height:1.1}
+h1 em{font-style:italic;font-weight:500;color:var(--accent)}
+.sub{font-size:12px;color:var(--muted);margin-top:2px}
+/* Photos | Map switch */
+.views{flex:none;display:flex;border:1px solid var(--line);border-radius:12px;background:#f3ede2;padding:3px}
+.views a,.views span{font-size:13px;font-weight:700;padding:6px 9px;border-radius:9px;text-decoration:none;white-space:nowrap}
+.views span{background:var(--ink);color:#fff}
+.views a{color:var(--muted)}
+.views i{font-style:normal}
+.views b{font-weight:inherit}
+.hright{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.sub .wide{display:none}
+@media (max-width:420px){ .views i{display:none} .views a,.views span{padding:6px 8px} }
+.chips{display:flex;gap:6px;overflow-x:auto;margin:10px -16px 0;padding:0 16px 2px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:99px;padding:6px 11px;font-size:13px;white-space:nowrap;transition:.15s}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}
+.chip.on{background:var(--c);border-color:var(--c);color:#fff}
+.chip.on i{background:#fff}
+.chip.all.on{background:var(--ink);border-color:var(--ink)}
+.chip.today{font-weight:700;border-color:#b9d3b4;background:#f3f8f1;color:#2f6a3a}
+.chip.today.on{background:#2f6a3a;border-color:#2f6a3a;color:#fff}
+.chip.today .car{font-size:10px;opacity:.7;margin-left:2px}
+.tools{display:flex;gap:8px;margin-top:10px;align-items:center}
+#q{flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:9px 12px;font:inherit;font-size:15px;background:#fff;outline:none}
+#todaySlot{position:relative;flex:none}
+#todaySlot .chip{height:40px;border-radius:12px;padding:0 12px}
+.when-menu{display:none;position:absolute;top:46px;right:0;background:var(--paper);border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 28px rgba(40,25,10,.18);padding:6px;min-width:190px;z-index:9}
+.when-menu.show{display:block}
+.when-menu .wm-h{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--muted);padding:6px 10px 4px}
+.when-menu button{display:block;width:100%;text-align:left;padding:9px 10px;border-radius:9px;font-size:14px}
+.when-menu button:hover{background:#f3ede2}
+.when-menu button.on{background:#2f6a3a;color:#fff;font-weight:700}
+#count{font-size:13px;color:var(--muted);padding:12px 16px 0;max-width:1200px;margin:0 auto}
+.note{font-size:12.5px;color:var(--muted);padding:6px 16px 0;max-width:1200px;margin:0 auto}
+/* the grid of photo cards */
+#grid{max-width:1200px;margin:0 auto;padding:6px 12px 40px}
+.grp{font-size:11px;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--muted);padding:16px 4px 8px;display:flex;align-items:center;gap:7px}
+.grp i{width:9px;height:9px;border-radius:50%}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pc{display:block;text-align:left;background:var(--paper);border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(60,40,20,.08);border:1px solid var(--line);min-width:0}
+.pc .im{position:relative;aspect-ratio:4/5;background:var(--c);display:grid;place-items:center;overflow:hidden}
+.pc .im img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pc .im svg{width:56%;opacity:.9}
+.pc .im .ini{font-family:Fraunces,serif;font-size:44px;font-weight:700;color:rgba(255,255,255,.85)}
+.pc .num{position:absolute;left:8px;top:8px;min-width:26px;height:26px;padding:0 6px;border-radius:13px;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;background:var(--c);box-shadow:0 0 0 2px #fff}
+.pc .sv{position:absolute;right:8px;top:8px;color:#f2c14e;font-size:18px;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.pc .tx{padding:8px 10px 10px}
+.pc b{display:block;font-size:14.5px;font-weight:700;line-height:1.2;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pc small{display:block;font-size:12px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-open{color:#2f7a3d;font-weight:700}.st-soon{color:#9a6d12;font-weight:700}.st-closed{color:#a24a36;font-weight:700}
+.empty{padding:40px 10px;text-align:center;color:var(--muted);font-size:14px}
+/* detail card */
+#detail{position:fixed;inset:0;z-index:20;background:rgba(30,24,18,.45);display:none;align-items:flex-end;justify-content:center}
+#detail.show{display:flex}
+#card{background:var(--paper);width:100%;max-width:460px;max-height:92%;overflow-y:auto;border-radius:20px 20px 0 0;padding:14px 14px 16px;box-shadow:0 -8px 30px rgba(40,25,10,.2)}
+.c-top{display:flex;gap:12px;align-items:flex-start}
+.c-badge{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:14px;box-shadow:0 0 0 3px #fff,0 0 0 4px var(--line)}
+.c-main{flex:1;min-width:0}
+.c-cat{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.c-name{font-family:Fraunces,serif;font-size:20px;font-weight:700;line-height:1.15;margin-top:2px}
+.c-area{font-size:13px;color:var(--muted);margin-top:3px}
+.c-desc{font-size:14px;line-height:1.45;margin-top:8px}
+.c-info{margin-top:10px;border-top:1px solid var(--line);padding-top:10px;font-size:13.5px;line-height:1.45}
+.c-info>div{display:flex;gap:8px;margin-bottom:6px}
+.c-info .k{flex:none;width:18px;text-align:center;opacity:.7}
+.c-info .muted{color:var(--muted)}
+.c-info small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+.c-info a{color:var(--muted)}
+.acc{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.03em;border-radius:99px;padding:2px 8px;margin-top:2px}
+.acc.ok{background:#e4efe0;color:#3c6a3a}.acc.st{background:#f6ecd6;color:#8a6a1f}.acc.ap{background:#f4e1dc;color:#9a4a36}
+.week{display:grid;grid-template-columns:auto 1fr;gap:1px 12px;font-size:12.5px;color:var(--muted);margin-top:6px}
+.week .t{color:var(--ink);font-weight:700}
+.wk summary{cursor:pointer;font-size:12.5px;color:var(--muted);margin-top:4px;list-style:none}.wk summary::-webkit-details-marker{display:none}.wk summary:after{content:" ▾"}.wk[open] summary:after{content:" ▴"}
+.c-photo{margin:-14px -14px 12px;position:relative}
+.c-strip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:20px 20px 0 0;overscroll-behavior-x:contain}
+.c-strip::-webkit-scrollbar{display:none}
+.c-photo img{flex:0 0 100%;display:block;width:100%;height:260px;object-fit:cover;scroll-snap-align:center;background:#efe7d8}
+.c-dots{position:absolute;left:0;right:0;top:242px;display:flex;justify-content:center;gap:5px;pointer-events:none}
+.c-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);box-shadow:0 0 2px rgba(0,0,0,.4)}
+.c-dots i.on{background:#fff}
+.c-photo figcaption{font-size:10.5px;color:var(--muted);padding:4px 14px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-photo figcaption a{color:var(--muted)}
+.c-x{flex:none;width:30px;height:30px;border-radius:50%;background:#f1ebe0;font-size:15px}
+.c-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.c-actions a,.c-actions button{flex:1;text-align:center;text-decoration:none;font-size:14px;font-weight:700;border-radius:12px;padding:10px 6px;border:1px solid var(--line);background:#fff}
+.c-actions a.primary{flex-basis:100%;background:var(--ink);border-color:var(--ink);color:#fff;padding:12px 6px}
+.c-actions button.is-saved{background:#fff6d6;border-color:#f0d27a}
+@media (min-width:600px){ .cards{grid-template-columns:repeat(3,1fr)} }
+@media (min-width:900px){
+  header{padding:14px 24px 12px} .chips{margin:10px -24px 0;padding:0 24px 2px}
+  .cards{grid-template-columns:repeat(5,1fr);gap:14px}
+  .sub .wide{display:inline}
+  .hright{flex-direction:row-reverse;align-items:center;gap:10px}
+  #detail{align-items:center} #card{border-radius:20px}
+}
+/* "Sites we recommend" — same three as on the map */
+.sponsors{max-width:640px;margin:0 auto;padding:6px 16px 26px;text-align:left}
+.sp-h{font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--muted);margin:0 2px 6px;font-family:"DM Sans",system-ui,sans-serif}
+.sp-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.sp-row a{display:block;text-decoration:none;border:1px solid #e7decd;border-radius:10px;padding:7px 8px;background:#fff;min-width:0}
+.sp-row a:hover{border-color:#cdbfa6}
+.sp-row b{display:block;font-size:12px;line-height:1.2;color:#1f2630}
+.sp-row small{display:block;font-size:10.5px;line-height:1.25;color:#7a7268;margin-top:2px;overflow-wrap:anywhere}
+/* About box — same as the map's */
+.hrow{display:flex;gap:6px;align-items:center}
+.info-btn{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:4px 10px;white-space:nowrap;background:#fff}
+#about{position:fixed;inset:0;background:rgba(30,24,18,.45);z-index:40;display:none;align-items:flex-end;justify-content:center}
+#about.show{display:flex}
+#about .box{background:var(--paper);border-radius:20px 20px 0 0;max-width:540px;width:100%;padding:20px 20px 28px;font-size:14px;line-height:1.5;max-height:90%;overflow-y:auto}
+#about h2{font-family:Fraunces,serif;font-size:20px;margin-bottom:8px}
+#about p{margin-bottom:10px}
+#about p a{color:inherit;text-decoration:underline}
+#about button{width:100%;background:var(--ink);color:#fff;border-radius:12px;padding:12px;font-weight:700}
+@media (min-width:900px){ #about{align-items:center} #about .box{border-radius:20px} }
+</style>
+</head>
+<body>
+<div id="about">
+  <div class="box">
+    <h2 data-t>About this map</h2>
+    <p data-th="about-who"></p>
+    <p data-th="about-hours"></p>
+    <p data-th="about-photos"></p>
+    <p data-th="about-map"></p>
+    <p data-th="about-contact"></p>
+    <p style="font-size:13px;color:var(--muted)" data-th="about-save"></p>
+    <button id="aboutClose" data-t>Got it</button>
+  </div>
+</div>
+<header>
+  <div class="titlerow">
+    <div>
+      <h1><a href="/" style="text-decoration:none">San Miguel <em>de Allende</em></a></h1>
+      <div class="sub"><span data-t="Eat, drink & wander">Eat, drink &amp; wander</span><span class="wide"> <span data-t>by people who actually live here</span></span></div>
+    </div>
+    <div class="hright"><div class="hrow"><span class="lang"></span><button class="info-btn" id="infoBtn" data-t>About</button></div><nav class="views" aria-label="View"><span><i>▦ </i><b data-t>Photos</b></span><a href="/page3/"><i>🗺 </i><b data-t>Map</b></a></nav></div>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="tools">
+    <input id="q" type="search" placeholder="Search a place or street…" data-tp autocomplete="off">
+    <div id="todaySlot"></div>
+  </div>
+</header>
+<div id="count"></div>
+<div class="note" id="note"></div>
+<div id="grid"></div>
+<div class="sponsors"><div class="sp-h" data-t>Sites we recommend</div><div class="sp-row">
+  <a href="https://mexicanterroir.com" target="_blank" rel="noopener sponsored"><b>Mexican Terroir Tours</b><small>mexicanterroir.com</small></a>
+  <a href="https://credbrief.com" target="_blank" rel="noopener sponsored"><b>CredBrief News</b><small>credbrief.com</small></a>
+  <a href="http://www.cupcakesandcrablegs.com" target="_blank" rel="noopener sponsored"><b>Susan York</b><small data-t>Food blogger · cupcakesandcrablegs.com</small></a>
+</div></div>
+<div id="detail"><div id="card"></div></div>
+
+<script src="../data.js"></script>
+<script src="/i18n.js"></script>
+<script src="../icons.js"></script>
+<script>
+const {CATS,PLACES,INFO}=window;
+const places=PLACES.filter(p=>!p.other).map(p=>({...p}));  // not the extra places (not our picks): /page5 only
+const byId=Object.fromEntries(places.map(p=>[p.id,p]));
+const isS=p=>p.cat==="sights";
+const ALSO={...(window.ALSO||{})};
+const cats=p=>[p.cat,...(ALSO[p.id]||[])];
+const escH=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const LM=window.SMA_ICON_PATHS||{};
+let PHOTOS={}, photosFailed=false;   // places without a photo are hidden (Lars, 4 Nov); if selected.json fails, show them all
+const purl=s=>/^https?:/.test(s)?s:"/"+s.replace(/^\//,"");
+// copied from the main map (site/index.html) — keep in step if the map's card or hours rules change
+// card photo: the chosen one first, then the place's other photos — swipe sideways to browse
+const phCredit=ph=>{ const lic=ph.license?` · ${ph.license_url?`<a href="${escH(ph.license_url)}" target="_blank" rel="noopener">${escH(ph.license)}</a>`:escH(ph.license)}`:"";
+  const by=ph.credit?(ph.source?`<a href="${escH(ph.source)}" target="_blank" rel="noopener">${escH(ph.credit)}</a>`:escH(ph.credit)):"";
+  return by||lic?`${T("Photo")}${by?": "+by:""}${lic}`:""; };
+function photoHTML(p){ const ph=PHOTOS[p.id]; if(!ph) return "";
+  const all=[ph,...(ph.more||[])];
+  return `<figure class="c-photo" data-id="${escH(p.id)}"><div class="c-strip" onscroll="photoScrolled(this)" onclick="photoNext(this)">${all.map((x,i)=>`<img loading="${i?"lazy":"eager"}" src="${escH(purl(x.small))}" alt="">`).join("")}</div>`+
+    (all.length>1?`<div class="c-dots">${all.map((_,i)=>`<i${i?"":' class="on"'}></i>`).join("")}</div>`:"")+
+    `<figcaption>${phCredit(ph)}</figcaption></figure>`; }
+function photoNext(strip){ if(strip.children.length<2) return;   // tap = next photo (for mouse users), back to the first after the last
+  const end=strip.scrollLeft+strip.clientWidth>=strip.scrollWidth-4; strip.scrollTo({left:end?0:strip.scrollLeft+strip.clientWidth,behavior:"smooth"}); }
+function photoScrolled(strip){ const fig=strip.parentNode, ph=PHOTOS[fig.dataset.id]; if(!ph) return;
+  const all=[ph,...(ph.more||[])], i=Math.max(0,Math.min(all.length-1,Math.round(strip.scrollLeft/strip.clientWidth)));
+  if(fig.dataset.i==i) return; fig.dataset.i=i;
+  fig.querySelectorAll(".c-dots i").forEach((d,k)=>d.classList.toggle("on",k===i));
+  fig.querySelector("figcaption").innerHTML=phCredit(all[i]); }
+const ACC={ "osm-name":["ok",T("Exact")], "address":["ok",T("Exact")], "corner":["ok",T("Exact")], "street":["st",T("On its street")], "approx":["ap",T("Approximate location")], "est":["ap",T("Approximate location")] };
+function infoHTML(p){
+  const i=INFO[p.id]||{}, a=ACC[p.acc]||ACC.approx;
+  let h=`<div class="c-info">`;
+  if(i.address) h+=`<div><span class="k">📍</span><span>${escH(i.address)}<br><span class="acc ${a[0]}">${a[1]}</span></span></div>`;
+  else h+=`<div><span class="k">📍</span><span><span class="acc ${a[0]}">${a[1]}</span></span></div>`;
+  if(!isS(p)){
+    let hrs;
+    if(HOURS[p.id]){ const n=nowMX(), st=status(p.id), w=HOURS[p.id];
+      hrs=(st?`<span class="${st.cls}">${escH(st.text)}</span><br>`:"")+`<details class="wk"${innerWidth>=900?" open":""}><summary>${T("All week")}</summary><div class="week">`+DAYNAMES.map((d,k)=>{const v=w[String(k)];return `<span class="${k===n.d?"t":""}">${d.slice(0,3)}</span><span class="${k===n.d?"t":""}">${v===null?T("Closed"):v===undefined?T("not listed"):escH(v)}</span>`}).join("")+`</div></details>`;
+    } else hrs=i.hours?escH(i.hours):`<span class="muted">${T("Hours not published online — check Google Maps")}</span>`;
+    const lv=LIVE[p.id];
+    const src=lv?` · <a href="${escH(gmaps(p))}" target="_blank" rel="noopener">Google Maps</a>`:i.source?` · <a href="${escH(i.source)}" target="_blank" rel="noopener">${T("source")}</a>`:"";
+    h+=`<div><span class="k">🕒</span><span>${hrs}${i.note&&!lv?`<small>${escH(i.note)}</small>`:""}<small>${lv?T("checked-on",{date:shortDate(lv)}):T("Checked Nov 2026")}${src}</small></span></div>`;
+  }
+  return h+`</div>`;
+}
+const gmaps=p=>{const a=INFO[p.id]?.address; const n=p.name.replace(" · "," ");
+  return "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(n+", "+(a&&!/Jardín|Mercado/.test(a)?a.replace(/\(.*?\)/g,"")+", ":"")+"San Miguel de Allende, Guanajuato");};
+
+/* ---------- filters (same rules as the map) ---------- */
+let saved=new Set(); try{saved=new Set(JSON.parse(localStorage.getItem("sma-saved")||"[]"))}catch(e){}
+const persist=()=>{try{localStorage.setItem("sma-saved",JSON.stringify([...saved]))}catch(e){}};
+let active=new Set(), query="", when=null, selId=null;
+/* ---------- opening hours (San Miguel time) ---------- */
+const HOURS=window.HOURS||{}, DAYNAMES=window.DAYS;
+// Weekly hours from Google (server/hours.py writes photos/hours.json) replace the hand-checked ones in data.js, place by place
+const LIVE={};  // place id -> "YYYY-MM-DD" the Google hours were checked
+fetch("/photos/hours.json",{cache:"no-cache"}).then(r=>r.ok?r.json():null).then(j=>{ if(!j||!j.places) return;
+  for(const [id,v] of Object.entries(j.places)){ HOURS[id]=v.hours; LIVE[id]=v.checked; } render(); }).catch(()=>{});
+const shortDate=d=>new Date(d+"T12:00:00").toLocaleDateString(window.LANG==="es"?"es-MX":"en-US",{day:"numeric",month:"short"});
+function nowMX(){ const parts=Object.fromEntries(new Intl.DateTimeFormat("en-US",{timeZone:"America/Mexico_City",weekday:"short",hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  return {d:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].indexOf(parts.weekday), m:(+parts.hour%24)*60+(+parts.minute)}; }
+const toMin=t=>{const [a,b]=t.split(":").map(Number);return a*60+b};
+const ranges=s=>s.split(", ").map(r=>{const [a,b]=r.split("–");let s0=toMin(a),e=toMin(b);if(e<=s0)e+=1440;return [s0,e]});
+function todayHours(id){ const h=HOURS[id]; if(!h) return undefined; const n=nowMX(); return n.d in h || String(n.d) in h ? h[String(n.d)] : undefined; } // string | null (closed) | undefined (unknown)
+const openTodayOK=p=>typeof todayHours(p.id)==="string";
+/* "When" filter — all based on today's hours in San Miguel */
+const WHEN={now:{label:T("Open now")},today:{label:T("Open today")},bfast:{label:T("Breakfast"),win:[480,630],min:60,hint:T("open for at least an hour between 8:00 and 10:30")},
+  lunch:{label:T("Lunch"),win:[780,960],min:90,hint:T("open for at least 90 minutes between 13:00 and 16:00")},dinner:{label:T("Dinner"),win:[1170,1290],min:60,hint:T("open for at least an hour between 19:30 and 21:30")},late:{label:T("Late night"),win:[1380,1500],min:30,hint:T("open until 23:30 or later")}};
+function whenDay(k){ const n=nowMX(), w=WHEN[k]&&WHEN[k].win; return (w && k!=="late" && n.m>w[1]) ? {d:(n.d+1)%7,tomorrow:true} : {d:n.d,tomorrow:false}; }
+function todaySpans(id,day){ const h=HOURS[id]; if(!h) return undefined; const t=h[String(day===undefined?nowMX().d:day)]; if(t===undefined) return undefined; return t===null?[]:ranges(t); }
+const WHEN_KEEP=new Set(["sights","street","wine"]); // always shown, whatever the time filter
+function whenOK(p){ if(!when) return true; if(cats(p).some(c=>WHEN_KEEP.has(c))) return true;
+  if(when==="now"){ const s=status(p.id); return !!s&&(s.cls==="st-open"||(s.cls==="st-soon"&&s.closing)); }
+  if(when==="today") return openTodayOK(p);
+  const sp=todaySpans(p.id,whenDay(when).d); if(!sp) return false; const [a,b]=WHEN[when].win, mn=WHEN[when].min||1; return sp.some(([s,e])=>Math.min(e,b)-Math.max(s,a)>=mn); }
+function status(id){ // {cls,text} for right now
+  const h=HOURS[id]; if(!h) return null; const n=nowMX(); const fmt=m=>{m%=1440;return Math.floor(m/60)+":"+String(m%60).padStart(2,"0")};
+  const y=h[String((n.d+6)%7)]; if(typeof y==="string") for(const [s0,e] of ranges(y)) if(e>1440 && n.m<e-1440) return {cls:"st-open",text:T("Open now · until {t}",{t:fmt(e)})};
+  const t=h[String(n.d)]; if(t===null) return {cls:"st-closed",text:T("Closed today")}; if(t===undefined) return null;
+  for(const [s0,e] of ranges(t)){ if(n.m>=s0&&n.m<e) return {cls:e-n.m<=45?"st-soon":"st-open",closing:e-n.m<=45,text:T(e-n.m<=45?"Closing soon · until {t}":"Open now · until {t}",{t:fmt(e)})}; }
+  const next=ranges(t).find(([s0])=>s0>n.m); return next?{cls:"st-soon",text:T("Opens at {t}",{t:fmt(next[0])})}:{cls:"st-closed",text:T("Closed for today")};
+}
+const fold=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+const visible=p=>(photosFailed||!!PHOTOS[p.id])&&whenOK(p)&&(!active.size||cats(p).some(c=>active.has(c)))&&(!query||fold(p.name+" "+p.area+" "+CATS[p.cat].label+" "+(INFO[p.id]?.address||"")).includes(query));
+
+const chipsEl=document.getElementById("chips");
+function chip(key,label,color){
+  const b=document.createElement("button"); b.className="chip"+(key==="all"?" all on":""); b.style.setProperty("--c",color);
+  b.innerHTML=(key==="all"?"":"<i></i>")+label; b.dataset.k=key;
+  b.onclick=()=>{ if(key==="all"){ active.clear(); setWhen(null); } else active.has(key)?active.delete(key):active.add(key); render(); };
+  chipsEl.appendChild(b);
+}
+chip("all",T("All places"),"#1f2630");
+for(const k in CATS) chip(k,CATS[k].label,CATS[k].color);
+const whenBtn=document.createElement("button"); whenBtn.className="chip today";
+const whenMenu=document.createElement("div"); whenMenu.className="when-menu";
+whenMenu.innerHTML=`<div class="wm-h">${T("When · today")}</div>`+[["",T("Any time")],...Object.entries(WHEN).map(([k,v])=>[k,v.label])].map(([k,l])=>`<button data-w="${k}">${l}</button>`).join("");
+document.getElementById("todaySlot").append(whenBtn,whenMenu);
+function whenLabel(){ if(when==="now"||when==="today") return WHEN[when].label; return WHEN[when].label+T(whenDay(when).tomorrow?" tomorrow":" today"); }
+function setWhen(k){ when=k||null; whenBtn.classList.toggle("on",!!when);
+  whenBtn.innerHTML="🕒 "+(when?whenLabel():T("When?"))+' <span class="car">▾</span>';
+  whenMenu.querySelectorAll("button").forEach(b=>b.classList.toggle("on",(b.dataset.w||null)===when)); whenMenu.classList.remove("show"); render(); }
+whenBtn.onclick=e=>{e.stopPropagation(); whenMenu.classList.toggle("show");};
+whenMenu.onclick=e=>{const b=e.target.closest("button"); if(b) setWhen(b.dataset.w);};
+document.addEventListener("click",e=>{ if(!e.target.closest("#todaySlot")) whenMenu.classList.remove("show"); });
+document.getElementById("q").addEventListener("input",e=>{query=fold(e.target.value.trim());render()});
+
+/* ---------- the grid: one photo card per place, grouped like the map's list; places with photos first ---------- */
+function cardHTML(p,k){
+  const c=CATS[p.cat], ph=PHOTOS[p.id], th=todayHours(p.id), st=status(p.id);
+  const line=isS(p)?escH(p.area):typeof th==="string"?escH(T("Today {h}",{h:th}))+(st?` · <span class="${st.cls}">${escH(st.text.split(" · ")[0])}</span>`:""):th===null?`<span class="st-closed">${T("Closed today")}</span>`:escH(p.area);
+  const art=ph?`<img loading="lazy" src="${escH(purl(ph.small))}" alt="">`
+    :LM[p.id]?`<svg viewBox="0 0 64 64" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${LM[p.id]}</svg>`
+    :`<span class="ini">${escH(p.name.replace(/^(La|El|Los|Las|The|Café|Cafe) /i,"").charAt(0))}</span>`;
+  return `<button class="pc" data-id="${escH(p.id)}" style="--c:${c.color}"><div class="im">${art}<span class="num" style="${isS(p)?"color:#f2c14e;border-radius:8px":""}">${isS(p)?"★":p.id}</span>${saved.has(p.id)?'<span class="sv">★</span>':""}</div>
+    <div class="tx"><b>${escH(p.name)}</b><small>${line}</small></div></button>`;
+}
+/* ---------- rotation (Lars, 19 Nov 2026): every visit to this page, each kind's places start one further along the list, so
+   each place has its turn at the top. Sights keep their order. Closing a card with Back is the same visit; coming back from
+   another page (even one the browser kept in memory) is a new one. ---------- */
+let turn=0;
+function nextTurn(){ try{ turn=(parseInt(localStorage.getItem("sma-turn"),10)||0)+1; localStorage.setItem("sma-turn",String(turn)); }
+  catch(e){ turn=Math.floor(Math.random()*1000); } }   // no storage (a private window): a random start instead
+nextTurn();
+addEventListener("pageshow",e=>{ if(e.persisted){ nextTurn(); render(); } });
+const rotate=(xs,n)=>{ if(!xs.length) return xs; const k=n%xs.length; return [...xs.slice(k),...xs.slice(0,k)]; };
+function render(){
+  chipsEl.querySelectorAll(".chip[data-k]").forEach(c=>c.classList.toggle("on", c.dataset.k==="all"?(!active.size&&!when):active.has(c.dataset.k)));
+  const vis=places.filter(visible), nEat=vis.filter(p=>!isS(p)).length, nS=vis.length-nEat;
+  document.getElementById("count").textContent=when?`${nEat} · ${whenLabel().toLowerCase()}${when==="today"?" ("+DAYNAMES[nowMX().d]+")":""}`:T(nEat===1?"n-place":"n-places",{n:nEat})+(nS?" · "+T(nS===1?"n-sight":"n-sights",{n:nS}):"");
+  document.getElementById("note").textContent=when&&WHEN[when].hint?T("when-means",{label:WHEN[when].label,hint:WHEN[when].hint,day:DAY_IN(whenDay(when).d)})+T("when-note-cards"):"";
+  let h="";
+  for(const k in CATS){
+    if(active.size&&!active.has(k)) continue;
+    const sorted=vis.filter(p=>cats(p).includes(k)).sort((a,b)=>(PHOTOS[b.id]?1:0)-(PHOTOS[a.id]?1:0)); if(!sorted.length) continue;
+    // places with photos still first; within each part, this visit's turn
+    const items=k==="sights"?sorted:[...rotate(sorted.filter(p=>PHOTOS[p.id]),turn),...rotate(sorted.filter(p=>!PHOTOS[p.id]),turn)];
+    h+=`<div class="grp"><i style="background:${CATS[k].color}"></i>${CATS[k].label}</div><div class="cards">${items.map(p=>cardHTML(p,k)).join("")}</div>`;
+  }
+  const g=document.getElementById("grid"); g.innerHTML=h||`<div class="empty">${T("No matches.")}</div>`;
+  g.querySelectorAll(".pc").forEach(b=>b.onclick=()=>open(b.dataset.id));
+}
+
+/* ---------- detail card: photos to swipe, full info, a way to the map ---------- */
+const detail=document.getElementById("detail"), card=document.getElementById("card");
+function open(id,fromHistory){
+  const p=byId[id]; if(!p) return; selId=id; const c=CATS[p.cat];
+  card.innerHTML=`${photoHTML(p)}
+   <div class="c-top">
+     <div class="c-badge" style="background:${c.color};${isS(p)?"color:#f2c14e;border-radius:10px":""}">${isS(p)?"★":p.id}</div>
+     <div class="c-main"><div class="c-cat" style="color:${c.color}">${c.label}</div><div class="c-name"></div><div class="c-area"></div></div>
+     <button class="c-x" aria-label="Close">✕</button>
+   </div>
+   ${p.desc?'<div class="c-desc"></div>':""}
+   ${infoHTML(p)}
+   <div class="c-actions">
+     <a class="primary" href="/page3/?p=${encodeURIComponent(id)}">${T("🗺 Show on the map")}</a>
+     <a href="${gmaps(p)}" target="_blank" rel="noopener">${T("Directions ↗")}</a>
+     <button class="svb ${saved.has(id)?"is-saved":""}">${T(saved.has(id)?"★ Saved":"☆ Save")}</button>
+     <button class="shb">${T("Share")}</button>
+   </div>`;
+  card.querySelector(".c-name").textContent=p.name;
+  card.querySelector(".c-area").textContent=p.area;
+  if(p.desc) card.querySelector(".c-desc").textContent=p.desc;
+  card.querySelector(".c-x").onclick=()=>close();
+  card.querySelector(".svb").onclick=()=>{saved.has(id)?saved.delete(id):saved.add(id);persist();render();open(id,true)};
+  card.querySelector(".shb").onclick=e=>share(p,e.currentTarget);
+  detail.classList.add("show"); card.scrollTop=0; document.body.style.overflow="hidden";
+  if(!fromHistory) history.pushState({p:id},"","#"+encodeURIComponent(id)); else history.replaceState({p:id},"","#"+encodeURIComponent(id));
+}
+// share a link that opens this place on the map: the phone's share sheet where there is one, otherwise copy the link
+async function share(p,btn){
+  const url=location.origin+"/page3/?p="+encodeURIComponent(p.id);
+  if(navigator.share){ try{ await navigator.share({title:p.name+" · San Miguel de Allende",url}); }catch(e){} return; }
+  try{ await navigator.clipboard.writeText(url); btn.textContent=T("Link copied ✓"); }catch(e){ prompt(T("Copy this link:"),url); return; }
+  setTimeout(()=>{ if(btn.isConnected) btn.textContent=T("Share"); },2000);
+}
+function close(fromHistory){ if(!selId) return; selId=null; detail.classList.remove("show"); document.body.style.overflow="";
+  if(!fromHistory) history.back(); }
+detail.onclick=e=>{ if(e.target===detail) close(); };
+addEventListener("keydown",e=>{ if(e.key==="Escape") close(); });
+addEventListener("popstate",()=>{ const id=decodeURIComponent(location.hash.slice(1)); if(byId[id]) open(id,true); else close(true); });  // phone back button closes the card
+
+setWhen(null);
+fetch("/photos/selected.json",{cache:"no-cache"}).then(r=>{if(!r.ok)throw 0;return r.json();}).catch(()=>{photosFailed=true;return {};}).then(j=>{ PHOTOS=j||{}; render();
+  const id=decodeURIComponent(location.hash.slice(1)); if(byId[id]){ history.replaceState(null,"",location.pathname); open(id); } });
+/* ---------- about ---------- */
+const about=document.getElementById("about");
+document.getElementById("infoBtn").onclick=()=>about.classList.add("show");
+document.getElementById("aboutClose").onclick=()=>about.classList.remove("show");
+about.onclick=e=>{if(e.target===about)about.classList.remove("show")};
+</script>
+</body>
+</html>
