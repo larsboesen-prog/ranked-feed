@@ -1,5 +1,5 @@
-// /page2's cards take turns at the top (owner, 19 Nov 2026): every visit, each kind's places start one further along;
-// sights keep their order; closing a card with Back or using a filter is the same visit. Runs the real page (../page2) on a
+// /page2's cards in a new random order each visit (owner, 19 Nov 2026): each kind's places shuffled; sights keep their order;
+// closing a card with Back or using a filter is the same visit, so the order holds. Runs the real page (../page2) on a
 // small made-up city (fixtures/) in Chromium. node --test "mapsma/test/*.test.mjs"   (needs Playwright, as tiny-speech's browser tests do)
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
@@ -32,29 +32,39 @@ before(async () => {
 });
 after(async () => { await browser?.close(); server?.close(); });
 
-test("each visit, each kind of place starts one further along; sights keep their order", { skip }, async () => {
+test("each visit, each kind's places come in a new random order, held for the whole visit; sights keep theirs", { skip }, async () => {
   const page = await (await browser.newContext()).newPage();
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e)));
   const order = () => page.evaluate(() => Object.fromEntries([...document.querySelectorAll("#grid .grp")].map((g) => [g.textContent.trim(), [...g.nextElementSibling.querySelectorAll(".pc")].map((x) => x.dataset.id)])));
   const ready = () => page.waitForFunction(() => document.querySelectorAll("#grid .pc").length === 7);
   await page.goto(`http://localhost:${port}/page2/`); await ready();
-  assert.deepEqual(await order(), { "Coffee & bakery": ["2", "3", "1"], Mexican: ["5", "4"], Sights: ["S1", "S2"] }, "first visit: turn 1");
-  await page.reload(); await ready();
-  assert.deepEqual(await order(), { "Coffee & bakery": ["3", "1", "2"], Mexican: ["4", "5"], Sights: ["S1", "S2"] }, "next visit: one further");
+  const first = await order();
+  assert.deepEqual([...first["Coffee & bakery"]].sort(), ["1", "2", "3"], "every place, once");
+  assert.deepEqual(first.Sights, ["S1", "S2"], "sights keep their order");
 
+  // the same visit: closing a card with Back, a filter on and off
   await page.click('#grid .pc[data-id="1"]'); await page.waitForTimeout(200); await page.goBack(); await page.waitForTimeout(200);
-  await page.click('.chip[data-k="mex"]'); await page.waitForTimeout(100); await page.click(".chip.all"); await page.waitForTimeout(100);
-  assert.deepEqual((await order())["Coffee & bakery"], ["3", "1", "2"], "closing a card with Back, or a filter: the same visit");
+  await page.click('.chip[data-k="mex"]'); await page.waitForTimeout(100);
+  assert.deepEqual((await order()).Mexican, first.Mexican, "a filter keeps the visit's order");
+  await page.click(".chip.all"); await page.waitForTimeout(100);
+  assert.deepEqual(await order(), first, "the whole visit keeps one order");
 
-  await page.goto(`http://localhost:${port}/other.html`); await page.goBack(); await ready(); await page.waitForTimeout(200);
-  assert.deepEqual(await order(), { "Coffee & bakery": ["1", "2", "3"], Mexican: ["5", "4"], Sights: ["S1", "S2"] }, "back from another page: a new visit");
-  assert.equal(await page.evaluate(() => localStorage.getItem("sma-turn")), "3");
+  // new visits: every place reaches the top of its kind sooner or later; no visit order is fixed
+  const tops = new Set([first["Coffee & bakery"][0]]), orders = new Set([first["Coffee & bakery"].join()]);
+  for (let k = 0; k < 24; k++) {
+    if (k % 2) { await page.reload(); } else { await page.goto(`http://localhost:${port}/other.html`); await page.goBack(); }
+    await ready(); await page.waitForTimeout(100);
+    const o = await order();
+    tops.add(o["Coffee & bakery"][0]); orders.add(o["Coffee & bakery"].join());
+    assert.deepEqual(o.Sights, ["S1", "S2"]);
+  }
+  assert.deepEqual([...tops].sort(), ["1", "2", "3"], "each café had its turn at the top (25 visits; by chance alone this fails about once in 8,000 runs)");
+  assert.ok(orders.size >= 3, "different orders on different visits");
   assert.deepEqual(errors, []);
 });
 
-test("without storage (a private window that refuses it) the page still works, from a random start", { skip }, async () => {
-  const context = await browser.newContext();
+test("without storage (a private window that refuses it) the page still works", { skip }, async () => {  const context = await browser.newContext();
   await context.addInitScript(() => { Object.defineProperty(window, "localStorage", { get() { throw new Error("blocked"); } }); });
   const page = await context.newPage();
   const errors = [];
