@@ -96,3 +96,24 @@ The owner: "Listings 'not our pick' lack details. Fix. Remove not our pick and i
 Checked with the live site's data at phone width: "carnitas" gives Luna de Queso and Birria Xalisco marked "★ Our pick" and
 Carnitas El Güero unmarked, whose card now reads "Family-run taco spot across the road from the lookout on the Querétaro road…";
 "Indian food" gives Ghar alone, unmarked. No errors.
+
+## /page5: the phone's own voice (20 Nov 2026)
+
+The owner: "I'm not hearing a voice speak in Spanish or in English unless I pick tiny Voca - the devices own voice doesn't work."
+tiny-voca plays through the page's audio player; "This phone's own voice" uses the browser's speech (speechSynthesis), which is
+kept quiet by things the player is not. `page5/index.html` now handles each known cause:
+
+- **iPhone silent switch**: the phone's voice is muted when the side switch is on silent (tiny-voca, played as media, is not).
+  While it speaks, the page asks for a media sound session (`navigator.audioSession.type = "playback"`, Safari 16.4+) and plays
+  silence on its player, which keeps that session; before recording it hands the session back (`"auto"`).
+- **Speaking right after a cancel**: the old code cancelled and spoke in the same instant, which Safari and Chrome can drop. Now it
+  cancels only what is speaking and waits 250 ms.
+- **Voices that arrive late** (Chrome, Android): it waits up to 1.5 s for the list, so the Mexican or English voice is chosen.
+- **All sentences queued at once** (Chrome stops after about 15 s; iOS can drop queued ones): one sentence after another.
+- **Still silent after 4 s**: it says so and why (on an iPhone: the side switch, and Settings › Accessibility › Spoken Content ›
+  Voices); on the English page tiny-voca reads instead.
+
+`test/page5-voice.test.mjs` runs the page with a stand-in for the browser's speech (voices that arrive late, one that never
+starts, an iPhone). A headless browser has no real voice, so the last check is the owner's phone: Voice settings › This phone's
+own voice › Test the voice, in English and in Spanish, with the side switch on silent and on ring. Deploy: `page5/index.html`
+(as above, it also carries the "★ Our pick" change).
