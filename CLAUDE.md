@@ -45,6 +45,10 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   `ears.ipynb` for Kaggle (recommended, 30 free GPU h/week) or Colab, `run.py all` resumable, export gates (≤10 MB). Checked on
   CPU here; the GPU run waits for the owner (Kaggle API token as a network secret for api.kaggle.com, or they press Run).
   Then: probe with `--onnx`, then 5–10 real Mexican speakers. Owner question: CC BY-SA training sets (credit + share alike?).
+  Outside review measured (probe README): the example errors (perro→pero, frío→fino, dulce→doce) are the TEACHER's hearing,
+  so training now adds CTC on the Spanish transcripts (phones.mjs; teacher 23.7% sound errors vs what was said). Learned
+  pronunciation variants: worse held-out (37 vs 42 of 72); confidence-to-ask-again: weak (AUC ~0.65); endpoints fine.
+  New measure in asr-eval: the thing asked for heard right: probe 63.5% vs Whisper tiny 23.1% (held-out).
 - Questions open: GPU rental or Kaggle for the voice; whether sights on /page2 should shuffle too.
 
 ## Ears probe (19 Nov 2026): does "small sound recognizer + city word list" work?
