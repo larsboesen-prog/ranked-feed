@@ -1,4 +1,4 @@
-# Project memory: tiny-speech, MapSMA and CredBrief (last updated 19 Nov 2026)
+# Project memory: tiny-speech, MapSMA and CredBrief (last updated 20 Nov 2026)
 
 Read this first when picking the work back up. The detailed plan, decisions and measurements are in
 `tiny-speech/ARCHITECTURE.md`; this file is the short version: what exists, what is waiting, what not to do.
@@ -53,6 +53,11 @@ a 2,181-word list from the restaurant requests and San Miguel's pack. On 72 held
 right 80.6% vs 94–97%, and 10 of 144 answers came out empty (fixable). So the design works in the best case. Open question:
 how much a tiny 5–8M sound model (the 8–10 MB target) keeps; next step if the ears resume: train it to imitate the large
 one, rerun the probe, then test on 5–10 real Mexican speakers.
+Drivers measured 20 Nov (probe README): keeping 256 paths instead of 48 and never answering empty raised held-out
+understanding to **58.3%** (words wrong 32.7%, places 10 of 12; now probe.py's defaults). More text, more words, a three-word
+model, boosting key words, a "did you mean" top 5 and a known language each moved it ≤1–2 clips. 28 of the 30 remaining
+failures are words in the list misheard, and the two synthetic voices differ by 8 points: the small sound model's quality
+and real speakers decide the outcome.
 
 ## Measurements to remember
 
