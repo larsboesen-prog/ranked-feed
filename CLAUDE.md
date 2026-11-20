@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 109 tiny-speech tests + 8 mapsma tests passing)
+## Done (all on the branch, 113 tiny-speech tests + 8 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -60,7 +60,11 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   **tiny-ears-train v2 trained (20 Nov, 10.7 GPU h): 8.9 MB; with the probe's matcher, held-out synthetic requests understood
   80.6% (teacher 58.3%, Whisper tiny 29%); two voices it never heard 85.4% (65.3%, 52.1%)** (training/ears/README.md). The run
   ended "ERROR" only at a too-strict export gate (fixed). Model on Kaggle's output, not in git (CC BY-SA training sets: the
-  owner's licence decision first). Next: matcher in JS + onnxruntime-web AsrEngine, then 5–10 real Mexican speakers.
+  owner's licence decision first). **B16 done (20 Nov): the ears in the browser** — `asr-worker.js` model `tiny-ears` (matcher
+  `engines/ears-match.js`, identical to probe.py on 432 sound files; `engines/asr-ears.js`; onnxruntime-web 1.18 only when asked),
+  word list `packs/dist/mx-sma/ears-lexicon.json` (`tools/ears-lexicon.mjs`), config `asr.engine`/`asr.ears`/`asrModel()` (MapSMA
+  ears, CredBrief Whisper; Whisper tiny stays a choice). Model file `engines/ears/ears-int8-2026-11-20.onnx` is gitignored: copy it
+  from the Kaggle output for tests (`test/ears.test.mjs`). First visit 28.6 MB vs 74.6. Next: real Mexican speakers.
   Outputs download from www.kaggleusercontent.com
   (allowed on this environment): `python kaggle/push.py output larsbo99/tiny-ears-train DIR --pattern "onnx|json"`.
   Then: probe with `--onnx`, then 5–10 real Mexican speakers. Owner question: CC BY-SA training sets (credit + share alike?).
