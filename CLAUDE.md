@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 113 tiny-speech tests + 8 mapsma tests passing)
+## Done (all on the branch, 113 tiny-speech tests + 11 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -35,6 +35,9 @@ unless the owner asks. Commits end with the two attribution lines the session gi
 - MapSMA /page5 (20 Nov, D10): no "Not our pick" label; our picks marked "★ Our pick" (cards, detail card, lists that mix both);
   descriptions EN/ES for the 18 extra places and the 37 ready ones in `/descs.js` (`mapsma/descs.js`, built by
   `mapsma/listings/build-descs.mjs`), shown by /page2 and /page5. `mapsma/page5/` = 20 Nov live files + changes. Not deployed.
+- MapSMA /page5 phone's own voice (20 Nov; owner heard nothing unless tiny-voca): media sound session + silence on the player while
+  it speaks (iPhone silent switch), no speak right after cancel, waits for voices, one sentence at a time, 4 s watchdog with the
+  reason (EN page: tiny-voca reads instead). `mapsma/test/page5-voice.test.mjs` (stand-in speech). Needs the owner's phone to confirm.
 
 ## Waiting on the owner
 

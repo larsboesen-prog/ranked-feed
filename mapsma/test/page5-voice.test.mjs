@@ -20,7 +20,8 @@ const FILES = { "/page5/": P5 + "index.html", "/page5/ask.js": P5 + "ask.js", "/
   "/page5/susan.js": P5 + "susan.js", "/page5/read.js": LIVE + "read.js", "/page5/listen.js": LIVE + "listen.js", "/page5/spanish.js": LIVE + "spanish.js",
   "/places.js": HERE + "fixtures/data.js", "/i18n.js": HERE + "fixtures/i18n.js", "/icons.js": HERE + "fixtures/icons.js",
   "/photos/selected.json": HERE + "fixtures/photos/selected.json", "/photos/hours.json": HERE + "fixtures/photos/hours.json" };
-const INLINE = { "/page5/facts.js": "window.FACTS={};", "/descs.js": "window.DESCS={};" };
+const INLINE = { "/page5/facts.js": "window.FACTS={};", "/descs.js": "window.DESCS={};",
+  "/page5/tinyvoca-worker.js": "onmessage = () => {};  // a stand-in tiny-voca that is still loading: the page's message stays" };
 let server, port, browser;
 before(async () => {
   if (skip) return;
