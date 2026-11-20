@@ -37,12 +37,14 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   free on Kaggle with small changes not yet made). Until it passes its gates, Spanish answers use the phone's Mexican voice
   (decision D7). Alternative discussed: a standard Piper es_MX voice (claude or ald, ~63 MB, clean licences); do NOT use
   Piper "Laura" (CC BY-NC, unknown speaker).
-- **Ears (speech to text) are ON HOLD** (owner, 19 Nov 2026). The owner's real goal: a bilingual EN/ES-MX recognizer of
-  **8–10 MB** for restaurant and event questions. Whisper tiny cannot reach that (39M params, ~40 MB at 8 bits), so the
-  Whisper fine-tune kit in `tiny-speech/training/asr/` (3,892 restaurant requests, 48 speaker packets, Piper and made-up
-  voices, fine-tune + 8-bit export) is parked. The 8–10 MB route: a tiny bilingual phone recognizer (~5–8M params) +
-  matching against a word list built from the city pack (Snips/Sonos pattern): see "Ears probe" below (it works in the best case).
-  Before any training, measure stock models on 5–10 real Mexican speakers.
+- **Ears (speech to text): the 8–10 MB route is back on (owner, 20 Nov 2026)**; the Whisper fine-tune kit in
+  `tiny-speech/training/asr/` stays parked (Whisper tiny is 39M params, ~40 MB at 8 bits). The owner's goal: bilingual
+  EN/ES-MX ears of **8–10 MB** for restaurant and event questions. Kit ready in **`tiny-speech/training/ears/`** (README there):
+  a 7.5M-param Conformer (8.9 MB at 8 bits) trained to imitate the probe's wav2vec2 espeak teacher on ~100 h of free speech
+  (CIEMPIESS Mexican Spanish, Google Latin American requests, LibriSpeech, Piper restaurant requests), one notebook
+  `ears.ipynb` for Kaggle (recommended, 30 free GPU h/week) or Colab, `run.py all` resumable, export gates (≤10 MB). Checked on
+  CPU here; the GPU run waits for the owner (Kaggle API token as a network secret for api.kaggle.com, or they press Run).
+  Then: probe with `--onnx`, then 5–10 real Mexican speakers. Owner question: CC BY-SA training sets (credit + share alike?).
 - Questions open: GPU rental or Kaggle for the voice; whether sights on /page2 should shuffle too.
 
 ## Ears probe (19 Nov 2026): does "small sound recognizer + city word list" work?
@@ -73,7 +75,7 @@ and real speakers decide the outcome.
 D1 browser first, app later · D2 language per question with manual override · D3 one shared core · D4 build around tiny-voca ·
 D5 music = live music venues · D6 cities are data · D7 Spanish answers in the phone's Mexican voice until the bilingual voice
 passes · D8 music venues from Google Maps' top five or the owner's picks · D9 up to $15 OpenRouter.
-On hold: next city; fixing /page5's known faults ("wait"); the ears.
+On hold: next city; fixing /page5's known faults ("wait"); the Whisper fine-tune (the 8–10 MB ears are on).
 
 ## Working in this environment (cloud container, reclaimed when idle)
 
