@@ -48,8 +48,10 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   proxy cannot fill). Account allowance: **30 GPU h/week** (kagglesdk's to_dict prints 21600s: it drops the day). Plan:
   tiny-ears-smoke (CPU) → tiny-ears-data (CPU, ~100 h speech packed in its output) → tiny-ears-train (T4, ~11 h).
   Kaggle account larsbo99 (phone-verified 20 Nov: without it Kaggle silently gives no internet). Smoke v3 passed every stage
-  on Kaggle (8.88 MB, gates pass); tiny-ears-data v1 started 20 Nov ~06:58 UTC. Outputs download from
-  www.kaggleusercontent.com (allowed on this environment).
+  on Kaggle (8.88 MB, gates pass). tiny-ears-data v1 done in 1 h (CPU): 108.8 h, 60,471 clips (CIEMPIESS 50.6 h, Google
+  Latin American 22.8 h, Piper requests 6.8 h, LibriSpeech 28.6 h), 51,885 clips with transcript sounds, packed 6.9 GB.
+  tiny-ears-train v1 started 20 Nov ~08:00 UTC on a T4 (~11 h). Outputs download from www.kaggleusercontent.com
+  (allowed on this environment): `python kaggle/push.py output larsbo99/tiny-ears-train DIR --pattern "onnx|json"`.
   Then: probe with `--onnx`, then 5–10 real Mexican speakers. Owner question: CC BY-SA training sets (credit + share alike?).
   Outside review measured (probe README): the example errors (perro→pero, frío→fino, dulce→doce) are the TEACHER's hearing,
   so training now adds CTC on the Spanish transcripts (phones.mjs; teacher 23.7% sound errors vs what was said). Learned
