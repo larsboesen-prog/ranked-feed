@@ -42,6 +42,14 @@ unless the owner asks. Commits end with the two attribution lines the session gi
 ## Waiting on the owner
 
 - **Deploy**: the shared core to mapsma.com (`tiny-speech/browser/README.md`) and `mapsma/page2/index.html`.
+- **Spanish tiny-voca, designed voice (owner, 20 Nov: "develop a tiny voca for Spanish output so I control the experience";
+  chose a designed voice, trained free on Kaggle)**: `training/gpu/design.py` + `gpu/kaggle/voice.ipynb` (push with
+  `training/ears/kaggle/push.py push design|teach|learn --kit voice --user larsbo99 [--set PICK=M1]`). Design run done (T4, fp16):
+  four Mexican candidates M1/M2/F1/F2 (M1, F1 clearest; F2 one clip off), listening page with a pick button:
+  https://claude.ai/artifact/HTFG2kc6T3MZuLn5u6rzHj (db collection `choice`, doc `pick`). Next: owner picks → `teach` (input
+  tiny-voice-design; teacher on 2 T4s, originals, manifest, init, prepare, annotate; packs tsw.tar) → `learn` (input
+  tiny-voice-teach; train, dump, gates, result.tar.gz) → `node tools/voice-gguf.mjs pack` → gates → /page5 Spanish via tiny-voca.
+  Phone's-own-voice check page (owner's phone diagnostics): https://claude.ai/artifact/C8AxpVGeaW3ARPHaR7Dssr (db `checks`).
 - **Bilingual voice (tiny-voca, ~8 MB, one voice for EN + ES)**: recording kit ready (`tiny-speech/training/record/`,
   consent form, 500 sentences); GPU pipeline ready and dry-run on CPU (`tiny-speech/training/gpu/`, ~7–9 GPU h, $5–12, or
   free on Kaggle with small changes not yet made). Until it passes its gates, Spanish answers use the phone's Mexican voice
