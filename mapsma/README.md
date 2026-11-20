@@ -65,3 +65,34 @@ Doubts worth a look (`check`): hours that differ from Wanderlog (Jacques, Lima, 
 Cava Sautto may have closed or moved (website offline, nothing from 2025–26); Selina's chain was renamed Socialtel and one source
 calls the rooftop "Anónimo"; Jacques and Rústica are brunch places listed under Coffee & bakery; San Mezcal closes for a season
 (reopens Sep/Oct); La Chope is a sports bar in recent reviews, Spanish/Mediterranean in one listing; Amapola's number (117 or 119).
+
+## /page5: "★ Our pick" instead of "Not our pick", and details for the extra places (20 Nov 2026)
+
+The owner: "Listings 'not our pick' lack details. Fix. Remove not our pick and instead mark our selection 'our pick'."
+
+- **No more "Not our pick"** anywhere on /page5: not on the extra places' cards, not in their detail card ("Not one of our
+  picks: listed so you get an answer."), not in the written or spoken answers.
+- **Our picks are marked "★ Our pick"** ("★ Recomendado" in Spanish) on every card in an answer (sights excepted), and their
+  detail card says "★ Our pick: chosen by people who live here". In an answer that lists both kinds, the written lines start
+  with "★ our pick ·" and the voice says "…, one of our picks" for ours (before, it marked the others).
+- **Details for the 18 extra places:** each now has a description (English and Spanish, neutral: the site lists them but does
+  not recommend them) instead of three words. `listings/extras-2026-11-20.json` has them with sources and doubts: El Pato may have
+  moved (older guides put it on Calzada de la Estación); there are two El Puerto (Canal 94 and San Pedro 14); Áperi's chef and
+  address differ between sources; hours differ for Quince, Fátima 7, Tío Lucas and La Colmena (no hours on the site).
+  They still have no photo, map pin, Save or Share (the map and photo pages leave the extra places out, as before).
+- **`/descs.js`** (new, at the site's root): the descriptions in English and Spanish for every place whose data has none, 55
+  in all (the 37 ready ones from the listing check above and the 18 extra places). /page2 and /page5 show them; they are not
+  used to answer questions (answers stay exactly as before). Built from `listings/*.json` by `node mapsma/listings/build-descs.mjs`;
+  once they are in data/*.json (and rebuild.py carries a Spanish one), this file can go. The map (/page3) does not load it.
+
+| File | What |
+|---|---|
+| `descs.js` | deploy as the site's `/descs.js` |
+| `page5/index.html`, `ask.js`, `words.js`, `rules.js`, `susan.js` | deploy to the site's `page5/` (the 20 Nov live files with the change; susan.js from above) |
+| `page5/live-2026-11-20/` | the page-5 files as served on 20 Nov 2026, unchanged (read.js, listen.js, spanish.js: not changed, here for the test) |
+| `page2/index.html`, `page2/descs.patch` | also loads `/descs.js` now (`live-2026-11-20.html` + `shuffle.patch` + `susan.patch` + `descs.patch` = `index.html`) |
+| `test/page5-picks.test.mjs` | the real /page5 in Chromium on the made-up city, asking by typing: ours marked, the extra not, no "not our pick", the extra's description, Spanish |
+
+Checked with the live site's data at phone width: "carnitas" gives Luna de Queso and Birria Xalisco marked "★ Our pick" and
+Carnitas El Güero unmarked, whose card now reads "Family-run taco spot across the road from the lookout on the Querétaro road…";
+"Indian food" gives Ghar alone, unmarked. No errors.

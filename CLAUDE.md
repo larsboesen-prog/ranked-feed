@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 109 tiny-speech tests + 6 mapsma tests passing)
+## Done (all on the branch, 109 tiny-speech tests + 8 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -32,6 +32,9 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   `mapsma/page2/index.html` rebased on the 20 Nov live page, `susan.patch`, `mapsma/page5/susan.js` with `latest`), and
   descriptions for the 47 empty listings (`mapsma/listings/descriptions-2026-11-20.json`: 37 ready, 10 unconfirmed). Not deployed.
   Her Facebook (personal account, login) is unreachable; no Google Maps photos copied (owner asked; declined: copyright).
+- MapSMA /page5 (20 Nov, D10): no "Not our pick" label; our picks marked "★ Our pick" (cards, detail card, lists that mix both);
+  descriptions EN/ES for the 18 extra places and the 37 ready ones in `/descs.js` (`mapsma/descs.js`, built by
+  `mapsma/listings/build-descs.mjs`), shown by /page2 and /page5. `mapsma/page5/` = 20 Nov live files + changes. Not deployed.
 
 ## Waiting on the owner
 
@@ -90,7 +93,7 @@ and real speakers decide the outcome.
 
 D1 browser first, app later · D2 language per question with manual override · D3 one shared core · D4 build around tiny-voca ·
 D5 music = live music venues · D6 cities are data · D7 Spanish answers in the phone's Mexican voice until the bilingual voice
-passes · D8 music venues from Google Maps' top five or the owner's picks · D9 up to $15 OpenRouter.
+passes · D8 music venues from Google Maps' top five or the owner's picks · D9 up to $15 OpenRouter · D10 mark our picks "★ Our pick", no label on the extra places.
 On hold: next city; fixing /page5's known faults ("wait"); the Whisper fine-tune (the 8–10 MB ears are on).
 
 ## Working in this environment (cloud container, reclaimed when idle)

@@ -1,0 +1,369 @@
+{
+ "about": "Descriptions for the 18 extra places on mapsma.com (/page5's answers only; data/places.json INFO pick: false), which had only a few words from facts.js (20 Nov 2026). Our words, neutral (the site lists them but does not recommend them), 60-140 characters, from each place's listing source and web search. Same fields as descriptions-2026-11-20.json.",
+ "checked": "2026-11-20",
+ "places": [
+  {
+   "id": "X1",
+   "name": "Kan Bei",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Upscale Asian restaurant for Chinese and Thai dishes, à la carte or as a tasting menu, with a cocktail bar and terrace tables.",
+   "desc_es": "Restaurante asiático de nivel con platillos chinos y tailandeses, a la carta o en menú de degustación, coctelería y mesas en terraza.",
+   "confidence": "medium",
+   "check": "Site notes say rooftop; sources only confirm outdoor/terrace seating, not a rooftop. No Wanderlog page found; facts come from search summaries only.",
+   "facts": [
+    "Listed as Asian / Chinese / Thai at Zacateros 14, between Pila Seca and Umarán",
+    "À la carte and tasting menus offered; MXN 500+ per person",
+    "Cocktail bar; tagged for outdoor/terrace dining",
+    "Diners mention spring rolls, pork belly and Beijing chicken",
+    "Open Tuesday to Sunday 13:00–22:00 (matches hours_week)"
+   ],
+   "sources": [
+    "https://www.opentable.com/r/kan-bei-san-miguel-de-allende (search summary)",
+    "https://www.aaa.com/tripcanvas/restaurant/kan-bei-AA50631 (search summary)"
+   ]
+  },
+  {
+   "id": "X2",
+   "name": "Ghar",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Indian restaurant in the leafy courtyard of the Casa Hoyos hotel: tandoor dishes, chicken tikka masala and vegetarian options.",
+   "desc_es": "Restaurante indio en el patio lleno de plantas del hotel Casa Hoyos: platillos al tandoor, pollo tikka masala y opciones vegetarianas.",
+   "confidence": "medium",
+   "check": "No Wanderlog page found; facts come from search summaries only. Booking status unclear (one site says it is not taking automatic reservations).",
+   "facts": [
+    "In the outdoor courtyard of the boutique hotel Casa Hoyos, Mesones 14",
+    "Name means 'home' in Hindi; chef listed as Hiran Patel",
+    "Traditional tandoor oven; chicken tikka masala, aloo gobi, lamb chops",
+    "Wednesday to Sunday 14:00–21:30; about MXN 310–500"
+   ],
+   "sources": [
+    "https://www.opentable.com/r/ghar-restaurante-san-miguel-de-allende (search summary)",
+    "https://reservandonos.com/en/place/ghar-restaurante-sma (search summary)",
+    "https://forbes.com.mx/?p=1177813 (search summary)",
+    "https://foodandpleasure.com/?p=140214 (search summary)"
+   ]
+  },
+  {
+   "id": "X3",
+   "name": "Carnitas El Güero",
+   "kind": "Street food",
+   "apply": true,
+   "desc": "Family-run taco spot across the road from the lookout on the Querétaro road: carnitas tacos and tortas, gorditas and fresh orange juice.",
+   "desc_es": "Taquería familiar frente al mirador de la salida a Querétaro: tacos y tortas de carnitas, gorditas y jugo de naranja natural.",
+   "confidence": "medium",
+   "check": "",
+   "facts": [
+    "Wanderlog lists it as \"Carnitas\" (taco restaurant); its summary names it Carnitas El Güero",
+    "Family-run; the mirador (lookout) is just across the road",
+    "Carnitas tacos, chicharrón, corn gorditas, beans, fresh orange juice; very low prices",
+    "Wanderlog hours Friday to Monday 09:00–17:00 (matches hours_week)"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/3958667/carnitas-san-miguel-de-allende"
+   ]
+  },
+  {
+   "id": "X4",
+   "name": "El Pato Barbacoa y Mixiotes",
+   "kind": "Street food",
+   "apply": true,
+   "desc": "Family-run barbacoa place, mornings only: slow-cooked lamb barbacoa with consommé, lamb mixiotes and handmade tortillas.",
+   "desc_es": "Barbacoa familiar, solo por la mañana: barbacoa de borrego con consomé, mixiotes de borrego y tortillas hechas a mano.",
+   "confidence": "high",
+   "check": "Location: older guides and 2023 reviews put it on Calzada de la Estación near the bus station; Wanderlog now gives only 'Obraje' and a 2026 review mentions its 'current location' with parking, so it may have moved. Confirm the 'near Fábrica La Aurora' area.",
+   "facts": [
+    "Run by a couple (Pilar and José Luis); open Wednesday to Sunday 08:00–14:00",
+    "Lamb barbacoa cooked all night, consommé from its juices, lamb mixiotes",
+    "Build-your-own tacos with thin handmade tortillas and salsas; flan",
+    "Simple tent-like dining area"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1481255",
+    "https://theculturetrip.com/north-america/mexico/articles/the-7-best-traditional-mexican-restaurants-in-san-miguel-de-allende (search summary)",
+    "https://nomadsbeyond.com/best-tacos-in-san-miguel-de-allende/ (search summary)"
+   ]
+  },
+  {
+   "id": "X5",
+   "name": "Mariscos Los Delfines",
+   "kind": "Street food",
+   "apply": true,
+   "desc": "Seafood counter with stools inside the Ignacio Ramírez market: shrimp cocktails with saltines, octopus quesadillas and tostadas.",
+   "desc_es": "Barra de mariscos con bancos dentro del mercado Ignacio Ramírez: cócteles de camarón con galletas saladas, quesadillas de pulpo y tostadas.",
+   "confidence": "medium",
+   "check": "",
+   "facts": [
+    "Inside the Mercado Ignacio Ramírez (Wanderlog tip: look for it inside the market, not by the map pin)",
+    "Shrimp cocktail with saltines, octopus quesadillas, shrimp tostadas",
+    "Also known for caldo de pollo",
+    "Daily 09:00–16:30; low prices"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/10095881",
+    "https://culinarybackstreets.com/?p=17832 (search summary)"
+   ]
+  },
+  {
+   "id": "X6",
+   "name": "El Puerto Seafood",
+   "kind": "Mexican",
+   "apply": true,
+   "desc": "Seafood restaurant and bar on Canal: tuna ceviche, peeled shrimp, mixed fish soup and whole fish in garlic, with a shrimp broth to start.",
+   "desc_es": "Restaurante y bar de mariscos en Canal: ceviche de atún, camarones pelados, caldo de pescado mixto y pescado entero al mojo de ajo.",
+   "confidence": "medium",
+   "check": "There is also an El Puerto Seafood at San Pedro 14 (OpenTable, Discover SMA); a reviewer describes the Canal venue as a second place around the corner. Check this row is the intended one.",
+   "facts": [
+    "Listed on Wanderlog as El Puerto Seafood SMA Restaurante Bar, Canal 94",
+    "Tuna ceviche, peeled shrimp, mixed fish soup, whole garlic fish; shrimp broth served as a starter",
+    "Wanderlog hours closed Tuesday, otherwise 09:00–20:00 (matches hours_week)"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/11877250/el-puerto-seafood-sma-restaurante-bar",
+    "https://www.opentable.com/r/el-puerto-seafood-sma-san-miguel-de-allende (search summary)",
+    "https://discoversma.com/?p=58917 (search summary)"
+   ]
+  },
+  {
+   "id": "X7",
+   "name": "Mercado Ignacio Ramírez",
+   "kind": "Street food",
+   "apply": true,
+   "desc": "Covered town market with produce, crafts and food stalls: tortas, enchiladas, tamales, comida corrida and fresh juices.",
+   "desc_es": "Mercado techado con frutas, verduras, artesanías y puestos de comida: tortas, enchiladas, tamales, comida corrida y jugos naturales.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Big market on Colegio, north-east edge of Centro, next to the crafts market",
+    "Fruit, vegetables, butchers, tortillas, souvenirs and crafts",
+    "Food stalls with tortas, enchiladas, tamales, fresh juices; inexpensive",
+    "Wanderlog hours daily 07:00–17:00; food stalls about 09:00–17:00"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/170153/mercado-ignacio-ram%C3%ADrez"
+   ]
+  },
+  {
+   "id": "X8",
+   "name": "Petit Four",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Pastry shop and café up a flight of stairs, with a small courtyard: quiche, baked eggs, chilaquiles, cakes and French pastries. Cash only.",
+   "desc_es": "Pastelería y café subiendo unas escaleras, con un pequeño patio: quiche, huevos al horno, chilaquiles, pasteles y repostería francesa. Solo efectivo.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Café and pastry shop on Jesús, just off the Jardín; reached up a flight of stairs; courtyard tables",
+    "Pastries, cakes, pain au chocolat, almond croissants; breakfast and lunch menu",
+    "Baked eggs in tomato sauce with poblano, quiche, chilaquiles",
+    "Cash only (several reviews, latest 2026); chef Paco Cárdenas also gives cooking classes"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1176346/petit-four"
+   ]
+  },
+  {
+   "id": "X9",
+   "name": "Café Rama",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Eclectic café with local art on the walls: all-day breakfast (huevos rancheros, eggs florentine), house cakes and live music some evenings.",
+   "desc_es": "Café ecléctico con arte local: desayunos todo el día (huevos rancheros, huevos florentinos), pasteles caseros y música en vivo algunas noches.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Bohemian café-restaurant with mismatched furniture and art for sale",
+    "Breakfast/brunch: huevos rancheros, eggs florentine, chilaquiles; baguette with homemade jam",
+    "House cakes (German chocolate, carrot, apple pie); bar; fish tacos and enchiladas at lunch",
+    "Live music on some evenings and weekends (jazz, Cuban and others)"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1175073",
+    "https://sanmiguellive.com/?p=70576 (search summary)"
+   ]
+  },
+  {
+   "id": "X10",
+   "name": "Churrería San Agustín",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Busy traditional café for churros, plain or filled with cajeta or condensed milk, and hot chocolate in several styles. Expect a queue.",
+   "desc_es": "Café tradicional muy concurrido de churros, solos o rellenos de cajeta o lechera, y chocolate caliente de varios estilos. Suele haber fila.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Listed as Chocolates y Churros San Agustín, San Francisco 21",
+    "Churros plain or filled (cajeta, condensed milk); several hot chocolates; breakfast dishes",
+    "Often a waiting list or queue, especially weekends",
+    "Daily 08:00–22:00; Wanderlog tip says cash only"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/993782/caf%C3%A9-y-churrer%C3%ADa-san-agust%C3%ADn"
+   ]
+  },
+  {
+   "id": "X11",
+   "name": "Panadería La Buena Vida",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Small takeaway bakery: orange-glazed doughnuts, cinnamon rolls, sweet and savoury empanadas, muffins and bread. Go early.",
+   "desc_es": "Pequeña panadería para llevar: donas glaseadas de naranja, roles de canela, empanadas dulces y saladas, muffins y pan. Ve temprano.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Bakery at Hernández Macías 72, tucked at the back; no seating",
+    "Orange-glazed doughnuts, cinnamon rolls, potato-and-cheese empanadas, bran muffins, scones, rosemary ciabatta, seeded bread",
+    "Some breads sell out, so go early",
+    "Monday to Saturday 08:00–15:00 (matches hours_week)"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1240220/panaderia-la-buena-vida"
+   ]
+  },
+  {
+   "id": "X12",
+   "name": "Áperi",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Fine-dining restaurant with a five-course tasting menu that changes with the market, wine pairings and a chef's table facing the kitchen.",
+   "desc_es": "Restaurante de alta cocina con menú de degustación de cinco tiempos que cambia según el mercado, maridaje de vinos y mesa del chef frente a la cocina.",
+   "confidence": "high",
+   "check": "Sources name different chefs (Jesús Vázquez; Olivier Deboise as the newer chef), so the kitchen may have changed hands; some listings give Quebrada 99.",
+   "facts": [
+    "Creative fine dining at Quebrada 101; reservations advised",
+    "Five-course tasting menu that changes with available produce; wine pairings incl. Mexican wines; à la carte too",
+    "Chef's table in an indoor courtyard with a view into the kitchen; outdoor seating",
+    "Closed Tuesday (matches hours_week)"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/820182/restaurante-%C3%A1peri",
+    "https://www.chilango.com/comida-y-tragos/aperi-restaurante-en-san-miguel-de-allende/ (search summary)",
+    "https://www.mexicodesconocido.com.mx/aperi-experiencia-gastronomica-en-san-miguel-de-allende.html (search summary)"
+   ]
+  },
+  {
+   "id": "X13",
+   "name": "Quince Rooftop",
+   "kind": "Rooftops",
+   "apply": true,
+   "desc": "Multi-level rooftop bar and restaurant beside the Parroquia: international menu with sushi and ceviches, cocktails, DJs or shows at night.",
+   "desc_es": "Bar y restaurante en azotea de varios niveles junto a la Parroquia: menú internacional con sushi y ceviches, coctelería y DJ o espectáculos de noche.",
+   "confidence": "high",
+   "check": "Hours differ: Wanderlog shows Sat–Mon from 10:00 and Tue–Fri from 15:00, closing 22:30–23:30; hours_week has Mon–Fri from 13:00 and weekends from 09:30.",
+   "facts": [
+    "Cuna de Allende 15, next to the Parroquia; views of the church and of sunset",
+    "Eclectic international menu: sushi, ceviche, aguachile, steak; extensive drinks list",
+    "DJs and live entertainment in the evenings; reservations recommended for a view table"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/443246/quince",
+    "https://therooftopguide.com/rooftop-bars-in-san-miguel-de-allende/quince-rooftop.html (search summary)"
+   ]
+  },
+  {
+   "id": "X14",
+   "name": "Fátima 7 Rooftop",
+   "kind": "Rooftops",
+   "apply": true,
+   "desc": "Rooftop restaurant of the Hotel Casa Blanca 7, with views of the Parroquia: Mexican cooking with Mediterranean touches, breakfast to dinner.",
+   "desc_es": "Restaurante en la azotea del hotel Casa Blanca 7, con vista a la Parroquia: cocina mexicana con toques mediterráneos, del desayuno a la cena.",
+   "confidence": "high",
+   "check": "OpenTable (search summary) lists Tuesday to Sunday only; Wanderlog and hours_week show daily.",
+   "facts": [
+    "On the roof of the boutique Hotel Casa Blanca 7, Juárez 7",
+    "Views of the Parroquia and a neighbouring church; heaters at night",
+    "Mexican cooking with Mediterranean/Moroccan and other global touches: corn croquettes, burrata, octopus, pizza, hummus",
+    "Wine pairing suggested for each dish; serves breakfast"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1087253",
+    "https://wanderlog.com/place/details/1176300/hotel-casa-blanca-7--rooftop-bar",
+    "https://therooftopguide.com/rooftop-bars-in-san-miguel-de-allende/fatima-7-rooftop.html (search summary)"
+   ]
+  },
+  {
+   "id": "X15",
+   "name": "Terraza La Vista",
+   "kind": "Rooftops",
+   "apply": true,
+   "desc": "Rooftop restaurant of the El Golpe de Vista hotel, with wide views over the town at sunset; contemporary Mexican cooking.",
+   "desc_es": "Restaurante en la azotea del hotel El Golpe de Vista, con amplia vista de la ciudad al atardecer; cocina mexicana contemporánea.",
+   "confidence": "medium",
+   "check": "Chiles en nogada (site notes) not confirmed by any source; it is a seasonal dish, so it was left out of the description.",
+   "facts": [
+    "Rooftop (third floor) of the boutique hotel El Golpe de Vista, Prolongación de Aldama 1",
+    "Listed as contemporary Mexican; diners mention tasting menus",
+    "Panoramic views over San Miguel are the main draw",
+    "Hours Tue–Wed 13:00–21:00, Thu–Sat 13:00–22:00, Sun 09:00–17:00 (matches hours_week)"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/2212315 (hotel page only, no restaurant details)",
+    "https://opentable.com/r/terraza-la-vista-san-miguel-de-allende (search summary)",
+    "https://therooftopguide.com/rooftop-bars-in-san-miguel-de-allende/terraza-la-vista.html (search summary)"
+   ]
+  },
+  {
+   "id": "X16",
+   "name": "Bennu",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Wood-fired sourdough pizza in a courtyard with no sign outside, plus vegetable starters such as jícama aguachile, and cocktails.",
+   "desc_es": "Pizza de masa madre al horno de leña en un patio sin letrero afuera, con entradas de verduras como aguachile de jícama, y cócteles.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Neapolitan-style sourdough pizza, dough fermented over 24 h; pizza of the day; Bestia and marinara pizzas",
+    "Vegetable-focused starters: jícama aguachile, cauliflower, corn, mango salad",
+    "Courtyard setting; no sign at the door; small menu; cocktails and Mexican wines",
+    "Wed–Sat 13:00–21:30, Sun 12:00–20:30 (matches hours_week)"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/3355900",
+    "https://www.enprimeurclub.com/restaurants/bennu-san-miguel-de-allende-restaurant-35fcdf77 (search summary)",
+    "https://foodandpleasure.com/pizza-san-miguel/ (search summary)"
+   ]
+  },
+  {
+   "id": "X17",
+   "name": "Tío Lucas",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Restaurant-bar for steaks and Mexican and international dishes, a Caesar salad made at the table, and live jazz, blues or salsa most nights.",
+   "desc_es": "Restaurante bar de cortes y platillos mexicanos e internacionales, ensalada César preparada en la mesa y jazz, blues o salsa en vivo casi a diario.",
+   "confidence": "high",
+   "check": "hours_week has no Saturday entry; Wanderlog shows Saturday 13:00–23:30 and opening at 13:00 (not 13:30) every day.",
+   "facts": [
+    "Mesones 103; restaurant-bar with arches and Mexican decor",
+    "Steaks (fillet, ribeye, medallions), seafood, Caesar salad and tuna tartare prepared at the table",
+    "Live music most nights: jazz, blues, salsa, Cuban",
+    "Long tequila list and wine list"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1176418",
+    "https://www.reservandonos.com/en/place/restaurante-bar-tio-lucas-sma/ (search summary)",
+    "https://cdn.fodors.com/world/mexico-and-central-america/mexico/san-miguel-de-allende-and-the-heartland/things-to-do/nightlife (search summary)"
+   ]
+  },
+  {
+   "id": "X18",
+   "name": "Panadería La Colmena",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Traditional Mexican bakery behind a blue door, open since 1901: conchas (some cream-filled), empanadas, campechanas and polvorones.",
+   "desc_es": "Panadería mexicana tradicional tras una puerta azul, abierta desde 1901: conchas (algunas rellenas de crema), empanadas, campechanas y polvorones.",
+   "confidence": "high",
+   "check": "hours_week is empty and sources conflict: Wanderlog shows roughly 06:00–21:00 Monday to Saturday (odd Sunday 06:00–09:00); other guides say weekdays 07:00–17:00 or 07:00–19:00, closed weekends.",
+   "facts": [
+    "Relox 21; founded 1901 by Florentino Rayas, considered the oldest bakery in town; city plaque in 2021",
+    "Nicknamed 'the blue door bakery'; grab-and-go, low prices",
+    "Conchas (vanilla custard-filled ones), empanadas, shortbread-style cookies; items sell out, go early"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/2562852/la-colmena-panaderia",
+    "https://atencionsanmiguel.org/2021/01/20/la-colmena-bakery-to-receive-honorary-plaque (search summary)",
+    "https://www.weekendnotes.com/la-colmena-san-miguel-de-allende/ (search summary)"
+   ]
+  }
+ ]
+}
