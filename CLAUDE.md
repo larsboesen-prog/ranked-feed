@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 109 tiny-speech tests + 2 mapsma tests passing)
+## Done (all on the branch, 109 tiny-speech tests + 6 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -28,6 +28,10 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   without the hint (synthetic test: 52.8% → 38.7% words wrong).
 - MapSMA /page2: cards in a new random order each visit (sights fixed): `mapsma/page2/index.html` + `shuffle.patch`,
   **not deployed** (the owner deploys).
+- MapSMA (20 Nov): /page2 row "Susan York's latest reviews" (the ten newest from her blog, those open now or within two hours;
+  `mapsma/page2/index.html` rebased on the 20 Nov live page, `susan.patch`, `mapsma/page5/susan.js` with `latest`), and
+  descriptions for the 47 empty listings (`mapsma/listings/descriptions-2026-11-20.json`: 37 ready, 10 unconfirmed). Not deployed.
+  Her Facebook (personal account, login) is unreachable; no Google Maps photos copied (owner asked; declined: copyright).
 
 ## Waiting on the owner
 
@@ -100,3 +104,5 @@ On hold: next city; fixing /page5's known faults ("wait"); the Whisper fine-tune
 - Lost when the container goes (regenerate if needed): the Python venv with torch, the Piper voices and 2,694 synthetic clips
   (`training/asr/synth_piper.py` resumes), the CPU dry-run of the GPU pipeline (`training/gpu/SMOKE.md` says what passed).
 - In this Chromium, Playwright routes stop module workers with nested imports: serve test files from the test server instead.
+- Plain-HTTP sites (Susan York's blog, www.cupcakesandcrablegs.com: no HTTPS) work only through the proxy as a tunnel:
+  `curl -p -x "$HTTPS_PROXY" http://...` (host allowed 20 Nov, with cupcakesandcrablegs.blogspot.com and wanderlog.com).

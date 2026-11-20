@@ -1,0 +1,909 @@
+{
+ "about": "Descriptions for the 47 places on mapsma.com that had none (live site, 20 Nov 2026). Our words, from each place's listing source and web search, 60-140 characters like the site's own. apply=true: ready (high or medium confidence); apply=false: could not be confirmed online (drafted from the name and kind only): check on the spot or leave empty. 'check' lists doubts found (hours that differ, possible closure or new name). desc_es: the same in Mexican Spanish (the site shows desc only today). Put desc into data/*.json and run scripts/rebuild.py (the site's own tools).",
+ "checked": "2026-11-20",
+ "places": [
+  {
+   "id": "1",
+   "name": "Jacques",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Breakfast and brunch spot with a plant-filled rooftop terrace: Mediterranean bowls, shakshuka, pita sandwiches and smoothies.",
+   "desc_es": "Lugar de desayunos y brunch con terraza en la azotea llena de plantas: bowls mediterráneos, shakshuka, sándwiches en pan pita y smoothies.",
+   "confidence": "high",
+   "check": "Category says Coffee & bakery but it is a breakfast/brunch restaurant. Hours conflict: Wanderlog shows daily 8:30–17:30 incl. Wednesday; another source says Thursday to Tuesday.",
+   "facts": [
+    "Listed as Jacques Restaurante, breakfast/brunch restaurant",
+    "Two storeys with a rooftop terrace with plants",
+    "Mediterranean-inspired bowls (falafel), mezze, shakshuka, avocado toast, pita sandwiches",
+    "Smoothies and juices; many vegetarian/vegan options"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/2017198"
+   ]
+  },
+  {
+   "id": "2",
+   "name": "Lavanda",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Specialty coffee roaster with breakfast on three floors and a covered rooftop: chilaquiles, huevos rancheros, waffles. Expect a queue.",
+   "desc_es": "Tostador de café de especialidad con desayunos en tres pisos y azotea techada: chilaquiles, huevos rancheros, waffles. Suele haber fila.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Google categories: espresso bar, bakery, brunch restaurant, coffee roastery",
+    "Single-origin coffees served with farm details; pour-over and espresso",
+    "Breakfast: chilaquiles, huevos rancheros, omelette, waffle, French toast; bread with apple marmalade",
+    "Three levels including a covered rooftop patio",
+    "Busy: rope line at times, they text you when a table is free"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/561504"
+   ]
+  },
+  {
+   "id": "3",
+   "name": "Café Santa Ana",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Café in the courtyard of the Biblioteca Pública, by a fountain: breakfasts, chilaquiles, pozole and quiche, with coffee and fresh juices.",
+   "desc_es": "Café en el patio de la Biblioteca Pública, junto a una fuente: desayunos, chilaquiles, pozole y quiche, con café y jugos naturales.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Café inside the public library (Biblioteca Pública), courtyard patio with fountain",
+    "Breakfast and lunch: omelettes, chilaquiles, pozole, quiche, enchiladas suizas",
+    "Coffee, chai latte, natural juices",
+    "Wanderlog: operational, 4.5 from 259 ratings"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1505288/café-santa-ana"
+   ]
+  },
+  {
+   "id": "8",
+   "name": "Café Umarán",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Small café and bakery just off the Jardín, tucked inside a building: croissant sandwiches, pastries and latte de olla.",
+   "desc_es": "Pequeño café y panadería a un paso del Jardín, escondido dentro de un edificio: sándwiches de cruasán, pan dulce y latte de olla.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Café/bakery on Umarán just off the main plaza",
+    "Entrance inside a building, easy to miss; small space with exposed brick and a tree",
+    "Artisanal bread, pastries (guava pastry, Nutella croissant, cheesecake rolls), croissant sandwiches",
+    "Café de olla / latte de olla; dog-friendly"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/2155315/café-umarán"
+   ]
+  },
+  {
+   "id": "9",
+   "name": "K'ibok Coffee",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Coffee shop on three levels with a rooftop terrace behind the Parroquia: good cappuccinos, pastries, chilaquiles and avocado toast.",
+   "desc_es": "Cafetería de tres niveles con terraza en la azotea, detrás de la Parroquia: buenos capuchinos, pan dulce, chilaquiles y pan con aguacate.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Coffee shop spread over three levels with a rooftop terrace",
+    "Reviews praise cappuccinos and lattes, croissants and pastries",
+    "Breakfast: chilaquiles, avocado toast, sandwiches",
+    "Address Diez de Sollano 25, Centro"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/978734/kibok-coffee-sma"
+   ]
+  },
+  {
+   "id": "10",
+   "name": "Amapola",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Brunch café and beer garden: eggs Benedict, chilaquiles and avocado toast with espresso; open into the evening Thursday to Saturday.",
+   "desc_es": "Café de brunch con jardín cervecero: huevos benedictinos, chilaquiles y pan con aguacate; abre hasta la noche de jueves a sábado.",
+   "confidence": "medium",
+   "check": "Address: Wanderlog and Pearl give Hernández Macías 117, Spinach gives 119; check which is current.",
+   "facts": [
+    "Google categories: beer garden, breakfast/brunch restaurant, espresso bar",
+    "Resy lists it as 'Amapola Brunch & Beer Garden SMA'",
+    "Menu items mentioned: eggs Benedict, chilaquiles, avocado toast, latte, beer",
+    "Evening hours Thu–Sat (row hours; Spinach)"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/2115524",
+    "https://spinach.guide/venues/amapola-cafe-219932/ (via search summary)",
+    "https://resy.com/cities/san-miguel-de-allende-mexico/venues/amapola-brunch-and-beer-garden-sma (via search summary)"
+   ]
+  },
+  {
+   "id": "11",
+   "name": "Zenteno Café",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Tiny corner coffee shop that roasts its own beans and brews by Chemex or AeroPress, with quiche, cakes and pastries.",
+   "desc_es": "Pequeña cafetería de esquina que tuesta su propio café y lo prepara en Chemex o AeroPress, con quiche, pasteles y repostería.",
+   "confidence": "high",
+   "check": "Has a second branch (La Sacristía); some reviews of a fountain garden may refer to that one, so the garden is left out.",
+   "facts": [
+    "Small corner café on Hernández Macías",
+    "Roasts and sells beans",
+    "Brewing methods: Chemex, AeroPress, drip; organic coffee",
+    "Quiche, pastries, cakes, sandwiches"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1337168/zenteno-caf%C3%A9"
+   ]
+  },
+  {
+   "id": "13",
+   "name": "Buonforno",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Artisan bakery for sourdough loaves and baguettes, almond croissants and coffee at a few tables out back. Go early: bread sells out.",
+   "desc_es": "Panadería artesanal: hogazas y baguettes de masa madre, croissants de almendra y café en mesas al fondo. Llega temprano, el pan se acaba.",
+   "confidence": "medium",
+   "check": "",
+   "facts": [
+    "Bakery and café (Facebook: Buonforno pan artesanal) at Stirling Dickinson 33",
+    "Sourdough (masa madre) in several styles, loaves and baguettes; sells out quickly",
+    "Almond croissants praised (search summary of reviews)",
+    "Small shop room with seating out back for coffee or tea",
+    "Opens 7:30"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/2155307/buonforno",
+    "https://wanderlog.com/list/geoCategory/70057/best-pastries-and-patisseries-in-san-miguel-de-allende",
+    "WebSearch summary: https://www.sanmiguelscene.com/blog/the-bakeries-locals-love-in-san-miguel-de-allende",
+    "WebSearch summary: https://www.airbnb.pt/things-to-do/places/2265733"
+   ]
+  },
+  {
+   "id": "15",
+   "name": "Raíces",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Chef Vanessa Romero's patio restaurant, best known for Mexican breakfasts such as stuffed chilaquiles and eggs in guajillo sauce.",
+   "desc_es": "Restaurante con patio de la chef Vanessa Romero, conocido por desayunos mexicanos como chilaquiles rellenos y huevos en salsa de guajillo.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Chef Vanessa Romero",
+    "Outdoor patio",
+    "Known for breakfast: stuffed chilaquiles, huevos ahogados in guajillo sauce",
+    "Salida a Celaya, opposite the Mobil station",
+    "Wanderlog: operational, 4.8 from 1,039 ratings"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/2017182/races-restaurante-sma",
+    "https://mexiconewsdaily.com/el-bajio/the-salida-a-celaya-restaurant-strip-is-quietly-leading-san-miguels-dining-boom/ (via search summary)",
+    "https://indagare.com/restaurant/raices-restaurante-sma (via search summary)"
+   ]
+  },
+  {
+   "id": "16",
+   "name": "Rústica",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Brunch café with a shaded back patio and plenty of vegan dishes: French toast, breakfast burrito, mole enchiladas, fresh juices.",
+   "desc_es": "Café de brunch con patio trasero sombreado y muchos platillos veganos: pan francés, burrito de desayuno, enchiladas de mole y jugos frescos.",
+   "confidence": "high",
+   "check": "Category says Coffee & bakery; it is more a brunch restaurant with a bakery.",
+   "facts": [
+    "Brunch restaurant on Salida a Celaya, a walk from the centre",
+    "Front patio and shaded back patio",
+    "Many well-labelled vegan options (tofu-scramble chilaquiles, mole enchiladas)",
+    "French toast, Burrito Gigante de Desayuno, own bakery, juices and smoothies"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1176398"
+   ]
+  },
+  {
+   "id": "17",
+   "name": "Panadería El Maple",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Small bakery known for its sourdough, plus cinnamon buns, muffins, rice bread and filled croissants. Arrive early for the best choice.",
+   "desc_es": "Panadería pequeña conocida por su pan de masa madre, además de roles de canela, muffins, pan de arroz y croissants rellenos. Llega temprano.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Google name: Panadería El Maple Panadiense; bakery, coffee shop, pastry shop",
+    "Masa madre sourdough repeatedly called the best in town",
+    "Cinnamon buns, double chocolate muffins, rice bread, sunflower bread, wholegrain bolillos",
+    "Croissants incl. cheese and jalapeño",
+    "Opens 8:00; popular items go early; parking, off the main road"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1296693"
+   ]
+  },
+  {
+   "id": "18",
+   "name": "Luna de Queso",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "Gourmet deli, cheese shop and café with a leafy patio: breakfasts, salads and sandwiches, a pastry case and imported groceries.",
+   "desc_es": "Tienda gourmet, quesería y café con patio lleno de plantas: desayunos, ensaladas, sándwiches, vitrina de pasteles y abarrotes importados.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Google categories: gourmet grocery store, cafeteria",
+    "Patio with lush plants, outdoor seating",
+    "Breakfast and lunch: bagels, tamales, salads, falafel wrap, smoothies, green juice",
+    "Pastry case and cakes; cheese selection and hard-to-find groceries",
+    "Wanderlog: operational, 4.6 from 1,413 ratings"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1176441/luna-de-queso"
+   ]
+  },
+  {
+   "id": "20",
+   "name": "Andy's Taco Cart",
+   "kind": "Street food",
+   "apply": true,
+   "desc": "Evening taco cart at Insurgentes and Hidalgo, open late: al pastor with pineapple, bistec with chorizo and a spread of salsas.",
+   "desc_es": "Carrito de tacos nocturno en Insurgentes e Hidalgo, abierto hasta tarde: al pastor con piña, bistec con chorizo y varias salsas.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Cart at the corner of Hidalgo and Insurgentes, nightly 19:30–01:00",
+    "Al pastor with pineapple, bistec and chorizo, costilla, gringas",
+    "Range of salsas at the cart; order, eat, then pay"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1175056/andys-taco-cart"
+   ]
+  },
+  {
+   "id": "21",
+   "name": "Nieves de San Felipe",
+   "kind": "Street food",
+   "apply": false,
+   "desc": "Ice cream stand on Insurgentes with classic Mexican flavours, served as creamy ice cream or sorbet-style ices.",
+   "desc_es": "Puesto de nieves en Insurgentes con sabores mexicanos clásicos, de crema o de agua.",
+   "confidence": "low",
+   "check": "Only one listing found (name there: Nieves La Plazuela de San Felipe); no hours or flavour list confirmed.",
+   "facts": [
+    "Listed as 'Nieves La Plazuela de San Felipe', Insurgentes 106, Zona Centro",
+    "Local tip: favourite ice cream stand, classic Mexican flavours, ice cream and ices like sorbet"
+   ],
+   "sources": [
+    "WebSearch summary: https://www.airbnb.com.pa/things-to-do/places/3103901"
+   ]
+  },
+  {
+   "id": "22",
+   "name": "Tacos Don Tomás",
+   "kind": "Street food",
+   "apply": true,
+   "desc": "Late-night street taco stand on Mesones: al pastor, bistec and longaniza, gringas, three salsas and grilled onions. Expect a queue.",
+   "desc_es": "Puesto de tacos nocturno en Mesones: pastor, bistec y longaniza, gringas, tres salsas y cebollitas asadas. Suele haber fila.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Taco stand open in the evening only, closed Mondays",
+    "Al pastor, bistec, longaniza, salchicha, gringas, quesadillas",
+    "Three salsas; grilled onions with the order",
+    "Standing room / small counter, queues but fast service",
+    "Wanderlog's summary also calls it 'Tacos San Francisco'"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1175058"
+   ]
+  },
+  {
+   "id": "23",
+   "name": "Quesadillas",
+   "kind": "Street food",
+   "apply": false,
+   "desc": "Street stand on the main square for quesadillas, a quick snack to eat on a bench in the Jardín.",
+   "desc_es": "Puesto callejero en la plaza principal para comer quesadillas, un antojo rápido para disfrutar en una banca del Jardín.",
+   "confidence": "low",
+   "check": "No online source for this stand; fillings, hours and exact spot unconfirmed.",
+   "facts": [
+    "Street stand on the Jardín Principal (from the listing)",
+    "Sells quesadillas (from the listing)",
+    "Guides note street vendors around the Jardín"
+   ],
+   "sources": [
+    "WebSearch: quesadillas stand Jardín Principal San Miguel de Allende (no page about this stand found)"
+   ]
+  },
+  {
+   "id": "24",
+   "name": "Esquites",
+   "kind": "Street food",
+   "apply": false,
+   "desc": "Street stand on the Jardín selling esquites: warm corn kernels with mayonnaise, cheese, chilli and lime.",
+   "desc_es": "Puesto callejero en el Jardín con esquites: granos de elote calientes con mayonesa, queso, chile y limón.",
+   "confidence": "low",
+   "check": "No source names a specific esquites stand on the Jardín; vendors may vary by day and hour.",
+   "facts": [
+    "Corn vendors work the main plaza (CS Monitor photo caption)",
+    "Esquites in San Miguel are typically served with mayonnaise, cheese, chilli and lime (Mexico News Daily)"
+   ],
+   "sources": [
+    "WebSearch summary: https://mexiconewsdaily.com/news/corn-husks-replace-styrofoam-in-san-miguel-de-allende",
+    "WebSearch summary: https://csmonitor.com/layout/set/amphtml/The-Culture/2023/0130/In-Mexico-street-food-brings-communities-together"
+   ]
+  },
+  {
+   "id": "25",
+   "name": "Esquites y mollejitas",
+   "kind": "Street food",
+   "apply": false,
+   "desc": "Street stand in San Antonio for esquites, warm corn kernels in a cup, and mollejitas (chicken gizzards).",
+   "desc_es": "Puesto callejero en San Antonio de esquites, elote desgranado calientito en vaso, y mollejitas de pollo.",
+   "confidence": "low",
+   "check": "Not found online (one web search); description is from the name and the row only.",
+   "facts": [
+    "Name of the stand: esquites and mollejitas",
+    "Location: San Antonio (from the row)"
+   ],
+   "sources": []
+  },
+  {
+   "id": "27",
+   "name": "Market tamales",
+   "kind": "Street food",
+   "apply": false,
+   "desc": "Market stall selling tamales by the craft market, a cheap and filling snack while you browse the stalls.",
+   "desc_es": "Puesto de mercado que vende tamales junto al mercado de artesanías, un antojo barato y llenador mientras recorres los puestos.",
+   "confidence": "low",
+   "check": "No online source for this stall; the tamales may actually be in the food market next door (Mercado Ignacio Ramírez). Hours unconfirmed.",
+   "facts": [
+    "Market stall at the Mercado de Artesanías (from the listing)",
+    "A Guanajuato tourism brochure lists tamales and atole at the Mercado Ignacio Ramírez, next to the craft market"
+   ],
+   "sources": [
+    "WebSearch: tamales Mercado de Artesanías San Miguel de Allende (no page about this stall found)"
+   ]
+  },
+  {
+   "id": "28",
+   "name": "El Café de la Mancha",
+   "kind": "Coffee & bakery",
+   "apply": true,
+   "desc": "One of San Miguel's first specialty coffee bars: Oaxacan beans as espresso, AeroPress, siphon or French press, plus house bakes.",
+   "desc_es": "Uno de los primeros cafés de especialidad de San Miguel: granos de Oaxaca en espresso, AeroPress, sifón o prensa francesa, y pan de la casa.",
+   "confidence": "medium",
+   "check": "",
+   "facts": [
+    "Specialty coffee shop, open since about 2013, often called the first in town",
+    "Beans from a small farm in Tlaxiaco, Oaxaca (National Geographic)",
+    "Brewing methods incl. espresso, AeroPress, siphon, French press, cold brew",
+    "House-made breads and gluten-free treats",
+    "Now at Julián Carrillo 5B, Guadalupe (older articles give Recreo 21A)"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1337171/el-cafe-de-la-mancha-caf%C3%A9-de-especialidad",
+    "WebSearch summary: https://willflyforfood.net/best-coffee-in-san-miguel-de-allende",
+    "WebSearch summary: https://www.nationalgeographic.com/travel/article/historic-city-is-a-coffee-lovers-paradise",
+    "WebSearch summary: https://sanmigueltimes.com/2016/06/the-best-cup-of-coffee-in-san-miguel-de-allende"
+   ]
+  },
+  {
+   "id": "29",
+   "name": "TorrArt Café",
+   "kind": "Coffee & bakery",
+   "apply": false,
+   "desc": "Café on the northern stretch of Hernández Macías, handy for a coffee while walking the centre.",
+   "desc_es": "Café en el tramo norte de Hernández Macías, práctico para tomar un café mientras recorres el Centro.",
+   "confidence": "low",
+   "check": "Not found online (two web searches, also as 'Torr Art'); description is from the category and area only.",
+   "facts": [
+    "Coffee & bakery category and location from the row"
+   ],
+   "sources": []
+  },
+  {
+   "id": "31",
+   "name": "Amor & Cacao",
+   "kind": "Coffee & bakery",
+   "apply": false,
+   "desc": "Small café near Loreto in the centre for coffee and cacao drinks, with something sweet on the side.",
+   "desc_es": "Pequeño café cerca de Loreto, en el centro, para tomar café y bebidas de cacao, con algo dulce para acompañar.",
+   "confidence": "low",
+   "check": "Not found online at all: could not confirm it exists, is open, or what it serves. Description is inferred from name and category; verify or remove.",
+   "facts": [
+    "Coffee & bakery listing near Loreto (from the listing)",
+    "Cacao drinks inferred from the name only"
+   ],
+   "sources": [
+    "WebSearch: Amor & Cacao San Miguel de Allende (no match found)"
+   ]
+  },
+  {
+   "id": "32",
+   "name": "Café Oratorio",
+   "kind": "Coffee & bakery",
+   "apply": false,
+   "desc": "Small café near the Oratorio de San Felipe Neri for a coffee break in the centre.",
+   "desc_es": "Café pequeño cerca del Oratorio de San Felipe Neri para una pausa con café en el centro.",
+   "confidence": "low",
+   "check": "Not found online: a search for \"Café Oratorio\" San Miguel de Allende returned only the hotel Casa Oratorio. Existence, address and hours unconfirmed; check before publishing.",
+   "facts": [
+    "Only the name and area (near the Oratorio) are known from the listing; nothing found online"
+   ],
+   "sources": []
+  },
+  {
+   "id": "33",
+   "name": "Hierba Santa",
+   "kind": "Mexican",
+   "apply": true,
+   "desc": "Breakfast and lunch from a husband-and-wife chef team from Acapulco cooking the food of Guerrero; ask about the daily specials.",
+   "desc_es": "Desayunos y comidas de una pareja de chefs de Acapulco que cocinan la comida de Guerrero; pregunta por los platillos del día.",
+   "confidence": "medium",
+   "check": "",
+   "facts": [
+    "Full name: Hierba Santa Cocina del Sur",
+    "Food of Guerrero / Acapulco",
+    "Husband-and-wife chef team from Acapulco",
+    "Daily specials; near Fábrica La Aurora",
+    "Daytime hours (row): Mon–Sat 9:00–16:30, Sun to 14:30",
+    "Wanderlog: operational, 4.8 from 352 ratings"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/2017253",
+    "https://www.willflyforfood.net/san-miguel-de-allende-restaurants/ (via search summary)"
+   ]
+  },
+  {
+   "id": "34",
+   "name": "Arriba y Abajo",
+   "kind": "Mexican",
+   "apply": false,
+   "desc": "Contemporary Mexican restaurant on Relox with regional dishes, open from breakfast through to dinner most days.",
+   "desc_es": "Restaurante de cocina mexicana contemporánea en Relox, con platillos regionales; abre del desayuno a la cena casi todos los días.",
+   "confidence": "low",
+   "check": "Only an AAA listing confirms the cuisine; no dishes found. A rooftop bar 'Arriba Rooftop Terraza' (mezcal cocktails, micheladas) links to the same website arribaabajosma.com, so it may have a rooftop; unconfirmed. Monday hours unknown.",
+   "facts": [
+    "AAA listing: contemporary, traditional and regional Mexican, $$, Relox 40-A",
+    "Hours in the listing run from 9:00 (13:00 Tue) to 22:00–23:00"
+   ],
+   "sources": [
+    "WebSearch: Arriba y Abajo restaurant Relox San Miguel de Allende (AAA TripCanvas result https://ww2.aaa.com/tripcanvas/restaurant/arriba-abajo-AA66774)",
+    "WebSearch: Arriba y Abajo rooftop (En Primeur Club result https://www.enprimeurclub.com/bars/arriba-rooftop-terraza-san-miguel-de-allende-bar)"
+   ]
+  },
+  {
+   "id": "35",
+   "name": "Baja Fish Taquito",
+   "kind": "Mexican",
+   "apply": true,
+   "desc": "Casual Baja-style seafood spot with a rooftop terrace: fish, marlin and shrimp tacos, tuna tostadas, ceviche and homemade salsas.",
+   "desc_es": "Marisquería casual estilo Baja con terraza en la azotea: tacos de pescado, marlín y camarón, tostadas de atún, ceviche y salsas caseras.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Seafood/Mexican restaurant, Mesones 11-B",
+    "Fish, marlin, shrimp and crab tacos; tuna tostadas; ceviche, aguachile, shrimp cocktail, octopus carpaccio",
+    "Homemade salsas (habanero-mango, chile de árbol-peanut, avocado-tomatillo)",
+    "Rooftop terrace with sunset views; good-value combos"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1175070/baja-fish-taquito",
+    "WebSearch summary: https://joinpearl.co/restaurants/san-miguel-de-allende/baja-fish-taquito"
+   ]
+  },
+  {
+   "id": "38",
+   "name": "Bacal",
+   "kind": "Mexican",
+   "apply": false,
+   "desc": "Mexican restaurant on Calle Zacateros, on the western side of the centre.",
+   "desc_es": "Restaurante mexicano en la calle Zacateros, del lado poniente del Centro.",
+   "confidence": "low",
+   "check": "Not found online (two web searches); the name was read from a logo and may be misspelt. Description is from the category and street only.",
+   "facts": [
+    "Category Mexican and street from the row"
+   ],
+   "sources": []
+  },
+  {
+   "id": "39",
+   "name": "Don Taco Tequila",
+   "kind": "Mexican",
+   "apply": true,
+   "desc": "Fully vegan Mexican restaurant: plant-based al pastor and carnitas tacos, quesabirria, chips with four salsas, and tequila cocktails.",
+   "desc_es": "Restaurante mexicano 100% vegano: tacos al pastor y de carnitas a base de plantas, quesabirria, totopos con cuatro salsas y cócteles de tequila.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "100% vegan Mexican restaurant (changed from meat tacos)",
+    "Al pastor, carnitas, quesabirria tacos; chips with four salsas",
+    "Margaritas (guava), cocktails, wide spirits list, sotol"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1175064/don-taco-tequila"
+   ]
+  },
+  {
+   "id": "42",
+   "name": "Andanza",
+   "kind": "Mexican",
+   "apply": true,
+   "desc": "Restaurant of the Belmond Casa de Sierra Nevada hotel: contemporary Mexican in a courtyard, from breakfast with a bread trolley to dinner.",
+   "desc_es": "Restaurante del hotel Belmond Casa de Sierra Nevada: cocina mexicana contemporánea en un patio, del desayuno con carrito de pan a la cena.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Restaurant in the Belmond Casa de Sierra Nevada, Hospicio 35",
+    "Contemporary Mexican; breakfast (huevos motuleños, banoffee pancake, bread trolley), lunch (duck quesabirrias), dinner (short rib, tiradito tostada)",
+    "Courtyard setting; live music some evenings (Saturday band per OpenTable listing)",
+    "Daily from breakfast to late evening"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1157791/andanzacasa-de-sierra-nevada-a-belmond-hotel",
+    "WebSearch summary: https://opentable.ie/r/andanza-casa-de-sierra-nevada-a-belmond-hotel-san-miguel-de-allende",
+    "WebSearch summary: https://escapadas.mexicodesconocido.com.mx/restaurantes/restaurante-andanza-san-miguel-de-allende/"
+   ]
+  },
+  {
+   "id": "43",
+   "name": "Agavia",
+   "kind": "Mexican",
+   "apply": true,
+   "desc": "Contemporary Mexican kitchen known for its moles, with an open kitchen and a rooftop; dishes can be made gluten-free.",
+   "desc_es": "Cocina mexicana contemporánea conocida por sus moles, con cocina abierta y terraza en la azotea; los platillos pueden hacerse sin gluten.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Also called Agavia 115; opened December 2020",
+    "Moles (mole de la abuela, mole de novia), brisket tacos, short-rib flautas",
+    "Open kitchen downstairs, rooftop seating",
+    "Gluten-free menu; vegan and vegetarian options",
+    "Creative cocktails (mezcal)",
+    "Wanderlog: operational, 4.8 from 669 ratings"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/2117040/agavia-115"
+   ]
+  },
+  {
+   "id": "45",
+   "name": "Tostévere",
+   "kind": "Mexican",
+   "apply": true,
+   "desc": "Small, intimate spot for creative tostadas and plates to share (seared tuna, truffled esquites, octopus) and mezcal cocktails.",
+   "desc_es": "Lugar pequeño e íntimo de tostadas creativas y platos para compartir (atún sellado, esquites trufados, pulpo) y cócteles con mezcal.",
+   "confidence": "high",
+   "check": "Hours differ slightly: Wanderlog shows Mon–Wed 13:00–21:30, Thu–Sat 13:00–22:30, Sun 13:00–19:00.",
+   "facts": [
+    "Small, intimate restaurant specialising in tostadas, tacos and small plates",
+    "Seared tuna and avocado, truffled esquites, octopus, ceviche, soft-shell crab taco, beet salad",
+    "Cocktails incl. smoked mezcalita; book ahead for dinner, lunch easier"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1175116"
+   ]
+  },
+  {
+   "id": "46",
+   "name": "San Mezcal",
+   "kind": "Mexican",
+   "apply": true,
+   "desc": "Small mezcal bar and restaurant on a quiet street: tasting flights from a long list, plus handmade burgers, tacos and fish. Book ahead.",
+   "desc_es": "Pequeño bar-restaurante de mezcal en una calle tranquila: catas de una carta amplia, hamburguesas caseras, tacos y pescado. Mejor reservar.",
+   "confidence": "high",
+   "check": "A Wanderlog tip mentions a seasonal break with reopening in September or early October (year not given); worth checking hours in late summer.",
+   "facts": [
+    "Bar and restaurant on Recreo, a quiet residential street",
+    "Very wide mezcal list; four flights of four pours; owner Julio explains them",
+    "Food: handmade burgers, tacos, sea bass, seafood caldo, esquites, spinach salad",
+    "Free tapa with a drink on Monday nights",
+    "Small and gets fully booked"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1235615"
+   ]
+  },
+  {
+   "id": "47",
+   "name": "Olas Altas",
+   "kind": "Mexican",
+   "apply": true,
+   "desc": "Casual Mazatlán-style seafood place with a beach-shack feel: ceviche tostadas, aguachile, whole fried fish and shrimp tacos.",
+   "desc_es": "Marisquería informal estilo Mazatlán con ambiente playero: tostadas de ceviche, aguachile, pescado frito entero y tacos de camarón.",
+   "confidence": "medium",
+   "check": "",
+   "facts": [
+    "Google category: seafood restaurant",
+    "Mazatlán-style seafood (San Antonio neighbourhood guide: Refugio Sur 33 B)",
+    "Ceviche tostada, aguachile, fried whole fish, fish and shrimp tacos",
+    "Beach-shack decor with surfboards",
+    "Cash or bank transfer reported (not used in text)"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/11877245",
+    "https://liveinsanmiguel.com/live-in-san-antonio (via search summary)"
+   ]
+  },
+  {
+   "id": "48",
+   "name": "Bocaciega",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Greek and Lebanese-inspired Mediterranean restaurant with plates to share: fattoush, stuffed squash blossoms, rack of lamb, grilled octopus.",
+   "desc_es": "Restaurante mediterráneo de inspiración griega y libanesa, con platos para compartir: fattoush, flor de calabaza rellena, cordero y pulpo.",
+   "confidence": "high",
+   "check": "Hours differ: Wanderlog shows Mon–Sat 13:00–22:00, Sun 13:00–21:00 (no separate lunch/dinner split).",
+   "facts": [
+    "Mediterranean, mainly Greek and Lebanese-inspired",
+    "Tapas-size plates to share",
+    "Fattoush, gyro, stuffed squash/zucchini blossoms, rack of lamb, grilled octopus",
+    "Near/at the Casa Quebrada boutique hotel"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/2200449/bocaciega",
+    "https://wanderlog.com/list/geoCategory/75411/restaurants"
+   ]
+  },
+  {
+   "id": "49",
+   "name": "Inside Café",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Upstairs café with small rooftop terraces: brunch with Mexican and international dishes such as tandoori grilled cheese, and vegan options.",
+   "desc_es": "Café en planta alta con terracitas en la azotea: brunch mexicano e internacional, como el grilled cheese tandoori, y opciones veganas.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Upper floor at Insurgentes 66, reached by steep narrow stairs; two small terraces with views",
+    "Breakfast and brunch, Mexican and international; vegan and gluten-free options",
+    "Tandoori and birria grilled cheese, chilaquiles, avocado toast; latte de olla, mocha, dirty chai",
+    "Google: rooftop terrace, Asian-influenced fare, craft beer"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/978736"
+   ]
+  },
+  {
+   "id": "50",
+   "name": "La Cabra Iluminada",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Fully vegan café below a yoga studio: chilaquiles and enchiladas verdes, cinnamon rolls and babka, and coffee with oat or nut milk.",
+   "desc_es": "Café 100% vegano bajo un estudio de yoga: chilaquiles y enchiladas verdes, roles de canela y babka, y café con leche de avena o de nueces.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "100% vegan (Google category vegan restaurant; Spinach)",
+    "Below a yoga studio, opened after the pandemic (Sprudge)",
+    "Chilaquiles, enchiladas verdes, cinnamon rolls, chocolate-pistachio babka, raw desserts",
+    "Oat and nut milks only (Sprudge)",
+    "Courtyard shaded by trees"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/2115527",
+    "https://sprudge.com/the-sprudge-guide-to-coffee-in-san-miguel-de-allende-213043.html (via search summary)",
+    "https://spinach.guide/venues/la-cabra-iluminada-219305/ (via search summary)"
+   ]
+  },
+  {
+   "id": "51",
+   "name": "Casa Nostra",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Italian and French restaurant with a rooftop terrace facing the Parroquia: pasta tossed in a Parmesan wheel, tableside Caesar salad.",
+   "desc_es": "Restaurante italiano y francés con azotea frente a la Parroquia: pasta en rueda de parmesano y ensalada César preparada en la mesa.",
+   "confidence": "high",
+   "check": "Hours missing in the listing; Wanderlog shows Wed–Thu 17:30–21:00, Fri–Sat 14:00–22:00, Sun 14:00–21:00, closed Mon–Tue.",
+   "facts": [
+    "Italian/French/international cuisine, price level 3",
+    "Rooftop terrace with Parroquia and sunset views; many steps up",
+    "Pasta finished in a Parmesan wheel, tableside Caesar salad, house-made pasta, lamb, veal osso buco, rabbit"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/90629/casa-nostra-restaurant-terrace-and-rooftop"
+   ]
+  },
+  {
+   "id": "52",
+   "name": "Fenicia",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Long-running Lebanese restaurant: falafel, hummus, grape leaves, fattoush, tabbouleh and lamb dishes, with plenty for vegetarians.",
+   "desc_es": "Restaurante libanés con muchos años: falafel, hummus, hojas de parra, fattoush, tabule y platillos de cordero; buenas opciones vegetarianas.",
+   "confidence": "medium",
+   "check": "Hours differ between sources and one reviewer found it closed during posted hours; confirm by phone (415 154 7874).",
+   "facts": [
+    "Lebanese and Middle Eastern restaurant at Zacateros 73, open since 2009",
+    "Salads fattoush, tabbouleh, malfouf with pita; falafel wrap with hummus",
+    "Grape leaves and the Byblos platter; lamb dishes",
+    "Vegan options (HappyCow); simple, no-frills setting"
+   ],
+   "sources": [
+    "WebSearch summary: https://discoversma.com/?p=410",
+    "WebSearch summary: https://happycow.net/north_america/mexico/san_miguel_de_allende/print",
+    "WebSearch summary: https://spinach.guide/venues/fenicia-218775/",
+    "WebSearch summary: https://www.afar.com/travel-tips/where-to-eat-and-drink-in-san-miguel-de-allende"
+   ]
+  },
+  {
+   "id": "53",
+   "name": "La Parada",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Peruvian restaurant with a courtyard and a fireplace room: ceviches (one with mango), lomo saltado, tacu tacu and pisco sours.",
+   "desc_es": "Restaurante peruano con patio y un salón con chimenea: ceviches (uno con mango), lomo saltado, tacu tacu y pisco sour.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Peruvian restaurant (Google category)",
+    "Ceviches incl. Ceviche La Parada with mango; lomo saltado, tacu tacu, causa",
+    "Pisco sours",
+    "Courtyard; room with fireplace (México Desconocido)",
+    "Wanderlog: operational, 4.6 from 1,269 ratings"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1087284/la-parada",
+    "https://www.mexicodesconocido.com.mx/escapadas/restaurante-la-parada-san-miguel-de-allende (via search summary)"
+   ]
+  },
+  {
+   "id": "54",
+   "name": "Lima",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Peruvian restaurant with a leafy patio: ceviches, causas, leche de tigre and lomo saltado, with classic or chicha morada pisco sours.",
+   "desc_es": "Restaurante peruano con patio lleno de plantas: ceviches, causas, leche de tigre y lomo saltado, con pisco sour clásico o de chicha morada.",
+   "confidence": "high",
+   "check": "Wanderlog shows it open Wednesday too (daily 13:00–21:00, Sat to 22:00, Sun to 20:00).",
+   "facts": [
+    "Lima - Cocina Realmente Peruana, Peruvian with Nikkei touches and seafood",
+    "Patio surrounded by greenery",
+    "Ceviches, causas, leche de tigre, tostada chalaca, lomo saltado, jalea",
+    "Pisco sours, traditional and with chicha morada"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/3195279"
+   ]
+  },
+  {
+   "id": "55",
+   "name": "Sushi Gami",
+   "kind": "World food",
+   "apply": true,
+   "desc": "Casual sushi restaurant on the Salida a Celaya, opposite the petrol station: fresh, fairly priced rolls, shrimp roca and outdoor tables.",
+   "desc_es": "Restaurante de sushi casual en la Salida a Celaya, frente a la gasolinera: rollos frescos a buen precio, camarón roca y mesas al aire libre.",
+   "confidence": "medium",
+   "check": "",
+   "facts": [
+    "Sushi/Japanese restaurant on Salida a Celaya opposite the Pemex petrol station",
+    "Fresh sushi at reasonable prices; house rolls (e.g. plantain roll), shrimp roca, tuna tostadas",
+    "Outdoor seating area; also delivers"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1176405/sushi-gami",
+    "WebSearch summary: https://discoversma.com/?p=475"
+   ]
+  },
+  {
+   "id": "58",
+   "name": "La Chope",
+   "kind": "Bars & small plates",
+   "apply": true,
+   "desc": "Sports bar and restaurant with big screens for the games: burgers, wings, nachos and tacos, with beer and mezcal cocktails.",
+   "desc_es": "Bar deportivo y restaurante con pantallas grandes para los partidos: hamburguesas, alitas, nachos y tacos, con cerveza y cocteles de mezcal.",
+   "confidence": "high",
+   "check": "Visit San Miguel's listing calls it Spanish/Mediterranean; recent reviews describe a burger and sports bar.",
+   "facts": [
+    "Big TVs, sports-bar atmosphere, group seating",
+    "Burgers (Chope4 cheeseburger, BBQ), wings, nachos, sirloin tacos, tacos sonoritos",
+    "Beer, micheladas, mezcal cocktails",
+    "Hernández Macías 21 at Canal",
+    "Wanderlog: operational, 4.7 from 4,499 ratings"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1176362/la-chope-san-miguel-de-allende"
+   ]
+  },
+  {
+   "id": "59",
+   "name": "La Hija del Manantial",
+   "kind": "Bars & small plates",
+   "apply": true,
+   "desc": "Sister bar of El Manantial with regular live music: ginger margaritas and mezcalitas, tuna carpaccio and shrimp tostadas.",
+   "desc_es": "Bar hermano de El Manantial con música en vivo frecuente: margaritas de jengibre, mezcalitas, carpaccio de atún y tostadas de camarón.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Sister bar to El Manantial, near the Jardín",
+    "Live music (Fri and Sat nights; some say most days)",
+    "Ginger margaritas, mezcalitas, tuna carpaccio, chipotle shrimp tostada, tinga, tempura fish and chips"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/1176348"
+   ]
+  },
+  {
+   "id": "60",
+   "name": "La Azotea",
+   "kind": "Rooftops",
+   "apply": true,
+   "desc": "Rooftop bar above Pueblo Viejo with sunset views, cocktails and bar bites; try the shrimp tacos in a jicama shell.",
+   "desc_es": "Bar en la azotea arriba de Pueblo Viejo, con vista al atardecer, cócteles y botanas; prueba los tacos de camarón en tortilla de jícama.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Rooftop at Umarán 6, no sign: enter through Pueblo Viejo and go up the stairs",
+    "Sunset views; misters on hot days",
+    "Bar bites: jicama-shell tacos with tempura shrimp, guacamole, cauliflower, pizzas; cocktails and evening drink specials"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/560829/la-azotea",
+    "WebSearch summary: https://www.therooftopguide.com/rooftop-bars-in-san-miguel-de-allende/la-azotea.html"
+   ]
+  },
+  {
+   "id": "61",
+   "name": "Selina",
+   "kind": "Rooftops",
+   "apply": true,
+   "desc": "Rooftop bar-restaurant at the Selina hotel with city and sunset views: chile-spiked cocktails, octopus tacos, aguachile and barbacoa sopes.",
+   "desc_es": "Bar-restaurante en la azotea del hotel Selina, con vista al atardecer: cocteles con chile, tacos de pulpo, aguachile y sopes de barbacoa.",
+   "confidence": "medium",
+   "check": "Selina chain was sold and rebranded as Socialtel in 2024–25; the San Miguel property is still listed as Selina, and Food and Pleasure calls the rooftop 'Anónimo'. Check the current name.",
+   "facts": [
+    "The Rooftop at Selina, Cuna de Allende 11, up three flights of stairs",
+    "City and sunset views",
+    "International menu with Mexican touches: octopus and chicharrón tacos, aguachile, barbacoa sopes, burgers, pasta",
+    "Chile-spiked cocktails (El Financiero, 2022)",
+    "Shows big football games",
+    "Wanderlog: operational, 4.5 from 976 ratings"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/4922517",
+    "https://www.elfinanciero.com.mx/food-and-drink/2022/03/11/selina-rooftop-un-gastrobar-para-saborear-san-miguel-de-allende/ (via search summary)"
+   ]
+  },
+  {
+   "id": "62",
+   "name": "Luna Rooftop",
+   "kind": "Rooftops",
+   "apply": true,
+   "desc": "Rosewood hotel's rooftop bar and restaurant, open to all: sunset views, cocktails and Mediterranean tapas with Mexican ingredients.",
+   "desc_es": "Bar y restaurante en la azotea del hotel Rosewood, abierto a todos: atardeceres, cócteles y tapas mediterráneas con ingredientes mexicanos.",
+   "confidence": "high",
+   "check": "",
+   "facts": [
+    "Rooftop of the Rosewood hotel, open to non-guests",
+    "Sunset views over the city",
+    "Mediterranean menu with local Mexican ingredients; tapas, croquettes, shrimp crudo, pizza, tacos",
+    "Cocktails; pricey; book for sunset"
+   ],
+   "sources": [
+    "https://wanderlog.com/place/details/820175/luna-rooftop",
+    "WebSearch: Luna Rooftop Rosewood San Miguel de Allende menu (rosewoodhotels.com snippets)"
+   ]
+  },
+  {
+   "id": "65",
+   "name": "Cava Sautto",
+   "kind": "To take home",
+   "apply": true,
+   "desc": "Wine and spirits shop with a good range of Mexican labels and regular tastings; also artisan cheeses and preserves to take home.",
+   "desc_es": "Tienda de vinos y destilados con buenas etiquetas mexicanas y catas frecuentes; también quesos de artesano y conservas para llevar.",
+   "confidence": "medium",
+   "check": "Website reported offline and no 2025–26 source found; may have closed or moved (Forbes México mentioned a planned store in the historic centre). Confirm before publishing.",
+   "facts": [
+    "Wine and spirits shop at Codo 36; first San Miguel store opened December 2018",
+    "Well-known premium Mexican labels; tastings and cocktail workshops",
+    "Also sourdough from local bakers, artisan cheeses, preserves"
+   ],
+   "sources": [
+    "WebSearch summary: https://discoversma.com/?p=66726",
+    "WebSearch summary: https://foodandpleasure.com/cava-sautto-el-lugarcito-para-los-amantes-del-vino",
+    "WebSearch summary: https://forbes.com.mx/?p=1034028"
+   ]
+  }
+ ]
+}

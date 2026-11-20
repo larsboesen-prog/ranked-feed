@@ -13,7 +13,7 @@ let chromium = null;
 try { ({ chromium } = require("playwright")); } catch { try { ({ chromium } = require("/opt/node-tools/node_modules/playwright")); } catch { /* skipped */ } }
 const skip = chromium ? false : "Playwright is not installed";
 const HERE = fileURLToPath(new URL(".", import.meta.url));
-const FILES = { "/page2/": HERE + "../page2/index.html", "/data.js": HERE + "fixtures/data.js", "/i18n.js": HERE + "fixtures/i18n.js",
+const FILES = { "/page2/": HERE + "../page2/index.html", "/data.js": HERE + "fixtures/data.js", "/places.js": HERE + "fixtures/data.js", "/i18n.js": HERE + "fixtures/i18n.js",
   "/icons.js": HERE + "fixtures/icons.js", "/photos/selected.json": HERE + "fixtures/photos/selected.json", "/photos/hours.json": HERE + "fixtures/photos/hours.json" };
 let server, port, browser;
 before(async () => {

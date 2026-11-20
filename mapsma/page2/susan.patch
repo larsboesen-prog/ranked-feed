@@ -1,0 +1,114 @@
+--- index.html
++++ index.html
+@@ -129,6 +129,30 @@
+ #about p a{color:inherit;text-decoration:underline}
+ #about button{width:100%;background:var(--ink);color:#fff;border-radius:12px;padding:12px;font-weight:700}
+ @media (min-width:900px){ #about{align-items:center} #about .box{border-radius:20px} }
++/* Susan York's latest reviews (20 Nov 2026) */
++#susan{max-width:1200px;margin:0 auto;padding:14px 16px 0}
++#susan:empty{display:none}
++.sy-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px 12px;flex-wrap:wrap}
++.sy-h b{font-family:Fraunces,serif;font-size:17px}
++.sy-h small{display:block;font-size:12px;color:var(--muted);margin-top:1px}
++.sy-all{border:1px solid var(--line);background:#fff;border-radius:99px;padding:5px 11px;font:inherit;font-size:12.5px;color:var(--ink);cursor:pointer;white-space:nowrap}
++.sy-row{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 0 4px;-webkit-overflow-scrolling:touch}
++.sy-row.all{display:grid;grid-template-columns:1fr;overflow:visible}
++@media (min-width:640px){.sy-row.all{grid-template-columns:repeat(2,1fr)}}
++@media (min-width:1000px){.sy-row.all{grid-template-columns:repeat(3,1fr)}}
++.sy-card{flex:0 0 min(270px,80vw);scroll-snap-align:start;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;min-width:0}
++.sy-card b{font-size:14.5px;line-height:1.2}
++.sy-card .sy-a{font-size:12px;color:var(--muted)}
++.sy-card .sy-n{font-size:13px;line-height:1.4}
++.sy-card .sy-s{font-size:12.5px}
++.sy-card .sy-s small{display:block;font-size:11px;color:var(--muted);font-weight:400}
++.sy-card .sy-m{font-size:12px;color:var(--muted);margin-top:auto;padding-top:4px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
++.sy-card .sy-m a{color:var(--accent)}
++.sy-card .sy-open{border:0;background:none;padding:0;font:inherit;font-size:12px;color:var(--accent);text-decoration:underline;cursor:pointer}
++.sy-nh{color:var(--muted)}
++.sy-none{font-size:13px;color:var(--muted);padding:8px 0 2px}
++.sy-src{font-size:11.5px;color:var(--muted);padding-top:2px}
++.sy-src a{color:var(--muted)}
+ </style>
+ </head>
+ <body>
+@@ -160,6 +184,7 @@
+ </header>
+ <div id="count"></div>
+ <div class="note" id="note"></div>
++<section id="susan" aria-label="Susan York"></section>
+ <div id="grid"></div>
+ <div class="sponsors"><div class="sp-h" data-t>Sites we recommend</div><div class="sp-row">
+   <a href="https://mexicanterroir.com" target="_blank" rel="noopener sponsored"><b>Mexican Terroir Tours</b><small>mexicanterroir.com</small></a>
+@@ -171,6 +196,7 @@
+ <script src="../places.js?v=20261118f"></script>  <!-- the places without the map layer (18 Nov 2026) -->
+ <script src="/i18n.js?v=20261118f"></script>
+ <script src="../icons.js"></script>
++<script src="/page5/susan.js?v=20261120"></script>  <!-- Susan York's picks and latest reviews (20 Nov 2026) -->
+ <script>
+ const {CATS,PLACES,INFO}=window;
+ const places=PLACES.filter(p=>!p.other).map(p=>({...p}));  // not the extra places (not our picks): /page5 only
+@@ -280,6 +306,56 @@
+ document.addEventListener("click",e=>{ if(!e.target.closest("#todaySlot")) whenMenu.classList.remove("show"); });
+ document.getElementById("q").addEventListener("input",e=>{query=fold(e.target.value.trim());render()});
+ 
++/* ---------- Susan York's latest reviews (20 Nov 2026): the ones open now or opening within two hours; all ten on request ---------- */
++// from /page5/susan.js (window.SUSAN.latest, newest first). A place on this site uses its own hours; one that is not uses the
++// hours her post gives (marked: worth confirming); with no hours it is shown only in "All 10".
++const SY=(window.SUSAN&&window.SUSAN.latest)||[];
++SY.forEach((r,i)=>{ r.key=r.id||(r.hours?"sy"+i:null); if(!r.id&&r.hours) HOURS[r.key]=r.hours; });
++const SYS={ "head":["Susan York’s latest reviews","Las reseñas más recientes de Susan York"],
++  "sub":["Open now or opening within two hours","Abiertos ahora o que abren en las próximas dos horas"],
++  "suball":["All ten, newest first","Las diez, de la más reciente a la más antigua"],
++  "all":["All 10","Las 10"], "soon":["Only open soon","Solo las que abren pronto"],
++  "none":["None of her ten latest is open now or opens in the next two hours.","Ninguna de sus diez más recientes está abierta ahora ni abre en las próximas dos horas."],
++  "opens":["Opens at {t} · in {m}","Abre a las {t} · en {m}"], "nohours":["Hours not on our site","Horario no disponible en el sitio"],
++  "fromPost":["Hours from her post, worth confirming","Horario según su reseña; conviene confirmarlo"],
++  "review":["Her review ↗","Su reseña ↗"], "card":["See the place","Ver el lugar"],
++  "src":["From her blog","De su blog"] };
++const SYT=(k,v)=>{ let s=SYS[k][window.LANG==="es"?1:0]; for(const x in v||{}) s=s.replace("{"+x+"}",v[x]); return s; };
++const hm=m=>{ m%=1440; return Math.floor(m/60)+":"+String(m%60).padStart(2,"0"); };
++const mins=m=>m<60?m+" min":Math.floor(m/60)+" h"+(m%60?" "+(m%60)+" min":"");
++function opensIn(key){ // 0: open now; minutes until it opens, if within two hours; otherwise null
++  if(!key||STATUS[key]) return null; const h=HOURS[key]; if(!h) return null; const n=nowMX();
++  const day=d=>{ const t=h[String((d+7)%7)]; return typeof t==="string"?ranges(t):[]; };
++  for(const [,e] of day(n.d-1)) if(e>1440&&n.m<e-1440) return 0;
++  for(const [s0,e] of day(n.d)) if(n.m>=s0&&n.m<e) return 0;
++  for(const [s0] of day(n.d)) if(s0>n.m&&s0-n.m<=120) return s0-n.m;
++  for(const [s0] of day(n.d+1)) if(s0+1440-n.m<=120) return s0+1440-n.m;
++  return null;
++}
++const syMaps=r=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(r.name+", "+(r.area||INFO[r.id]?.address||"")+", San Miguel de Allende, Guanajuato");
++function syCard(r,inn){
++  const st=r.key&&HOURS[r.key]?status(r.key):null;
++  const s=inn>0?`<span class="st-soon">${escH(SYT("opens",{t:hm(nowMX().m+inn),m:mins(inn)}))}</span>`
++    :st?`<span class="${st.cls}">${escH(st.text)}</span>`:`<span class="sy-nh">${escH(SYT("nohours"))}</span>`;
++  const onPage=r.id&&byId[r.id]&&STATUS[r.id]!=="CLOSED_PERMANENTLY";
++  return `<div class="sy-card"><b>${escH(r.name)}</b>${r.area?`<span class="sy-a">${escH(r.area)}</span>`:""}
++    <div class="sy-n">${escH(window.LANG==="es"&&r.note_es||r.note)}</div>
++    <div class="sy-s">${s}${r.hours_from&&st?`<small>${escH(SYT("fromPost"))}</small>`:""}</div>
++    <div class="sy-m"><span>${escH(shortDate(r.date))}</span><a href="${escH(r.url)}" target="_blank" rel="noopener">${escH(SYT("review"))}</a>${onPage?`<button class="sy-open" data-id="${escH(r.id)}">${escH(SYT("card"))}</button>`:`<a href="${escH(syMaps(r))}" target="_blank" rel="noopener">${escH(T("Directions ↗"))}</a>`}</div></div>`;
++}
++let syAll=false;
++function renderSusan(){
++  const el=document.getElementById("susan"); if(!el) return;
++  if(!SY.length||query){ el.innerHTML=""; return; }
++  const rows=SY.map((r,i)=>({r,i,inn:opensIn(r.key)}));
++  const show=syAll?rows:rows.filter(x=>x.inn!==null).sort((a,b)=>a.inn-b.inn||a.i-b.i);
++  el.innerHTML=`<div class="sy-h"><div><b>${escH(SYT("head"))}</b><small>${escH(SYT(syAll?"suball":"sub"))}</small></div><button class="sy-all">${escH(SYT(syAll?"soon":"all"))}</button></div>`+
++    (show.length?`<div class="sy-row${syAll?" all":""}">${show.map(x=>syCard(x.r,x.inn)).join("")}</div>`:`<div class="sy-none">${escH(SYT("none"))}</div>`)+
++    `<div class="sy-src">${escH(SYT("src"))}: <a href="${escH(window.SUSAN.blog||"http://www.cupcakesandcrablegs.com")}" target="_blank" rel="noopener sponsored">cupcakesandcrablegs.com</a></div>`;
++  el.querySelector(".sy-all").onclick=()=>{ syAll=!syAll; renderSusan(); };
++  el.querySelectorAll(".sy-open").forEach(b=>b.onclick=()=>open(b.dataset.id));
++}
++
+ /* ---------- the grid: one photo card per place, grouped like the map's list; places with photos first ---------- */
+ function cardHTML(p,k){
+   const c=CATS[p.cat], ph=PHOTOS[p.id], th=todayHours(p.id), st=status(p.id);
+@@ -315,6 +391,7 @@
+   }
+   const g=document.getElementById("grid"); g.innerHTML=h||`<div class="empty">${T("No matches.")}</div>`;
+   g.querySelectorAll(".pc").forEach(b=>b.onclick=()=>open(b.dataset.id));
++  renderSusan();
+ }
+ 
+ /* ---------- detail card: photos to swipe, full info, a way to the map ---------- */
