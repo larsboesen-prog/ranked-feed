@@ -11,7 +11,7 @@ and report. Static files only: no build, no server restart, no configuration cha
 |---|---|
 | `page5/index.html`, `page5/ask.js`, `page5/words.js`, `page5/rules.js`, `page5/susan.js` | replaced (5 files) |
 | `descs.js` (web root, next to `places.js`) | new |
-| `tiny-speech/` (web root) | new folder, 77 files, about 18 MB: the shared core, both models, San Miguel's word list, licences |
+| `tiny-speech/` (web root) | new folder, 76 files, about 18 MB: the shared core, both models, San Miguel's word list, licences |
 
 Nothing else changes. Leave everything else alone: `places.js`, `photos/`, `page2/` and the other pages, and in `page5/` the
 files not listed (`read.js`, `listen.js`, `spanish.js`, `facts.js`, `pcm-worklet.js`, the old `asr-worker.js`, `tinyvoca-worker.js`,
@@ -34,7 +34,7 @@ cd /tmp/mapsma-src && sh mapsma/deploy/build.sh /tmp/mapsma-deploy/      # the t
 
 This gives `/tmp/mapsma-deploy/` with `mapsma.com/` (the files, laid out as on the site), `SHA256SUMS` (every one of them),
 `backup/page5/` (the live files they replace) and `DEPLOY.txt` (the owner's notes). Needs `git`, `tar`, `sha256sum` (and `zip` only
-for a zip). If you build on another machine, copy the folder to the server (`rsync -a /tmp/mapsma-deploy/ server:/tmp/mapsma-deploy/`).
+for a zip). If you build on another machine, copy the folder to the server (`scp -r /tmp/mapsma-deploy server:/tmp/`, or `rsync -a` if both have it).
 
 Check the build gave the reviewed files:
 
@@ -77,11 +77,15 @@ If any differs, someone changed /page5 after 18 Nov: **stop**, do not copy, and 
 TS=$(date -u +%Y%m%dT%H%M%SZ)
 sudo tar -czf "$HOME/mapsma-before-page5-$TS.tgz" -C "$WEBROOT" page5 $(cd "$WEBROOT" && ls -d descs.js tiny-speech 2>/dev/null)
 OWNER=$(stat -c %U:%G "$WEBROOT/page5/index.html")
-sudo rsync -a --chown="$OWNER" --chmod=D755,F644 /tmp/mapsma-deploy/mapsma.com/ "$WEBROOT/"
-cd "$WEBROOT" && sha256sum -c --quiet /tmp/mapsma-deploy/SHA256SUMS && echo "all 82 files match"
+sudo cp -R /tmp/mapsma-deploy/mapsma.com/. "$WEBROOT/"        # adds and replaces; deletes nothing
+cd "$WEBROOT"
+sudo chown -R "$OWNER" descs.js tiny-speech page5/index.html page5/ask.js page5/words.js page5/rules.js page5/susan.js
+sudo chmod -R u=rwX,go=rX descs.js tiny-speech               # the replaced page5 files keep their own modes
+sha256sum -c --quiet /tmp/mapsma-deploy/SHA256SUMS && echo "all 82 files match"
 ```
 
-(Without `sudo`, or with an rsync older than 3.1, copy with `cp -a` and set the owner and modes to match the existing files.)
+(Drop `sudo` where your user owns the web root. This was dry-run on a copy of the live /page5: all 82 files matched, and the way
+back in step 5 restored the 18 Nov page.)
 
 ## 4. Check over the web
 
