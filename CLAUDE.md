@@ -50,8 +50,12 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   `training/voice/M1/` (the design run ended "ERROR" at its last check, so Kaggle refused its output as input). `teach` v6 done
   (21 Nov 03:10–09:00 UTC, 2 T4s): teacher 6,941 of 7,576 accepted (~7 h), originals 1,432, annotate 7,748 train clips (MX1
   6,385), tsw.tar 4.9 GB. Fixes on the way: Kaggle pip refuses editable installs (deps only + PYTHONPATH), CUDA 12 cuBLAS/cuDNN for
-  faster-whisper (nvlibs), Whisper OOM beside Qwen (empty cache + retry), always pack the work. `learn` v1 started 09:05 UTC 21 Nov
-  (input tiny-voice-teach) → result.tar.gz → `node tools/voice-gguf.mjs pack` → gates → /page5 Spanish via tiny-voca.
+  faster-whisper (nvlibs), Whisper OOM beside Qwen (empty cache + retry), always pack the work. **`learn` v1 done (21 Nov
+  09:05–20:20 UTC): step 27,611/30,000; gates Spanish 96.7%, English 94.1% (pass ≥90%); the packed GGUF (7,998,304 bytes, F2/M2/MX1,
+  `vendor/tiny-voca/tiny-voca-bilingual.gguf`, gitignored; from Kaggle output result.tar.gz via `node tools/voice-gguf.mjs pack
+  training/result/dump`) in the browser engine: Spanish 96.5%, English 96.2%, 4× real time.** `training/voice/README.md`. Waiting:
+  the owner's ear (https://claude.ai/artifact/Ep52gPWQDZjHm2DMqJKBSG, db `verdict/voice`), then /page5 reads Spanish with tiny-voca
+  MX1 (plain-JS worker, D7 lifted), speed on the iPhone.
   Phone's-own-voice check page (owner's phone diagnostics): https://claude.ai/artifact/C8AxpVGeaW3ARPHaR7Dssr (db `checks`).
 - **Bilingual voice (tiny-voca, ~8 MB, one voice for EN + ES)**: recording kit ready (`tiny-speech/training/record/`,
   consent form, 500 sentences); GPU pipeline ready and dry-run on CPU (`tiny-speech/training/gpu/`, ~7–9 GPU h, $5–12, or
