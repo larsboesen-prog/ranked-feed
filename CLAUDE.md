@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 113 tiny-speech tests + 13 mapsma tests passing)
+## Done (all on the branch, 116 tiny-speech tests + 13 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -38,6 +38,13 @@ unless the owner asks. Commits end with the two attribution lines the session gi
 - MapSMA /page5 phone's own voice (20 Nov; owner heard nothing unless tiny-voca): media sound session + silence on the player while
   it speaks (iPhone silent switch), no speak right after cancel, waits for voices, one sentence at a time, 4 s watchdog with the
   reason (EN page: tiny-voca reads instead). `mapsma/test/page5-voice.test.mjs` (stand-in speech). Needs the owner's phone to confirm.
+
+- Sharing (21 Nov, owner: new repo, ears model CC BY-SA 4.0 with credits, a demo page): `tiny-speech/README.md` (use case,
+  architecture, accuracy with the synthetic-voice caveat, limits, how to use, credits), `models/` (cards: ears.md, voice.md),
+  `LICENSE` (Apache-2.0, code), `NOTICE`, `demo/` (GitHub Pages: mic → tiny ears → reader → MX1; `test/demo.test.mjs` with a
+  fake microphone), `index.html` → demo/, `.nojekyll`. The ears model `engines/ears/ears-int8-2026-11-20.onnx` is now in git
+  (gitignore exception). Published as its own repo `larsboesen-prog/tiny-speech` with `git subtree split --prefix=tiny-speech`;
+  Pages: https://larsboesen-prog.github.io/tiny-speech/demo/ once the owner turns Pages on (Settings → Pages → main, / root).
 
 ## Waiting on the owner
 
