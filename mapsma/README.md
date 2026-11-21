@@ -140,3 +140,21 @@ are no longer used by it.
 and reads Spanish as MX1 (two sentences of real audio), the English page reads English with the same voice. The check on the
 owner's iPhone after deploying: Voice settings › Test the voice, in Spanish and English; how long the first answer takes the first
 time (the 8 MB file) and after.
+
+## /page5: MapSMA's ears, and the upload (21 Nov 2026)
+
+The owner: "Deploy to page 5". /page5 now **hears** questions with MapSMA's ears too (tiny-speech's tiny ears: 8.9 MB, San
+Miguel's word list, one model for both languages, no names hint), through the shared core's `asr-worker.js` with model
+`tiny-ears`. Voice settings gain "Hear questions with": MapSMA's ears (default) or Whisper tiny (as before: tiny.en in English,
+tiny told Spanish in Spanish, with the names hint, in the same cache `mapsma-voice-libs-1`, so nothing is downloaded twice). If
+the ears cannot load, the page asks Whisper by itself. A credit line in Voice settings names the ears' licence (CC BY-SA 4.0) and
+datasets, and tiny-voca. First visit about 30 MB. `test/page5-ears.test.mjs`: a recorded Spanish question through a fake
+microphone is heard word for word ("hay música en vivo en raindog cantina"), the Whisper choice, the fallback.
+
+**The upload**: `sh mapsma/deploy/build.sh out.zip` makes a zip from the committed files: `mapsma.com/` (copy its contents to the
+web root: `page5/` five files, `descs.js`, `tiny-speech/` about 18 MB), `backup/page5/` (the live files it replaces) and
+`DEPLOY.txt` (steps and phone checks). Checked before handing over: the live /page5 files are byte for byte the copies these
+changes start from (served since 18 Nov), and the zip's files served over the live site's own data in Chromium heard a spoken
+Spanish question word for word and read the answers in Spanish and English with MX1. Note: Mama Mía, Raindog Cantina, Johnny's
+Piano Bar and Casa Europa are in tiny-speech's pack (the ears know their names) but not in the site's places.js, so /page5 does
+not answer about them by name until they are added to the site's data.
