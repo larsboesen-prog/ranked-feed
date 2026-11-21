@@ -21,7 +21,7 @@ const FILES = { "/page5/": P5 + "index.html", "/page5/ask.js": P5 + "ask.js", "/
   "/places.js": HERE + "fixtures/data.js", "/i18n.js": HERE + "fixtures/i18n.js", "/icons.js": HERE + "fixtures/icons.js",
   "/photos/selected.json": HERE + "fixtures/photos/selected.json", "/photos/hours.json": HERE + "fixtures/photos/hours.json" };
 const INLINE = { "/page5/facts.js": "window.FACTS={};", "/descs.js": "window.DESCS={};",
-  "/page5/tinyvoca-worker.js": "onmessage = () => {};  // a stand-in tiny-voca that is still loading: the page's message stays" };
+  "/tiny-speech/browser/tinyvoca-js-worker.js": "onmessage = () => {};  // a stand-in MapSMA voice that is still loading: the page's message stays" };
 let server, port, browser;
 before(async () => {
   if (skip) return;
@@ -112,15 +112,15 @@ test("Spanish on an iPhone: the Mexican voice, a media sound session and silence
   assert.deepEqual(errors, []);
 });
 
-test("a voice that never starts: the page says why, and on the English page tiny-voca reads instead", { skip, timeout: 20000 }, async () => {
+test("a voice that never starts: the page says why, and MapSMA's own voice reads instead, in English and Spanish", { skip, timeout: 20000 }, async () => {
   let { page, errors } = await open({ silent: true, iphone: true });
   await page.waitForFunction(() => /own voice did not start/.test(document.body.innerText), null, { timeout: 8000 });
   const text = await page.evaluate(() => document.body.innerText);
-  assert.match(text, /tiny-voca reads instead/);
+  assert.match(text, /MapSMA's voice reads instead/);
   assert.match(text, /side switch from silent to ring/);
   assert.deepEqual(errors, []);
   ({ page, errors } = await open({ lang: "es", silent: true }));
-  await page.waitForFunction(() => /La voz de este teléfono no arrancó/.test(document.body.innerText), null, { timeout: 8000 });
+  await page.waitForFunction(() => /La voz de este teléfono no arrancó; lee la voz de MapSMA/.test(document.body.innerText), null, { timeout: 8000 });
   assert.match(await page.evaluate(() => document.body.innerText), /voz instalada/);
   assert.deepEqual(errors, []);
 });

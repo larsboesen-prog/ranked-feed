@@ -319,11 +319,11 @@ html.quiet .chat{display:block;max-width:92%;margin-top:8px;background:var(--pap
     <h2 id="setTitle" data-es="Ajustes de voz">Voice settings</h2>
     <label for="voice" data-es="Leer las respuestas en voz alta con">Read answers aloud with</label>
     <select id="voice">
-      <option value="tinyvoca">tiny-voca voice (about 45 MB, once)</option>
+      <option value="tinyvoca" data-es="La voz de MapSMA (unos 8 MB, una sola vez)">MapSMA's voice (about 8 MB, once)</option>
       <option value="system" data-es="La voz de este teléfono (sin descarga)">This phone's own voice (no download)</option>
       <option value="off" data-es="Apagada: solo texto y tarjetas">Off: text and cards only</option>
     </select>
-    <label class="check"><input type="checkbox" id="preload"><span data-es="Preparar el reconocimiento de voz al abrir la página (unos 40 MB la primera vez; luego se guarda en este teléfono)">Get speech recognition and the voice ready when the page opens (about 85 MB the first time, then kept on this phone)</span></label>
+    <label class="check"><input type="checkbox" id="preload"><span data-es="Preparar el reconocimiento de voz y la voz al abrir la página (unos 50 MB la primera vez; luego se guardan en este teléfono)">Get speech recognition and the voice ready when the page opens (about 50 MB the first time, then kept on this phone)</span></label>
     <p class="small" id="prepState"></p>
     <p class="small" data-es="Tu pregunta se convierte en texto en este teléfono: nada de lo que dices sale de él. Cuando preguntas qué hay cerca, tu ubicación también se queda en este teléfono. Las respuestas vienen de los lugares y horarios de este sitio.">Your question is turned into text on this phone: nothing you say leaves it. When you ask what's near you, your location stays on this phone too. The answers come from the places and opening hours on this site.</p>
     <div class="small" id="micTip"></div>
@@ -1032,7 +1032,7 @@ function spanishVoice(all) {
 // - Safari and Chrome can drop a sentence asked for right after cancel(): cancel only what is speaking, then wait a moment.
 // - The list of voices can arrive a moment after the page opens (Chrome, Android): wait for it (up to 1.5 s).
 // - A long queue of sentences can stall (Chrome stops after about 15 s; iOS drops queued ones): one sentence at a time.
-// - If it still does not start within 4 s, say so and why it may be, and on the English page let tiny-voca read instead.
+// - If it still does not start within 4 s, say so and why it may be, and let MapSMA's own voice (tiny-voca) read instead.
 function audioSession(type) { try { if (navigator.audioSession && navigator.audioSession.type !== type) navigator.audioSession.type = type; } catch {} }
 function holdPlayback(on) {  // iPhone: silence on the media player keeps the sound session that the silent switch leaves alone
   if (!IOS || on === holding) return;
@@ -1091,10 +1091,10 @@ async function readSystem(list, from, gen, standIn = false) {
       ? tx(' On iPhone: switch the side switch from silent to ring, and check Settings › Accessibility › Spoken Content › Voices.',
         ' En iPhone: pasa el interruptor lateral de silencio a timbre, y revisa Ajustes › Accesibilidad › Contenido leído › Voces.')
       : tx(' Check that this device has a voice installed and its sound is on.', ' Revisa que este dispositivo tenga una voz instalada y el sonido activado.');
-    if (!ES && !standIn) {
+    if (!standIn) {  // MapSMA's voice reads both languages now (21 Nov 2026)
       try { SYNTH.cancel(); } catch {}
       holdPlayback(false);
-      status(tx("This phone's own voice did not start; tiny-voca reads instead.", '') + why);
+      status(tx("This phone's own voice did not start; MapSMA's voice reads instead.", 'La voz de este teléfono no arrancó; lee la voz de MapSMA.') + why);
       reading.via = 'player';
       readTiny(list, from, gen);
     } else status(tx("This phone's own voice did not start.", 'La voz de este teléfono no arrancó.') + why);
@@ -1105,7 +1105,9 @@ async function readTiny(list, from, gen) {
   try {
     await tinyLoad();
     if (gen !== voiceGen || id !== tinyId) return;
-    tinyWorker.postMessage({ type: 'speak', id, sentences: list.slice(from), base: from, voice: tinyMale, speed: 1.0, pitch: Number(store.get('pitch', '-0.3')) || 0 });
+    // Spanish sentences in Spanish sounds (lang), English in English; MX1 at its own pitch (M2 was lowered to sound deeper)
+    tinyWorker.postMessage({ type: 'speak', id, sentences: list.slice(from), base: from, voice: tinyMale, speed: 1.0, lang: ES ? 'es' : 'en',
+      pitch: Number(store.get('pitch', '0')) || 0 });
   } catch (err) {
     if (gen !== voiceGen) return;
     status(`The voice could not start on this phone (${shortErr(err)}). Its own voice reads instead.`);
@@ -1114,19 +1116,24 @@ async function readTiny(list, from, gen) {
   }
 }
 let tinyWorker = null, tinyReady = null, tinyLoaded = false, tinyMale = 1, tinyId = 0, tinyFailed = '';
+const VOICE_FILE = '/tiny-speech/vendor/tiny-voca/tiny-voca-mx1-2026-11-21.gguf', VOICE_SHA = '921d4f8406fd7f988541c5a5487e5b8712740440a93f2f68b836baec4e1a07c6';
+const VOICE_WORKER = `/tiny-speech/browser/tinyvoca-js-worker.js?v=0.4.0&cache=mapsma-tinyvoca-js-&model=${encodeURIComponent(VOICE_FILE)}&sha256=${VOICE_SHA}`;
 function warmVoice() { if (!quiet && $('voice').value === 'tinyvoca') tinyLoad().catch(() => {}); }  // Quiet needs no voice: nothing to download
 function tinyLoad() {
   if (tinyReady) return tinyReady;
   if (tinyFailed) return Promise.reject(new Error(tinyFailed));
   const failed = (why) => { tinyFailed = why || 'failed'; tinyWorker?.terminate(); tinyWorker = null; tinyReady = null; prep.voice = { error: tinyFailed }; render(); return new Error(tinyFailed); };
-  tinyWorker = new Worker('tinyvoca-worker.js?v=20261118f');
+  // MapSMA's own voice (owner, 21 Nov 2026: "Use this voice on mapsma"): the bilingual tiny-voca trained on a warm local guide from
+  // Guanajuato (MX1), one 8 MB file for Spanish and English answers, in the shared core's plain-JS worker (no onnxruntime, no Pyodide;
+  // the file is checked against its SHA-256 and kept on the phone). tiny-speech/training/voice/README.md.
+  tinyWorker = new Worker(VOICE_WORKER, { type: 'module' });
   prep.voice = { frac: 0 }; render();
   tinyReady = new Promise((resolve, reject) => {
     tinyWorker.onmessage = ({ data }) => {
       if (data.type === 'status') {
         if (!tinyLoaded) { const p = data.progress || 0, t = String(data.text || ''); const f = /Starting/.test(t) ? 0.95 : /voice/.test(t) ? 0.35 + 0.6 * p : /dictionary/.test(t) ? 0.1 + 0.25 * p : 0.05; prep.voice = { frac: Math.max(prep.voice?.frac || 0, f) }; render(); }
       } else if (data.type === 'ready') {
-        tinyLoaded = true; tinyMale = Math.max(0, (data.voices || []).indexOf('M2')); keepStorage(); prep.voice = 'ready'; prepFinished(); resolve();
+        tinyLoaded = true; const v = data.voices || []; tinyMale = v.includes('MX1') ? v.indexOf('MX1') : Math.max(0, v.indexOf('M2')); keepStorage(); prep.voice = 'ready'; prepFinished(); resolve();
       } else if (data.type === 'sentence') { if (data.id === tinyId) enqueueVoice(wavBlob(data.audio, data.sampleRate), voiceGen, data.index); }
       else if (data.type === 'done') { if (data.id === tinyId && reading && reading.gen === voiceGen) { reading.genDone = true; if (!voicePlaying && !voiceQueue.length) finishReading(voiceGen); } }
       else if (data.type === 'error') { if (!tinyLoaded) reject(failed(data.message)); else if (data.id === tinyId) status('Voice: ' + data.message); }
@@ -1140,9 +1147,9 @@ function tinyLoad() {
 }
 
 // ---------- settings ----------
-// In Spanish the phone's own voice reads (tiny-voca speaks English only), and the choice is kept apart from the English page's.
-const VOICE_KEY = ES ? 'voice-es' : 'voice', VOICE_DEFAULT = ES ? 'system' : 'tinyvoca';
-if (ES) $('voice').querySelector('option[value="tinyvoca"]')?.remove();
+// MapSMA's voice reads both languages (21 Nov 2026; before, Spanish was the phone's own voice: tiny-voca spoke English only). The
+// choice is still kept apart from the English page's, so a reader who chose the phone's voice in Spanish keeps it.
+const VOICE_KEY = ES ? 'voice-es' : 'voice', VOICE_DEFAULT = 'tinyvoca';
 $('voice').value = store.get(VOICE_KEY, VOICE_DEFAULT); if (!$('voice').value) $('voice').value = VOICE_DEFAULT;
 $('voice').addEventListener('change', () => { store.set(VOICE_KEY, $('voice').value); if ($('voice').value === 'tinyvoca' && tinyFailed) { tinyFailed = ''; prep.voice = null; } if ($('voice').value === 'tinyvoca') warmVoice(); render(); });
 const saveData = !!(navigator.connection && navigator.connection.saveData);

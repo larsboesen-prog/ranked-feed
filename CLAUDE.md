@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 113 tiny-speech tests + 11 mapsma tests passing)
+## Done (all on the branch, 113 tiny-speech tests + 13 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -54,8 +54,10 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   09:05–20:20 UTC): step 27,611/30,000; gates Spanish 96.7%, English 94.1% (pass ≥90%); the packed GGUF (7,998,304 bytes, F2/M2/MX1,
   `vendor/tiny-voca/tiny-voca-bilingual.gguf`, gitignored; from Kaggle output result.tar.gz via `node tools/voice-gguf.mjs pack
   training/result/dump`) in the browser engine: Spanish 96.5%, English 96.2%, 4× real time.** `training/voice/README.md`. Waiting:
-  the owner's ear (https://claude.ai/artifact/Ep52gPWQDZjHm2DMqJKBSG, db `verdict/voice`), then /page5 reads Spanish with tiny-voca
-  MX1 (plain-JS worker, D7 lifted), speed on the iPhone.
+  the owner's ear (https://claude.ai/artifact/Ep52gPWQDZjHm2DMqJKBSG): **approved 21 Nov ("Use this voice on mapsma")**. /page5 now
+  reads both languages with it (D11; `mapsma/page5/index.html`, plain-JS worker under /tiny-speech/, voice file
+  `vendor/tiny-voca/tiny-voca-mx1-2026-11-21.gguf` committed, test `mapsma/test/page5-mapsma-voice.test.mjs`). Not deployed;
+  then the iPhone speed check.
   Phone's-own-voice check page (owner's phone diagnostics): https://claude.ai/artifact/C8AxpVGeaW3ARPHaR7Dssr (db `checks`).
 - **Bilingual voice (tiny-voca, ~8 MB, one voice for EN + ES)**: recording kit ready (`tiny-speech/training/record/`,
   consent form, 500 sentences); GPU pipeline ready and dry-run on CPU (`tiny-speech/training/gpu/`, ~7–9 GPU h, $5–12, or
@@ -119,7 +121,8 @@ and real speakers decide the outcome.
 
 D1 browser first, app later · D2 language per question with manual override · D3 one shared core · D4 build around tiny-voca ·
 D5 music = live music venues · D6 cities are data · D7 Spanish answers in the phone's Mexican voice until the bilingual voice
-passes · D8 music venues from Google Maps' top five or the owner's picks · D9 up to $15 OpenRouter · D10 mark our picks "★ Our pick", no label on the extra places.
+passes · D8 music venues from Google Maps' top five or the owner's picks · D9 up to $15 OpenRouter · D10 mark our picks "★ Our pick", no label on the extra places ·
+D11 (21 Nov, replaces D7) MapSMA's own voice, MX1 (bilingual tiny-voca, the warm local guide), reads Spanish and English; the phone's voice stays a choice.
 On hold: next city; fixing /page5's known faults ("wait"); the Whisper fine-tune (the 8–10 MB ears are on).
 
 ## Working in this environment (cloud container, reclaimed when idle)

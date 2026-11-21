@@ -117,3 +117,26 @@ kept quiet by things the player is not. `page5/index.html` now handles each know
 starts, an iPhone). A headless browser has no real voice, so the last check is the owner's phone: Voice settings › This phone's
 own voice › Test the voice, in English and in Spanish, with the side switch on silent and on ring. Deploy: `page5/index.html`
 (as above, it also carries the "★ Our pick" change).
+
+## /page5: MapSMA's own voice, in Spanish and English (21 Nov 2026)
+
+The owner: "Use this voice on mapsma" (the trained bilingual tiny-voca, the warm local guide from Guanajuato; listening page
+https://claude.ai/artifact/Ep52gPWQDZjHm2DMqJKBSG). /page5 now reads its answers with it, **Spanish answers too** (until now the
+phone's own voice read Spanish, decision D7): one 8 MB file instead of the ONNX voice's 45 MB, through the shared core's plain-JS
+worker (no onnxruntime, no Pyodide). The phone's own voice stays a choice in Voice settings; if it does not start, MapSMA's voice
+reads instead, in either language.
+
+What changed in `page5/index.html`: the voice worker is `/tiny-speech/browser/tinyvoca-js-worker.js` with the voice file
+`/tiny-speech/vendor/tiny-voca/tiny-voca-mx1-2026-11-21.gguf` (checked against its SHA-256, kept on the phone); each answer is
+read as MX1 with `lang` "es" on the Spanish page and "en" on the English page; MapSMA's voice is the default in both languages; the
+labels say "MapSMA's voice (about 8 MB, once)" and "about 50 MB the first time" for speech recognition and the voice together.
+
+**To deploy**, besides the files above: the shared core under `/tiny-speech/` (the folders `browser/`, `engines/`, `lang/`,
+`core/`, `vendor/` of `tiny-speech/`, as `tiny-speech/browser/README.md` step 1 says), which now includes the voice file
+(`vendor/tiny-voca/tiny-voca-mx1-2026-11-21.gguf`, 8 MB, in git). /page5's own `tinyvoca-worker.js` and `tinyvoca/dizione.zip`
+are no longer used by it.
+
+`test/page5-mapsma-voice.test.mjs`: the real page, worker and voice file in Chromium: the Spanish page defaults to MapSMA's voice
+and reads Spanish as MX1 (two sentences of real audio), the English page reads English with the same voice. The check on the
+owner's iPhone after deploying: Voice settings › Test the voice, in Spanish and English; how long the first answer takes the first
+time (the 8 MB file) and after.
