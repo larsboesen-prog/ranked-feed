@@ -369,6 +369,7 @@ html.quiet .chat{display:block;max-width:92%;margin-top:8px;background:var(--pap
 <script src="susan.js?v=20261118f"></script>
 <script src="facts.js?v=20261118f"></script>
 <script src="/descs.js?v=20261120"></script>  <!-- descriptions in English and Spanish for places without one (20 Nov 2026) -->
+<script src="venues.js?v=20261122"></script>  <!-- the live music venues, until they are in the site's data (21 Nov 2026) -->
 <script type="module">
 // ?v=: each update gets new file addresses, so a phone never mixes a new page with old cached files (a cached asr-worker.js
 // without the name hint was found in testing, 17 Nov 2026). Change V and every ?v= below together.
@@ -390,6 +391,22 @@ const escH = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '
 const shortErr = (e) => { const s = String(e?.message ?? e ?? '').replace(/^Error:\s*/, '').trim() || tx('unknown error', 'error desconocido'); return s.length > 100 ? s.slice(0, 97) + '…' : s; };
 
 // ---------- the places: the same files /page2 reads (data.js, Google's hours, the chosen photos) ----------
+// The live music venues (owner, 19 Nov 2026: "add venues"): Mama Mía, Raindog Cantina, Johnny's Piano Bar, Casa Europa, from venues.js
+// as extra places, each only while the site's data has no place of that name (once rebuild.py carries them, venues.js can go).
+if (window.VENUES && Array.isArray(window.PLACES)) {
+  const V = window.VENUES, names = new Set(window.PLACES.map((p) => String(p.name).toLowerCase())), ids = new Set(window.PLACES.map((p) => p.id));
+  window.INFO ||= {}; window.HOURS ||= {}; window.FACTS ||= {};
+  for (const v of V.places || []) {
+    if (names.has(String(v.name).toLowerCase())) continue;
+    const id = ids.has(v.id) ? 'V' + v.id : v.id;  // the site's own extra places may take these ids one day
+    const cats = window.CATS || {}, cat = cats[v.cat] ? v.cat : cats.share ? 'share' : Object.keys(cats)[0];  // a kind the page knows
+    if (!cat) continue;
+    window.PLACES.push({ ...v, id, cat });
+    if (V.info?.[v.id]) window.INFO[id] = V.info[v.id];
+    if (V.hours?.[v.id] && !window.HOURS[id]) window.HOURS[id] = V.hours[v.id];
+    if (V.facts?.[v.id] && !window.FACTS[id]) window.FACTS[id] = V.facts[v.id];
+  }
+}
 const { CATS, PLACES, INFO } = window;
 const places = PLACES.map((p) => ({ ...p }));
 const isS = (p) => p.cat === 'sights';

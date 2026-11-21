@@ -158,3 +158,14 @@ changes start from (served since 18 Nov), and the zip's files served over the li
 Spanish question word for word and read the answers in Spanish and English with MX1. Note: Mama Mía, Raindog Cantina, Johnny's
 Piano Bar and Casa Europa are in tiny-speech's pack (the ears know their names) but not in the site's places.js, so /page5 does
 not answer about them by name until they are added to the site's data.
+
+## Deployed (21 Nov 2026, 22:45 UTC), and update 1: the live music venues
+
+A Claude session with server access deployed /page5 from `deploy/FOR-CLAUDE.md` (the live `page5/index.html` is `b0f2bd25…`). The
+owner then asked "Where is Johnny's piano bar" and got four other bars: the four music venues (Mama Mía, Raindog Cantina, Johnny's
+Piano Bar, Casa Europa) are in tiny-speech's pack, not in the site's `places.js`. `page5/venues.js` (made by
+`listings/build-venues.mjs` from the pack) adds them to /page5 as extra places (no "★ Our pick"), each only while the site's data has
+no place of that name, with their address, what they are and Johnny's hours; a kind the page does not know falls back to "Bars &
+small plates". `test/page5-venues.test.mjs`: Johnny's answered with its hours and card, Raindog and Mama Mía (ES) by name, no
+duplicate once the site's data carries one. To put on the server: `deploy/UPDATE-1-VENUES.md` (two files). Once the site's own data
+(data/*.json, rebuild.py) has the venues, `venues.js` can go.

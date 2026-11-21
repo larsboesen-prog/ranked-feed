@@ -1,5 +1,7 @@
 # Deploy MapSMA /page5 to mapsma.com: instructions for a Claude session with server access
 
+**Done 21 Nov 2026 22:45 UTC** (the live /page5 matches `b0f2bd25…`). Later changes come as short updates: `UPDATE-1-VENUES.md`.
+
 You are deploying an update the site's owner has approved: /page5 ("Ask by voice") switches to MapSMA's own small models: the
 **tiny ears** (speech to text, 8.9 MB) and the **MX1 voice** (text to speech, 8 MB), English and Mexican Spanish. The work was
 built and tested in another session that cannot reach the server. Your job is only to put the files on the server, check them

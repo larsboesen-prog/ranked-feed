@@ -11,7 +11,7 @@ STAGE=$(mktemp -d)
 SITE="$STAGE/mapsma.com"
 mkdir -p "$SITE/tiny-speech/vendor/tiny-voca" "$SITE/tiny-speech/packs" "$STAGE/backup"
 cd "$ROOT"
-git archive HEAD:mapsma page5/index.html page5/ask.js page5/words.js page5/rules.js page5/susan.js descs.js | tar -x -C "$SITE"
+git archive HEAD:mapsma page5/index.html page5/ask.js page5/words.js page5/rules.js page5/susan.js page5/venues.js descs.js | tar -x -C "$SITE"
 git archive HEAD:tiny-speech browser engines lang core domains apps models LICENSE NOTICE | tar -x -C "$SITE/tiny-speech"
 git archive HEAD:tiny-speech/vendor/tiny-voca js LICENSE README.md tiny-voca-mx1-2026-11-21.gguf | tar -x -C "$SITE/tiny-speech/vendor/tiny-voca"
 git archive HEAD:tiny-speech/packs/dist | tar -x -C "$SITE/tiny-speech/packs"
