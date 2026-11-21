@@ -46,8 +46,10 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   architecture, accuracy with the synthetic-voice caveat, limits, how to use, credits), `models/` (cards: ears.md, voice.md),
   `LICENSE` (Apache-2.0, code), `NOTICE`, `demo/` (GitHub Pages: mic → tiny ears → reader → MX1; `test/demo.test.mjs` with a
   fake microphone), `index.html` → demo/, `.nojekyll`. The ears model `engines/ears/ears-int8-2026-11-20.onnx` is now in git
-  (gitignore exception). Published as its own repo `larsboesen-prog/tiny-speech` with `git subtree split --prefix=tiny-speech`;
-  Pages: https://larsboesen-prog.github.io/tiny-speech/demo/ once the owner turns Pages on (Settings → Pages → main, / root).
+  (gitignore exception). **Published 21 Nov**: https://github.com/larsboesen-prog/tiny-speech (public, `main` = `git subtree split
+  --prefix=tiny-speech`, 66 commits; clone at /home/user/tiny-speech; update by splitting again and pushing). Pages:
+  https://larsboesen-prog.github.io/tiny-speech/demo/ once the owner turns Pages on (Settings → Pages → main, / root); github.io
+  is not reachable from this container, so the owner confirms it.
 
 ## Waiting on the owner
 
