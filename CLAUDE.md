@@ -46,9 +46,12 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   chose a designed voice, trained free on Kaggle)**: `training/gpu/design.py` + `gpu/kaggle/voice.ipynb` (push with
   `training/ears/kaggle/push.py push design|teach|learn --kit voice --user larsbo99 [--set PICK=M1]`). Design run done (T4, fp16):
   four Mexican candidates M1/M2/F1/F2 (M1, F1 clearest; F2 one clip off), listening page with a pick button:
-  https://claude.ai/artifact/HTFG2kc6T3MZuLn5u6rzHj (db collection `choice`, doc `pick`). Next: owner picks → `teach` (input
-  tiny-voice-design; teacher on 2 T4s, originals, manifest, init, prepare, annotate; packs tsw.tar) → `learn` (input
-  tiny-voice-teach; train, dump, gates, result.tar.gz) → `node tools/voice-gguf.mjs pack` → gates → /page5 Spanish via tiny-voca.
+  https://claude.ai/artifact/HTFG2kc6T3MZuLn5u6rzHj. **Owner picked M1 ("Use local warm man")**, reference kept in
+  `training/voice/M1/` (the design run ended "ERROR" at its last check, so Kaggle refused its output as input). `teach` v6 done
+  (21 Nov 03:10–09:00 UTC, 2 T4s): teacher 6,941 of 7,576 accepted (~7 h), originals 1,432, annotate 7,748 train clips (MX1
+  6,385), tsw.tar 4.9 GB. Fixes on the way: Kaggle pip refuses editable installs (deps only + PYTHONPATH), CUDA 12 cuBLAS/cuDNN for
+  faster-whisper (nvlibs), Whisper OOM beside Qwen (empty cache + retry), always pack the work. `learn` v1 started 09:05 UTC 21 Nov
+  (input tiny-voice-teach) → result.tar.gz → `node tools/voice-gguf.mjs pack` → gates → /page5 Spanish via tiny-voca.
   Phone's-own-voice check page (owner's phone diagnostics): https://claude.ai/artifact/C8AxpVGeaW3ARPHaR7Dssr (db `checks`).
 - **Bilingual voice (tiny-voca, ~8 MB, one voice for EN + ES)**: recording kit ready (`tiny-speech/training/record/`,
   consent form, 500 sentences); GPU pipeline ready and dry-run on CPU (`tiny-speech/training/gpu/`, ~7–9 GPU h, $5–12, or
