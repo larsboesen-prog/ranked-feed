@@ -51,6 +51,14 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   https://larsboesen-prog.github.io/tiny-speech/demo/ once the owner turns Pages on (Settings → Pages → main, / root); github.io
   is not reachable from this container, so the owner confirms it.
 
+- English ears (21 Nov, owner: "understanding English is poor"; examples "where can I eat tacos now" → "we can i tacos", "is La
+  Azotea open now" → "is la se"): measured 67.2% understood on 201 unheard English clips (Whisper tiny.en 61%; Spanish 87.5%);
+  word-list changes moved it ≤1 point, so the sound model: it never heard an English request. **Retrain running** on Kaggle
+  (`larsbo99/tiny-ears-english` v1, started 23:55 UTC, ~6 GPU h; `run.py --mode english`: Piper LibriTTS-R + VCTK read the English
+  and mixed training sentences ×10, English transcripts as sounds, from `kaggle-init/ears-v2-best.fp16.pt`). Then: download the onnx,
+  English test (`training/asr/probe/synth_en_test.py` set) and Spanish dev; ship only if English up and Spanish not down.
+- /page5 deployed 21 Nov 22:45 UTC by the owner's server session. Update 1 (venues, `mapsma/deploy/UPDATE-1-VENUES.md`): waiting.
+
 ## Waiting on the owner
 
 - **Deploy**: the shared core to mapsma.com (`tiny-speech/browser/README.md`) and `mapsma/page2/index.html`.
