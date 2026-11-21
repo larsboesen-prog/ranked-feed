@@ -1,0 +1,39 @@
+MapSMA /page5: MapSMA's ears and MapSMA's voice, English and Spanish (21 Nov 2026)
+=================================================================================
+
+What this changes
+-----------------
+/page5 (Ask by voice):
+- hears questions with MapSMA's ears (8.9 MB, both languages, knows San Miguel's names) instead of Whisper tiny (about 40 MB);
+  Whisper tiny stays a choice in Voice settings, and is used by itself if the ears cannot load;
+- reads answers with MapSMA's voice (MX1, the warm local guide, 8 MB) in Spanish and in English; the phone's own voice stays a
+  choice, with the fixes for iPhones (silent switch, late voices);
+- marks our picks "★ Our pick" (no more "Not our pick"), with descriptions for the extra places (/descs.js);
+- the credit line for the ears (CC BY-SA 4.0) and the voice (tiny-voca) in Voice settings.
+First visit: about 30 MB instead of about 50-75 MB; afterwards the phone keeps the files.
+
+Upload
+------
+1. Copy everything inside the folder mapsma.com/ to the site's web root, keeping the folders:
+     page5/index.html, ask.js, words.js, rules.js, susan.js   (replace the old ones)
+     descs.js                                                  (new, at the root, next to places.js)
+     tiny-speech/                                              (new folder, about 18 MB; the shared core, models included)
+   Nothing else on the site changes. /page5's old asr-worker.js, tinyvoca-worker.js and tinyvoca/ can stay (no longer used).
+2. The site's server (nginx) needs nothing special: .js as JavaScript (the default), .onnx and .gguf as files (the default).
+   onnxruntime-web comes from cdn.jsdelivr.net, as the voice's engine files did before.
+
+Check on the iPhone (and a computer)
+------------------------------------
+1. Open https://mapsma.com/page5/ , English. Voice settings: "Hear questions with" says "MapSMA's ears"; tap Test the voice:
+   MapSMA's voice speaks English.
+2. Ask by voice: "Is La Azotea open now?" The words appear (in small letters, no punctuation), then the answer, read aloud.
+3. Switch to ES. Ask: "¿Está abierta La Azotea?" and "¿Dónde hay música en vivo esta noche?" The answers are read in
+   Spanish by the same voice.
+4. Note how long the first answer takes the first time (the files download once) and the second time.
+5. With the side switch on silent: MapSMA's voice still speaks (it plays as media).
+Optional: https://mapsma.com/tiny-speech/browser/check.html (Load, Record, round trip) tests the parts one by one.
+
+Going back
+----------
+Put the files in backup/page5/ back into the site's page5/ (they are the live files as served since 18 Nov 2026).
+/descs.js and /tiny-speech/ can stay; nothing else uses them.

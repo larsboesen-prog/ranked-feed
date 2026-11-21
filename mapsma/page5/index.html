@@ -323,10 +323,16 @@ html.quiet .chat{display:block;max-width:92%;margin-top:8px;background:var(--pap
       <option value="system" data-es="La voz de este teléfono (sin descarga)">This phone's own voice (no download)</option>
       <option value="off" data-es="Apagada: solo texto y tarjetas">Off: text and cards only</option>
     </select>
-    <label class="check"><input type="checkbox" id="preload"><span data-es="Preparar el reconocimiento de voz y la voz al abrir la página (unos 50 MB la primera vez; luego se guardan en este teléfono)">Get speech recognition and the voice ready when the page opens (about 50 MB the first time, then kept on this phone)</span></label>
+    <label for="asr" data-es="Escuchar las preguntas con">Hear questions with</label>
+    <select id="asr">
+      <option value="ears" data-es="Los oídos de MapSMA (unos 9 MB, una sola vez; conocen los nombres de aquí)">MapSMA's ears (about 9 MB, once; they know the names here)</option>
+      <option value="whisper" data-es="Whisper tiny (unos 40 MB, una sola vez)">Whisper tiny (about 40 MB, once)</option>
+    </select>
+    <label class="check"><input type="checkbox" id="preload"><span data-es="Preparar el reconocimiento de voz y la voz al abrir la página (unos 30 MB la primera vez, 50 MB con Whisper; luego se guardan en este teléfono)">Get speech recognition and the voice ready when the page opens (about 30 MB the first time, 50 MB with Whisper; then kept on this phone)</span></label>
     <p class="small" id="prepState"></p>
     <p class="small" data-es="Tu pregunta se convierte en texto en este teléfono: nada de lo que dices sale de él. Cuando preguntas qué hay cerca, tu ubicación también se queda en este teléfono. Las respuestas vienen de los lugares y horarios de este sitio.">Your question is turned into text on this phone: nothing you say leaves it. When you ask what's near you, your location stays on this phone too. The answers come from the places and opening hours on this site.</p>
     <div class="small" id="micTip"></div>
+    <p class="credit" data-esh="Reconocimiento de voz: los oídos de MapSMA (&lt;a href=&quot;/tiny-speech/NOTICE&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;tiny-speech&lt;/a&gt;, &lt;a href=&quot;https://creativecommons.org/licenses/by-sa/4.0/deed.es&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;CC BY-SA 4.0&lt;/a&gt;; aprendieron de grabaciones de CIEMPIESS/UNAM, Google y LibriSpeech). Voz: la de MapSMA, basada en tiny-voca de Muhammed Nazeem (Apache 2.0).">Speech recognition: MapSMA's ears (<a href="/tiny-speech/NOTICE" target="_blank" rel="noopener">tiny-speech</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>; they learned from speech by CIEMPIESS/UNAM, Google and LibriSpeech). Voice: MapSMA's, built on tiny-voca by Muhammed Nazeem (Apache 2.0).</p>
     <div class="row"><button type="button" id="testVoice" data-es="Probar la voz">Test the voice</button><button type="button" class="primary" id="setClose" data-es="Listo">Done</button></div>
   </div>
 </div>
@@ -723,19 +729,25 @@ function prepFinished() {
 }
 if ('ResizeObserver' in window) new ResizeObserver(() => document.documentElement.style.setProperty('--dock-h', $('dock').offsetHeight + 'px')).observe($('dock'));
 
-// ---------- speech to text, on the phone: Whisper tiny.en in a worker (asr-worker.js, as on CredBrief's /page40) ----------
-// In Spanish (17 Nov 2026): the multilingual Whisper tiny, told the language (about 40 MB, as tiny.en; English keeps tiny.en, which
-// hears English better).
-const ASR_MODEL = ES ? 'onnx-community/whisper-tiny' : 'onnx-community/whisper-tiny.en';
+// ---------- speech to text, on the phone: MapSMA's ears, or Whisper tiny, in the shared core's worker ----------
+// MapSMA's ears (21 Nov 2026, owner: "Deploy to page 5"; tiny-speech's tiny ears): an 8.9 MB sound recognizer and San Miguel's word
+// list, one model for English and Spanish, about 0.3 s a question, the names here without a hint. Whisper tiny stays a choice in
+// Voice settings (tiny.en in English; in Spanish the multilingual tiny told the language, as since 17 Nov), and answers instead if the
+// ears cannot load. The worker keeps Whisper's files in the same cache as before (mapsma-voice-libs-1): nothing downloaded twice.
+const ASR_URL = '/tiny-speech/browser/asr-worker.js?v=0.3.0&libs=mapsma-voice-libs-1&ears=%2Ftiny-speech%2Fengines%2Fears%2Fears-int8-2026-11-20.onnx&lexicon=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-lexicon.json';
+const WHISPER = ES ? 'onnx-community/whisper-tiny' : 'onnx-community/whisper-tiny.en';
 const ASR_LANG = ES ? 'es' : undefined;
+let earsFailed = false;
+const asrModel = () => (!earsFailed && store.get('asr', 'ears') !== 'whisper' ? 'tiny-ears' : WHISPER);
 let asrWorker = null, asrReq = 0, voiceAfterAsr = false, asrReady = false;
 const asrReqs = new Map();
 function asrW() {
   if (asrWorker) return asrWorker;
-  asrWorker = new Worker('asr-worker.js?v=20261118f', { type: 'module' });
+  asrWorker = new Worker(ASR_URL, { type: 'module' });
   asrWorker.onmessage = ({ data }) => {
     if (data.type === 'progress') { if (!asrReady) { prep.asr = { frac: Math.max(prep.asr?.frac || 0, 0.97 * data.frac) }; render(); } }
-    else if (data.type === 'ready') { asrReady = true; prep.asr = 'ready'; keepStorage(); prepFinished(); if (voiceAfterAsr) { voiceAfterAsr = false; warmVoice(); render(); } }
+    else if (data.type === 'ready') { if (data.id && data.id !== asrModel()) return; asrReady = true; prep.asr = 'ready'; keepStorage(); prepFinished(); if (voiceAfterAsr) { voiceAfterAsr = false; warmVoice(); render(); } }
+    else if (data.type === 'error' && data.id === 'tiny-ears' && !earsFailed) { earsFailed = true; prep.asr = { frac: 0 }; render(); asrW().postMessage({ type: 'load', model: WHISPER }); }  // no ears: Whisper
     else if (data.type === 'error') { prep.asr = { error: data.message }; render(); if (voiceAfterAsr) { voiceAfterAsr = false; warmVoice(); } }
     else if (data.type === 'text') { const r = asrReqs.get(data.reqId); asrReqs.delete(data.reqId); if (r) { if (data.error) r.reject(new Error(data.error)); else r.resolve(data.text); } }
   };
@@ -749,7 +761,7 @@ function asrW() {
 }
 function getAsr() {
   if (!asrReady && !(prep.asr && prep.asr !== 'ready' && !prep.asr.error)) { prep.asr = { frac: 0 }; render(); }
-  asrW().postMessage({ type: 'load', model: ASR_MODEL });
+  asrW().postMessage({ type: 'load', model: asrModel() });
 }
 // The names Whisper should expect (Lars, 17 Nov 2026: "It has problems with my Spanish names", then "Add help text for all other
 // restaurants"; see asr-worker.js): every place shown here, plus Centro (heard as "central"), Jardín and Susan York ("sues in York").
@@ -768,7 +780,7 @@ function nameHint() {
 }
 function transcribeText(audio) {
   const reqId = ++asrReq;
-  return new Promise((resolve, reject) => { asrReqs.set(reqId, { resolve, reject }); asrW().postMessage({ type: 'transcribe', reqId, model: ASR_MODEL, language: ASR_LANG, audio, hint: nameHint() }, [audio.buffer]); });
+  return new Promise((resolve, reject) => { asrReqs.set(reqId, { resolve, reject }); const model = asrModel(); asrW().postMessage({ type: 'transcribe', reqId, model, language: ASR_LANG, audio, hint: model === WHISPER ? nameHint() : undefined }, [audio.buffer]); });
 }
 // Ask the browser to keep the downloaded models for good (Safari may clear a site's storage after weeks without a visit); Apple's browsers only.
 let storageAsked = false;
@@ -1150,6 +1162,8 @@ function tinyLoad() {
 // MapSMA's voice reads both languages (21 Nov 2026; before, Spanish was the phone's own voice: tiny-voca spoke English only). The
 // choice is still kept apart from the English page's, so a reader who chose the phone's voice in Spanish keeps it.
 const VOICE_KEY = ES ? 'voice-es' : 'voice', VOICE_DEFAULT = 'tinyvoca';
+$('asr').value = store.get('asr', 'ears') === 'whisper' ? 'whisper' : 'ears';
+$('asr').addEventListener('change', () => { store.set('asr', $('asr').value); earsFailed = false; asrReady = false; prep.asr = null; if (asrWorker) getAsr(); render(); });
 $('voice').value = store.get(VOICE_KEY, VOICE_DEFAULT); if (!$('voice').value) $('voice').value = VOICE_DEFAULT;
 $('voice').addEventListener('change', () => { store.set(VOICE_KEY, $('voice').value); if ($('voice').value === 'tinyvoca' && tinyFailed) { tinyFailed = ''; prep.voice = null; } if ($('voice').value === 'tinyvoca') warmVoice(); render(); });
 const saveData = !!(navigator.connection && navigator.connection.saveData);
