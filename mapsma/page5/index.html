@@ -827,7 +827,7 @@ if ('ResizeObserver' in window) new ResizeObserver(() => document.documentElemen
 // ears cannot load. The worker keeps Whisper's files in the same cache as before (mapsma-voice-libs-1): nothing downloaded twice.
 // The word list leaning to the page's language (owner, 22 Nov 2026: "why can't the ear model give more preference to English words" when
 // EN is selected, "and the same for Spanish when ES is selected"); the ES|EN switch reloads the page. ?v=: a new list reaches phones at once.
-const ASR_URL = `/tiny-speech/browser/asr-worker.js?v=0.3.0&libs=mapsma-voice-libs-1&ears=%2Ftiny-speech%2Fengines%2Fears%2Fears-int8-2026-11-22.onnx&lexicon=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-lexicon-${ES ? 'es' : 'en'}.json%3Fv%3D20261122&names=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-names.json%3Fv%3D20261122`;
+const ASR_URL = `/tiny-speech/browser/asr-worker.js?v=0.3.1&libs=mapsma-voice-libs-1&ears=%2Ftiny-speech%2Fengines%2Fears%2Fears-int8-2026-11-22.onnx&lexicon=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-lexicon-${ES ? 'es' : 'en'}.json%3Fv%3D20261122&names=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-names.json%3Fv%3D20261122`;
 const WHISPER = ES ? 'onnx-community/whisper-tiny' : 'onnx-community/whisper-tiny.en';
 const ASR_LANG = ES ? 'es' : undefined;
 let earsFailed = false;

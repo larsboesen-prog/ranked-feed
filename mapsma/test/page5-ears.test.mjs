@@ -89,7 +89,7 @@ test("a spoken Spanish question: heard by MapSMA's ears, word for word as the pr
   await page.click("#mic");
   await page.waitForFunction(() => window.__asr.got.some((m) => m.type === "text"), null, { timeout: 60000 });
   const a = await asr();
-  assert.match(a.urls[0], /^\/tiny-speech\/browser\/asr-worker\.js\?v=0\.3\.0&libs=mapsma-voice-libs-1&ears=%2Ftiny-speech%2Fengines%2Fears%2Fears-int8-2026-11-22\.onnx&lexicon=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-lexicon-es\.json%3Fv%3D\d{8}&names=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-names\.json%3Fv%3D\d{8}$/, "the Spanish page loads the list leaning to Spanish, and the names to find by sound");
+  assert.match(a.urls[0], /^\/tiny-speech\/browser\/asr-worker\.js\?v=0\.3\.1&libs=mapsma-voice-libs-1&ears=%2Ftiny-speech%2Fengines%2Fears%2Fears-int8-2026-11-22\.onnx&lexicon=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-lexicon-es\.json%3Fv%3D\d{8}&names=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-names\.json%3Fv%3D\d{8}$/, "the Spanish page loads the list leaning to Spanish, and the names to find by sound");
   const said = a.sent.find((m) => m.type === "transcribe");
   assert.equal(said.model, "tiny-ears");
   assert.equal(said.hint, undefined, "the ears need no names hint");

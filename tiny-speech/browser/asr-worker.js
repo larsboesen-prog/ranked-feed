@@ -190,7 +190,7 @@ function load(id) {
     asrId = id;
     loading = null;
     letGo(old);
-    if (model.addReadings && pendingReadings.length) { postMessage({ type: "readings", used: model.addReadings(pendingReadings) }); pendingReadings = []; }
+    if (model.addReadings && pendingReadings.length) { let used = 0; try { used = model.addReadings(pendingReadings); } catch { /* none */ } postMessage({ type: "readings", used }); pendingReadings = []; }
     postMessage({ type: "ready", id, core: CORE, ms: Math.round(performance.now() - started), ...seen });
     warm(model, id);
     return model;
@@ -271,14 +271,15 @@ export function hintWentWrong(text, hintText) {
 
 onmessage = async ({ data }) => {
   if (data.type === "learn") {  // the visitor picked a place for a question: the ears remember how its name sounded
-    const phones = asr && asr.learnFrom ? asr.learnFrom(data.heardId, data.id) : null;
+    let phones = null;
+    try { phones = asr && asr.learnFrom ? asr.learnFrom(data.heardId, data.id) : null; } catch { phones = null; }  // never the worker's end
     postMessage({ type: "learned", id: data.id, heardId: data.heardId, phones });
   } else if (data.type === "readings") {  // names learned on an earlier visit (kept by the page)
-    if (asr && asr.addReadings) postMessage({ type: "readings", used: asr.addReadings(data.readings) });
+    if (asr && asr.addReadings) { let used = 0; try { used = asr.addReadings(data.readings); } catch { /* none */ } postMessage({ type: "readings", used }); }
     else pendingReadings = [...pendingReadings, ...(data.readings || [])];
   } else if (data.type === "forget") {
     pendingReadings = [];
-    if (asr && asr.forget) asr.forget();
+    try { if (asr && asr.forget) asr.forget(); } catch { /* none */ }
   } else if (data.type === "load") {
     if (asr && asrId === data.model) postMessage({ type: "ready", id: data.model, core: CORE });  // already loaded: say so again
     else load(data.model).catch(() => {});

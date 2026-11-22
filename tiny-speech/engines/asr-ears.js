@@ -6,7 +6,7 @@
 //
 // Runs where onnxruntime runs (a worker with onnxruntime-web, or Node with onnxruntime-node): the caller passes `ort` in.
 import { buildLexicon, decode } from "./ears-match.js";
-import { buildNameSpotter } from "./ears-spot.js";
+import { buildNameSpotter } from "./ears-spot.js?v=20261122l";  // versioned: a phone that kept update 5's file gets this one
 
 export const EARS_ID = "tiny-ears";
 export const isEars = (id) => String(id || "").startsWith(EARS_ID);
@@ -53,7 +53,7 @@ export async function createEars({ ort, model, vocab, lexicon, names = null, set
      * the sounds learned, to keep on the device and give back with addReadings next visit, or null. */
     learnFrom(heardId, id) {
       const h = heardId === "last" ? [...recent.values()].pop() : recent.get(heardId);
-      if (!h || !spotter) return null;
+      if (!h || !spotter || !spotter.heardAs) return null;
       const phones = spotter.heardAs(h.lp, h.frames, V, blank, id);
       return spotter.learn(id, phones) ? phones : null;
     },
