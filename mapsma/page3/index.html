@@ -46,8 +46,7 @@ h1 em{font-style:italic;font-weight:500;color:var(--accent)}
 .views i{font-style:normal}
 .views b{font-weight:inherit}
 @media (max-width:420px){ .views i{display:none} .views a,.views span{padding:6px 8px} }
-@media (max-width:420px){ .views .ask-v i{display:inline} .views .ask-v b{display:none} .views .ask-v svg{width:17px;height:17px} }  /* phones: the voice page as its mic icon (owner, 22 Nov 2026: "Add ask icon") */
-@media (max-width:400px){ .views a,.views span{padding:6px 6px;font-size:12.5px} }  /* three views on a 360 px phone */
+@media (max-width:400px){ .views a,.views span{padding:6px 5px;font-size:12.5px} }  /* three views (Photos, Map, Ask) on a 360 px phone; Ask as a word (owner, 22 Nov 2026: "I like ask not mic image") */
 .hrow{display:flex;gap:6px;align-items:center}
 .info-btn{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:4px 10px;white-space:nowrap;background:#fff}
 .chips{display:flex;gap:6px;overflow-x:auto;margin:10px -14px 0;padding:0 14px 2px;scrollbar-width:none}
@@ -194,7 +193,7 @@ main{flex:1;position:relative;display:flex;min-height:0}
         <div class="sub"><span data-t="Eat, drink & wander">Eat, drink &amp; wander</span><br class="nb"> <span data-t>by people who actually live here</span></div>
       </div>
       <div class="hright"><div class="hrow"><span class="lang"></span><button class="info-btn" id="infoBtn" data-t>About</button></div>
-      <nav class="views" aria-label="View"><a href="/page2/"><i>▦ </i><b data-t>Photos</b></a><span><i>🗺 </i><b data-t>Map</b></span><a href="/page5/" class="ask-v" title="Ask by voice, in English or Spanish" aria-label="Ask by voice"><i><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1"/><path d="M12 18v4"/></svg> </i><b id="askLabel">Ask</b></a></nav></div>
+      <nav class="views" aria-label="View"><a href="/page2/"><i>▦ </i><b data-t>Photos</b></a><span><i>🗺 </i><b data-t>Map</b></span><a href="/page5/" class="ask-v" title="Ask by voice, in English or Spanish"><i>🎙 </i><b id="askLabel">Ask</b></a></nav></div>
     </div>
     <div class="chips" id="chips"></div>
   </header>
@@ -256,7 +255,7 @@ main{flex:1;position:relative;display:flex;min-height:0}
 <script>
 // the voice page (/page5), the third view (owner, 22 Nov 2026: "Add ask icon to the main photo/map menu"): its label in Spanish, as
 // /page5 names itself (the shared i18n.js has no entry for it; the ES|EN switch reloads the page)
-{ const al = document.getElementById("askLabel"); if (al && window.LANG === "es") { al.textContent = "Voz"; al.parentElement.title = "Pregunta con tu voz, en español o en inglés"; al.parentElement.setAttribute("aria-label", "Pregunta con tu voz"); } }
+{ const al = document.getElementById("askLabel"); if (al && window.LANG === "es") { al.textContent = "Voz"; al.parentElement.title = "Pregunta con tu voz, en español o en inglés"; } }
 const {BASE,CATS,PLACES,INFO}=window;
 const places=PLACES.filter(p=>!p.other).map(p=>({...p}));  // not the extra places (not our picks): /page5 only
 // pins that share an address are nudged a few metres apart so each stays visible and tappable

@@ -174,9 +174,9 @@ duplicate once the site's data carries one. To put on the server: `deploy/UPDATE
 
 The owner: "Add ask icon (the page 5 voice feature) to the main photo/map menu on page 2". The menu of /page2 and /page3 is now
 Photos | Map | Ask (Fotos | Mapa | Voz), Ask opening /page5, as /page5's own menu; Ask's label is set in the page (the shared
-i18n.js has no "Ask"; the ES|EN switch reloads the page). On a phone (the site hides menu icons below 421 px) Ask shows as a drawn
-microphone, named for screen readers, and the menu keeps the site's 16 px margin on a 360 px screen (measured over the live data,
-EN and ES, 360/375/390 px). `page3/` is new here: `live-2026-11-21.html` (as served) and `index.html` (+ Ask only).
+i18n.js has no "Ask"; the ES|EN switch reloads the page). On a phone (the site hides menu icons below 421 px) Ask is the word, as Photos
+and Map are (owner: "I like ask not mic image, Voz ok for Spanish"; a microphone icon was tried first), and the menu keeps a 14–16 px
+margin on a 360 px screen (measured over the live data, EN and ES, 360/375/390 px); on a wider screen 🎙 Ask, as /page5's own menu. `page3/` is new here: `live-2026-11-21.html` (as served) and `index.html` (+ Ask only).
 /page2 was rebased on its live page of 21 Nov 23:02 UTC (`page2/live-2026-11-21.html`: a new title and search / sharing tags, body
 unchanged), so `page2/index.html` = that page + shuffle + Susan's latest reviews + descriptions + Ask. `test/page2-ask.test.mjs`.
 To put on the server: `deploy/UPDATE-2-ASK.md` (after update 1).
