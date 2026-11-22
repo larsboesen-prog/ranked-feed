@@ -105,7 +105,7 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   every English word also spelled by Spanish rules at cost 1. Measured (`training/asr/probe/list_eval.mjs`, `list-questions*.json`,
   `voices_synth.py`): 168 list questions request right 31.5% → 47.6%; 160 held-out 19.4% → 35.0% (native 13 → 21 of 32); controls
   unchanged; names 402 found, wrong 10 → 12. Pitfall: "the rosewood" put "the" into Spanish questions (fixed: no small words).
-  Update 7 waiting (files pinned to 58e691d): mapsma/deploy/UPDATE-7-STREETS.md (page5 read.js now ours, not the live copy; tests serve P5 read.js).
+  Update 7 waiting (files pinned to 313a6e9): mapsma/deploy/UPDATE-7-STREETS.md (page5 read.js now ours, not the live copy; tests serve P5 read.js).
 
 ## Waiting on the owner
 
