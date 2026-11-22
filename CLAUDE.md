@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 131 tiny-speech tests + 30 mapsma tests passing)
+## Done (all on the branch, 133 tiny-speech tests + 30 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -110,6 +110,15 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   words only 55/80; update-6 rules 58 + 5 buttons; with `ONE_PLACE_LOOSE` ("… when is el/it", ≤4 words ending "open", no subject),
   "where is a/an" not a place, street/hotel questions keep their list: **58 + 16 buttons = 74/80 (92.5%)**, wrong 1; learning from
   picks: take 2 30 → 31 (32 learning every miss). Probe README "The owner's own voice". Folded into update 7 (ears-spot.js; files pinned to 613e94a).
+- The 6 still missed (22 Nov, owner: "propose fix" → "Yes to all"): b/d/g said as p/t/k (Danish) and v as v: spotter readings DEVOICE
+  (b,d,ɡ→p,t,k) and SOFT (β→v, j→i) as `extra` readings, only for readings of ≥ 5 sounds (EXTRA_MIN: all lengths made Bennu "p e n u"
+  ≈ "open" a rival everywhere), searched only for the 20 closest names (~37 ms; extraCost 0: 0.2–0.5 undid the gains); rules `short` 3 /
+  `shortClear` 0.6 / `shortGap` 1.2 (5/1.0/1.0 picked The Restaurant for "what vegan restaurant is open"); named vs sounds very clear
+  (`clear` 1.0, `clearGap` 1.0) → ask both, any page; English readings of all names tried and NOT kept (−3 on English 201); /page5
+  `listen.js` (ours now, live copy c98784c7…) LEAD_MS 500, recorder LEAD_MS 500. Owner 74 → **79/80** found-or-one-tap (61 + 18),
+  wrong 1 → 0; accented 402/86/12 → 404/86/9; English and list controls the same; Spanish −1 direct, +1 button in two sets. Tests:
+  worker learning on a fixed file (ears.test), page learning taps when asked else seeds the stored reading (fake mic varies). Recorder third round: the other 60 places once (140 questions;
+  names-test reports take 3 separately). Ablation script was scratch (ablate.mjs); numbers in the probe README.
 
 ## Waiting on the owner
 
