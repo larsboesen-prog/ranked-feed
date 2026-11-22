@@ -66,8 +66,11 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   Someone (the owner's other session?) edits the live site: always compare live checksums before building on a copy.
 - Words (22 Nov): the ears' list grown to the reader's words + everyday ones (2,794; "venues" was missing), template questions at
   small weight; lists leaning to the page's language (`ears-lexicon-en|es.json`, 6x / cost 1: best of 9 settings); /page5 loads its
-  language's and reminds to switch (names masked; 2 in a row or 1 clear; 0 false of 515 matched). Update 3 waiting:
-  https://raw.githubusercontent.com/larsboesen-prog/ranked-feed/e274701439fdfe3a47a5348aeda12d472a9eb9a2/mapsma/deploy/UPDATE-3-WORDS.md
+  language's and reminds to switch (names masked; 2 in a row or 1 clear; 0 false of 515 matched). Update 3 live 22 Nov (page5 0d12fa9c…).
+- English retrain done (22 Nov, Kaggle tiny-ears-english v1, 5.7 GPU h; quota 22.5/30 until 28 Nov): `engines/ears/ears-int8-2026-11-22.onnx`
+  (sha 9630d40e…). English held-out 67.2% → 88.1%, everyday English 68.9% → 87.8%, Mexican Spanish 87.5% → 91.0%; non-Mexican
+  Spanish voices 86.1% → 82.6%. Update 4 waiting (owner decides):
+  https://raw.githubusercontent.com/larsboesen-prog/ranked-feed/4aef43f31b9966b8651355e4e78c3126dfaffb3f/mapsma/deploy/UPDATE-4-ENGLISH-EARS.md
 
 ## Waiting on the owner
 
