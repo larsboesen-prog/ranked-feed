@@ -623,7 +623,7 @@ let spotLib = null;
 async function bySound(text, spot) {
   if (!spot || !spot.length) return null;
   try {
-    spotLib ||= import('/tiny-speech/engines/ears-spot.js?v=20261122');
+    spotLib ||= import('/tiny-speech/engines/ears-spot.js?v=20261123');
     const { soundChoice } = await spotLib;
     const list = spot.filter((s) => byId[s.id] && asker.shown(byId[s.id]));
     const q = asker.read(text, nowMX());

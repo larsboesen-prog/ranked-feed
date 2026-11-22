@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 130 tiny-speech tests + 30 mapsma tests passing)
+## Done (all on the branch, 131 tiny-speech tests + 30 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -105,7 +105,11 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   every English word also spelled by Spanish rules at cost 1. Measured (`training/asr/probe/list_eval.mjs`, `list-questions*.json`,
   `voices_synth.py`): 168 list questions request right 31.5% → 47.6%; 160 held-out 19.4% → 35.0% (native 13 → 21 of 32); controls
   unchanged; names 402 found, wrong 10 → 12. Pitfall: "the rosewood" put "the" into Spanish questions (fixed: no small words).
-  Update 7 waiting (files pinned to 313a6e9): mapsma/deploy/UPDATE-7-STREETS.md (page5 read.js now ours, not the live copy; tests serve P5 read.js).
+  Update 7 waiting: mapsma/deploy/UPDATE-7-STREETS.md (page5 read.js now ours, not the live copy; tests serve P5 read.js).
+- The owner's recordings (22 Nov, 80 questions via the hand-over page, asset c2e2b70d…; WAVs only in gitignored training/names-test/):
+  words only 55/80; update-6 rules 58 + 5 buttons; with `ONE_PLACE_LOOSE` ("… when is el/it", ≤4 words ending "open", no subject),
+  "where is a/an" not a place, street/hotel questions keep their list: **58 + 16 buttons = 74/80 (92.5%)**, wrong 1; learning from
+  picks: take 2 30 → 31 (32 learning every miss). Probe README "The owner's own voice". Folded into update 7 (ears-spot.js).
 
 ## Waiting on the owner
 
