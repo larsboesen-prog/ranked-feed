@@ -46,8 +46,9 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   architecture, accuracy with the synthetic-voice caveat, limits, how to use, credits), `models/` (cards: ears.md, voice.md),
   `LICENSE` (Apache-2.0, code), `NOTICE`, `demo/` (GitHub Pages: mic → tiny ears → reader → MX1; `test/demo.test.mjs` with a
   fake microphone), `index.html` → demo/, `.nojekyll`. The ears model `engines/ears/ears-int8-2026-11-20.onnx` is now in git
-  (gitignore exception). **Published 21 Nov**: https://github.com/larsboesen-prog/tiny-speech (public, `main` = `git subtree split
-  --prefix=tiny-speech`, 66 commits; clone at /home/user/tiny-speech; update by splitting again and pushing). Pages:
+  (gitignore exception). **Published 21 Nov**: https://github.com/larsboesen-prog/tiny-speech (public; clone at /home/user/tiny-speech).
+  Since 22 Nov `main` gets one snapshot commit per update, not the split history: `git subtree split --prefix=tiny-speech -b
+  ts-public-split`, fetch it into the clone, `git commit-tree <split tree> -p <public main>`, push (8c51e3b = names by sound). Pages:
   https://larsboesen-prog.github.io/tiny-speech/demo/ once the owner turns Pages on (Settings → Pages → main, / root); github.io
   is not reachable from this container, so the owner confirms it.
 
@@ -81,7 +82,10 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   EN 94 → 101/114, ES 72 → 73/96, no new wrong. Chromium's fake mic scores ~0.1–0.7 higher than files (load-dependent); digital
   silence makes the ears mishear (the page trims it). Recorder `record-names/` (GitHub Pages, IndexedDB, saves
   my-place-names-DATE.json, 16 kHz WAVs base64) → hand-over artifact page (assets) → `tools/names-test.mjs file.json` (WAVs into
-  gitignored training/names-test/; the owner's voice never in git). Update 5 waiting: `mapsma/deploy/UPDATE-5-NAMES.md`.
+  gitignored training/names-test/; the owner's voice never in git). Hand-over page (assets; list with Artifact scope "assets", read
+  by asset id): https://claude.ai/artifact/QhChVhrAZ6L63LR6prkWhq. Update 5 waiting (owner decides):
+  https://raw.githubusercontent.com/larsboesen-prog/ranked-feed/7fe11ca/mapsma/deploy/UPDATE-5-NAMES.md (files pinned to 53ae13d).
+  Owner's recordings not yet in: when they are, `node tools/names-test.mjs <file> --out …` and report before/after.
 
 ## Waiting on the owner
 
