@@ -71,7 +71,7 @@ function watchAsr() {
 async function open(lang, engine = null) {
   const context = await browser.newContext({ permissions: ["microphone"] });
   await context.addInitScript(watchAsr);
-  await context.addInitScript(([l, e]) => { try { localStorage.setItem("sma-lang", l); localStorage.setItem(l === "es" ? "sma-ask:voice-es" : "sma-ask:voice", "off"); if (e) localStorage.setItem("sma-ask:asr", e); } catch { /* none */ } }, [lang, engine]);
+  await context.addInitScript(([l, e]) => { try { if (sessionStorage.getItem("t-set")) return; sessionStorage.setItem("t-set", "1"); localStorage.setItem("sma-lang", l); localStorage.setItem(l === "es" ? "sma-ask:voice-es" : "sma-ask:voice", "off"); if (e) localStorage.setItem("sma-ask:asr", e); } catch { /* none */ } }, [lang, engine]);
   const page = await context.newPage();
   const errors = [];
   page.on("pageerror", (e) => errors.push(String(e)));
@@ -123,4 +123,35 @@ test("the ears' file missing: the page loads Whisper instead, by itself", { skip
     assert.deepEqual(errors, []);
     await context.close();
   } finally { hideEars = false; }
+});
+
+// The reminder to switch (owner, 22 Nov 2026: "remind those who maybe speak Spanish sentences to english ui to switch to Spanish ui -
+// exclude location names"): a Spanish question on the English page brings it, in Spanish, once; its button switches the page.
+test("a Spanish question on the English page: a reminder, in Spanish, to switch; its button switches the page", { skip, timeout: 180000 }, async () => {
+  const { context, page, errors, asr } = await open("en");
+  await page.waitForFunction(() => window.__asr.got.some((m) => m.type === "ready" || m.type === "error"), null, { timeout: 120000 });
+  await page.click("#mic");
+  await page.waitForFunction(() => window.__asr.got.some((m) => m.type === "text"), null, { timeout: 60000 });
+  const heard = (await asr()).got.find((m) => m.type === "text").text;
+  await page.waitForSelector(".turn .langtip", { timeout: 10000 });
+  const tip = await page.textContent(".turn .langtip");
+  console.log(JSON.stringify({ heard, tip }));
+  assert.match(tip, /¿Hablas español\? Cambia la página a Español/);
+  await Promise.all([page.waitForEvent("load"), page.click(".turn .langtip button")]);
+  await page.waitForFunction(() => window.LANG === "es", null, { timeout: 10000 });
+  assert.equal(await page.evaluate(() => localStorage.getItem("sma-lang")), "es");
+  assert.deepEqual(errors, []);
+  await context.close();
+});
+
+test("the same Spanish question on the Spanish page: no reminder", { skip, timeout: 180000 }, async () => {
+  const { context, page, errors } = await open("es");
+  await page.waitForFunction(() => window.__asr.got.some((m) => m.type === "ready" || m.type === "error"), null, { timeout: 120000 });
+  await page.click("#mic");
+  await page.waitForFunction(() => window.__asr.got.some((m) => m.type === "text"), null, { timeout: 60000 });
+  await page.waitForSelector(".turn .a", { timeout: 10000 });
+  await page.waitForTimeout(1500);
+  assert.equal(await page.$(".turn .langtip"), null);
+  assert.deepEqual(errors, []);
+  await context.close();
 });

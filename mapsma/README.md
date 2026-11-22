@@ -180,3 +180,17 @@ margin on a 360 px screen (measured over the live data, EN and ES, 360/375/390 p
 /page2 was rebased on its live page of 21 Nov 23:02 UTC (`page2/live-2026-11-21.html`: a new title and search / sharing tags, body
 unchanged), so `page2/index.html` = that page + shuffle + Susan's latest reviews + descriptions + Ask. `test/page2-ask.test.mjs`.
 To put on the server: `deploy/UPDATE-2-ASK.md` (after update 1).
+
+## /page5: the ears lean to the page's language, and a reminder to switch (22 Nov 2026)
+
+The owner: "In the UI select EN so text is in English: why can't the ear model give more preference to English words…", then
+"optimize for those who deliver language correct and remind those who maybe speak Spanish sentences to english ui to switch to
+Spanish ui - exclude location names". /page5 loads the word list leaning to its language (`ears-lexicon-en|es.json`; measured in
+`tiny-speech/training/ears/README.md`; stronger leans did not help matched speakers further). After a spoken question, the heard
+words with the city's names masked (places, their areas, Centro, Jardín, San Miguel…) go through the shared core's text language
+check (`/tiny-speech/core/lid/text-lid.js`, loaded only then): two questions in a row that sound like the other language, or one
+that clearly does, bring a note under the answer, in the speaker's language ("¿Hablas español? Cambia la página a Español y te
+entenderé mejor." / "Speaking English? Switch the page to English…") with a button that switches; once a visit. Measured on 1,030
+synthetic questions as each page hears them: 85–89% of speakers on the wrong page caught, none on the right page reminded; a single
+garble like "y que no" for an English question does not trigger it. `test/page5-ears.test.mjs`: a recorded Spanish question on the
+English page brings the note and its button switches the page; on the Spanish page, no note.

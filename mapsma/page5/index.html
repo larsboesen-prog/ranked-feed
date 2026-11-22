@@ -51,6 +51,8 @@ h1 em{font-style:italic;font-weight:500;color:var(--accent)}
 .turn .q{font-family:Fraunces,serif;font-style:italic;font-weight:500;font-size:17px;line-height:1.3;min-width:0;overflow-wrap:anywhere}
 .turn .again{flex:none;font-size:12px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:5px 10px;background:#fff;white-space:nowrap}
 .turn .a{font-size:16px;line-height:1.45;margin-top:6px}
+.turn .langtip{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:10px;padding:10px 12px;font-size:14.5px;line-height:1.4;background:#fff7e6;border:1px solid #efd9a6;border-radius:12px}
+.turn .langtip button{font:inherit;font-weight:700;font-size:14px;color:#fff;background:var(--ink,#1f2630);border:0;border-radius:99px;padding:7px 14px;cursor:pointer}
 .turn .q::before{content:"“"}.turn .q::after{content:"”"}
 /* Quiet (in a public place): the answers as a text chat instead of a voice. Oldest first, as in a chat; the question on the right, the
    whole answer written out on the left, the cards under it. */
@@ -950,10 +952,45 @@ async function transcribe(r) {
     const text = spokenText(await transcribeText(audio));
     if (!text) { status(tx("I didn't catch that. Tap the mic and ask again.", 'No te entendí. Toca el micrófono y pregunta otra vez.')); return; }
     transcribing = false;
-    ask(text, 'voice');
+    const turn = await ask(text, 'voice');
+    langTip(text, (turn && turn.el) || $('convo').querySelector('.turn')).catch(() => {});  // some answers do not return their turn
   } catch (err) {
     console.error(err); status(tx('Speech recognition failed on this phone. Please type your question.', 'El reconocimiento de voz falló en este teléfono. Escribe tu pregunta.'));
   } finally { transcribing = false; render(); }
+}
+// ---------- the other language spoken? remind to switch (owner, 22 Nov 2026: "optimize for those who deliver language correct and remind
+// those who maybe speak Spanish sentences to english ui to switch to Spanish ui - exclude location names") ----------
+// The ears lean to the page's language (the word list of /tiny-speech/packs/mx-sma/ears-lexicon-en|es.json), so someone speaking the
+// other one is heard worse. The heard words, with the city's names masked (La Azotea, Centro, Jardín… are said in both languages), go
+// through the shared core's text language check. Measured on 1,030 synthetic questions as each page hears them: 85–89% of speakers on
+// the wrong page caught, none on the right page reminded. A one-off garble ("y que no" for an English question) must not trigger it:
+// two questions in a row that sound like the other language, or one that clearly does; once a visit; in the speaker's language.
+const LANG_TIP_FLAG = 'sma-ask:langtip';
+let otherStreak = 0, langLib = null, placeNames = null;
+async function langTip(text, el) {
+  if (!el) return;
+  try { if (sessionStorage.getItem(LANG_TIP_FLAG)) return; } catch { /* none */ }
+  langLib ||= Promise.all([import('/tiny-speech/core/lid/text-lid.js?v=0.3.0'), import('/tiny-speech/core/lang-decide.js?v=0.3.0'), import('/tiny-speech/core/text/sound.js?v=0.3.0')]);
+  const [{ detectTextLanguage }, { maskNames }, { fold }] = await langLib;
+  if (!placeNames) {
+    const set = new Set(['san miguel de allende', 'san miguel', 'allende', 'centro', 'jardin', 'jardin principal', 'parroquia', 'guanajuato', 'mexico']);
+    for (const p of places) { set.add(fold(p.name)); for (const part of String(p.area || '').split('·')) set.add(fold(part.trim())); }
+    placeNames = [...set].filter((n) => n.length > 2).sort((a, b) => b.length - a.length);
+  }
+  const page = ES ? 'es' : 'en', other = ES ? 'en' : 'es';
+  const masked = maskNames(text, placeNames), d = detectTextLanguage(masked);
+  const margin = d.lang === other ? d[other] - d[page] : 0, sounds = margin >= 1.5 && masked.split(' ').filter(Boolean).length >= 3;
+  otherStreak = sounds ? otherStreak + 1 : 0;
+  if (!(otherStreak >= 2 || (sounds && margin >= 3))) return;
+  try { sessionStorage.setItem(LANG_TIP_FLAG, '1'); } catch { /* none */ }
+  const tip = document.createElement('div');
+  tip.className = 'langtip'; tip.lang = other;
+  tip.innerHTML = other === 'es'
+    ? '<span>¿Hablas español? Cambia la página a <b>Español</b> y te entenderé mejor.</span><button type="button">Cambiar a español</button>'
+    : '<span>Speaking English? Switch the page to <b>English</b> and I will understand you better.</span><button type="button">Switch to English</button>';
+  tip.querySelector('button').addEventListener('click', () => chooseLang(other));
+  const a = el.querySelector('.a');
+  if (a) a.after(tip); else el.appendChild(tip);
 }
 // What Whisper hears that is not speech comes as tags ([BLANK_AUDIO], (wind blowing)): no question.
 function spokenText(s) { const t = String(s || '').replace(/\[[^\]]*\]|\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim(); return /\p{L}/u.test(t) ? t : ''; }
