@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 116 tiny-speech tests + 16 mapsma tests passing)
+## Done (all on the branch, 116 tiny-speech tests + 22 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -58,6 +58,9 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   and mixed training sentences ×10, English transcripts as sounds, from `kaggle-init/ears-v2-best.fp16.pt`). Then: download the onnx,
   English test (`training/asr/probe/synth_en_test.py` set) and Spanish dev; ship only if English up and Spanish not down.
 - /page5 deployed 21 Nov 22:45 UTC by the owner's server session. Update 1 (venues, `mapsma/deploy/UPDATE-1-VENUES.md`): waiting.
+- Update 2 (22 Nov, owner: "Add ask icon to the main photo/map menu on page 2"): Photos | Map | Ask on /page2 and /page3 (phone:
+  mic icon), /page2 rebased on the 21 Nov 23:02 live page (new SEO head) with the waiting shuffle/Susan/descs; `mapsma/deploy/UPDATE-2-ASK.md`: waiting.
+  Someone (the owner's other session?) edits the live site: always compare live checksums before building on a copy.
 
 ## Waiting on the owner
 

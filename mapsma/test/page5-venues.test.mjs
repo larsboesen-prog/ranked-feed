@@ -56,7 +56,7 @@ async function asked(question, lang = "en") {
 test("Where is Johnny's piano bar: the venue itself, a piano bar, with its hours", { skip }, async () => {
   const { errors, answer, one } = await asked("where is johnny's piano bar");
   assert.match(await answer(), /Johnny's Piano Bar/);
-  assert.match(await answer(), /18:00|6 p\.m\./, "its hours, from the pack");
+  assert.match(await answer(), /open now, until (22|23):00|opens? .*18:00/, "its hours, from the pack (open or not, as the clock says)");
   const card = await one();
   assert.match(card, /Johnny's Piano Bar/);
   assert.match(card, /Piano bar/i, "what it is, from the venue's facts");

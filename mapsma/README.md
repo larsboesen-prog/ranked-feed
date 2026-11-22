@@ -169,3 +169,14 @@ no place of that name, with their address, what they are and Johnny's hours; a k
 small plates". `test/page5-venues.test.mjs`: Johnny's answered with its hours and card, Raindog and Mama Mía (ES) by name, no
 duplicate once the site's data carries one. To put on the server: `deploy/UPDATE-1-VENUES.md` (two files). Once the site's own data
 (data/*.json, rebuild.py) has the venues, `venues.js` can go.
+
+## Update 2 (22 Nov 2026): Ask in the menu of /page2 and /page3
+
+The owner: "Add ask icon (the page 5 voice feature) to the main photo/map menu on page 2". The menu of /page2 and /page3 is now
+Photos | Map | Ask (Fotos | Mapa | Voz), Ask opening /page5, as /page5's own menu; Ask's label is set in the page (the shared
+i18n.js has no "Ask"; the ES|EN switch reloads the page). On a phone (the site hides menu icons below 421 px) Ask shows as a drawn
+microphone, named for screen readers, and the menu keeps the site's 16 px margin on a 360 px screen (measured over the live data,
+EN and ES, 360/375/390 px). `page3/` is new here: `live-2026-11-21.html` (as served) and `index.html` (+ Ask only).
+/page2 was rebased on its live page of 21 Nov 23:02 UTC (`page2/live-2026-11-21.html`: a new title and search / sharing tags, body
+unchanged), so `page2/index.html` = that page + shuffle + Susan's latest reviews + descriptions + Ask. `test/page2-ask.test.mjs`.
+To put on the server: `deploy/UPDATE-2-ASK.md` (after update 1).
