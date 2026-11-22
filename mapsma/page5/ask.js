@@ -397,7 +397,8 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
     const named = q.named ? byId[q.named.id] : null;
     if (named && !q.wantsList) return { ...one(named, n, q, here), q };
     // "Is … open?" about one place whose name was not caught: say so, and offer the closest names, rather than a list of other places
-    const onePlace = (/^(is|are|when|what time|does|do|how late|until when|till when|tell me about|how about|what about|esta|estan|a que hora|cuando|abre|cierra|hasta que hora|que tal|donde esta|como llego)\b/.test(q.s) || q.howFar) && !q.wantsList && !q.near && !q.centro && !q.area && !q.cats && !q.asks && !q.nearSight;
+    // (q.soundNear: the names by sound were close, so the page asks between them, index.html bySound)
+    const onePlace = (q.soundNear && q.soundNear.length) || ((/^(is|are|when|what time|does|do|how late|until when|till when|tell me about|how about|what about|esta|estan|a que hora|cuando|abre|cierra|hasta que hora|que tal|donde esta|como llego)\b/.test(q.s) || q.howFar) && !q.wantsList && !q.near && !q.centro && !q.area && !q.cats && !q.asks && !q.nearSight);
     if (onePlace) {
       const near = (q.nearNames || []).map((id) => byId[id]).filter((p) => p && shown(p));
       const [show, say] = W.didntCatch(near.map((p) => W.place(p).sn));
@@ -420,5 +421,5 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
     return listAnswer(uq, n, { ...ur, here }, 0, q.count || RULES.listCount);
   }
 
-  return { answer, answerRequest, read: reader.read, parse, matchPlace: reader.matchPlace, avail, openNow, inCentro, dist, picks, spans };
+  return { answer, answerRequest, read: reader.read, parse, matchPlace: reader.matchPlace, avail, openNow, inCentro, dist, picks, spans, shown };
 }

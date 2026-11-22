@@ -1,4 +1,4 @@
-# Project memory: tiny-speech, MapSMA and CredBrief (last updated 20 Nov 2026)
+# Project memory: tiny-speech, MapSMA and CredBrief (last updated 22 Nov 2026)
 
 Read this first when picking the work back up. The detailed plan, decisions and measurements are in
 `tiny-speech/ARCHITECTURE.md`; this file is the short version: what exists, what is waiting, what not to do.
@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 118 tiny-speech tests + 24 mapsma tests passing)
+## Done (all on the branch, 125 tiny-speech tests + 26 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -69,8 +69,19 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   language's and reminds to switch (names masked; 2 in a row or 1 clear; 0 false of 515 matched). Update 3 live 22 Nov (page5 0d12fa9c…).
 - English retrain done (22 Nov, Kaggle tiny-ears-english v1, 5.7 GPU h; quota 22.5/30 until 28 Nov): `engines/ears/ears-int8-2026-11-22.onnx`
   (sha 9630d40e…). English held-out 67.2% → 88.1%, everyday English 68.9% → 87.8%, Mexican Spanish 87.5% → 91.0%; non-Mexican
-  Spanish voices 86.1% → 82.6%. Update 4 waiting (owner decides):
-  https://raw.githubusercontent.com/larsboesen-prog/ranked-feed/4aef43f31b9966b8651355e4e78c3126dfaffb3f/mapsma/deploy/UPDATE-4-ENGLISH-EARS.md
+  Spanish voices 86.1% → 82.6%. Update 4 live 22 Nov (page5 ae4b1338…; owner: "The English ear is much better").
+- Names by sound (22 Nov, owner: "still fails on place names said with my Danish-English accent. 'Estoril' is not recognised…
+  1. Match place names by sound… 2. Ask when unsure… record 30 to 50 place names… test set, not training"): `engines/ears-spot.js`
+  finds each name in the ears' SOUNDS (Viterbi CTC keyword spotting, free start/end, cost per sound vs free hearing; names from
+  `packs/dist/mx-sma/ears-names.json`), `soundChoice` decides (only when the words named no place in a one-place-shaped question:
+  pick ≤ 2.5 with gap ≥ 1.0; else ask names within 1.0 of the best ≤ 3.0; list questions keep their answer + "Or did you mean";
+  EN page: a contradicted name → ask both). Worker `?names=` → `spot` in text messages; /page5 `bySound()` + "Heard as X" +
+  `q.soundNear` in page5/ask.js. Measured (training/asr/probe/README.md "Names by sound", `names_eval.mjs`): 560 stand-in accented
+  clips (5 non-native Piper voices + 2 native) 370 → 402 found, +81 offered, wrong 14 → 10 (Danish 31 → 37 /80, +19); controls
+  EN 94 → 101/114, ES 72 → 73/96, no new wrong. Chromium's fake mic scores ~0.1–0.7 higher than files (load-dependent); digital
+  silence makes the ears mishear (the page trims it). Recorder `record-names/` (GitHub Pages, IndexedDB, saves
+  my-place-names-DATE.json, 16 kHz WAVs base64) → hand-over artifact page (assets) → `tools/names-test.mjs file.json` (WAVs into
+  gitignored training/names-test/; the owner's voice never in git). Update 5 waiting: `mapsma/deploy/UPDATE-5-NAMES.md`.
 
 ## Waiting on the owner
 

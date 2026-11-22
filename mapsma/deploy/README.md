@@ -11,4 +11,5 @@ commit** (`https://raw.githubusercontent.com/larsboesen-prog/ranked-feed/<commit
 links for up to 5 minutes, and on 22 Nov it served the server session an older UPDATE-2 with the newer files, so its checks stopped
 it (correctly) until the owner confirmed.
 | `UPDATE-3-WORDS.md` | the ears' word lists grown (venues, nightlife…), leaning to the page's language; the reminder to switch | live 22 Nov |
-| `UPDATE-4-ENGLISH-EARS.md` | the retrained ears (English 67% → 88%), /page5 and the config pointing at them | waiting |
+| `UPDATE-4-ENGLISH-EARS.md` | the retrained ears (English 67% → 88%), /page5 and the config pointing at them | live 22 Nov (page5 `ae4b1338…`) |
+| `UPDATE-5-NAMES.md` | names by sound: a place name said with an accent still found, or offered as buttons | waiting |

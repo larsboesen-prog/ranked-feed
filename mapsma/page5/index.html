@@ -88,6 +88,8 @@ html.quiet .chat{display:block;max-width:92%;margin-top:8px;background:var(--pap
 .more{margin-top:10px;border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-size:14px;font-weight:700}
 .nearrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .nearrow .more{margin-top:0}
+.nearor{align-self:center;font-size:14px;color:var(--muted,#6b625a)}
+.bysound{margin:2px 0 0;font-size:13px;color:var(--muted,#6b625a)}
 .credit{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.45}
 .credit a{color:var(--muted)}
 
@@ -376,7 +378,7 @@ html.quiet .chat{display:block;max-width:92%;margin-top:8px;background:var(--pap
 // ?v=: each update gets new file addresses, so a phone never mixes a new page with old cached files (a cached asr-worker.js
 // without the name hint was found in testing, 17 Nov 2026). Change V and every ?v= below together.
 import { detector, speechAt16k } from './listen.js?v=20261118f';
-import { createAsker, nowMX, ranges, DAYNAMES, showDist } from './ask.js?v=20261118f';
+import { createAsker, nowMX, ranges, DAYNAMES, showDist } from './ask.js?v=20261122n';
 import { spanishLexicon } from './spanish.js?v=20261118f';
 
 const $ = (id) => document.getElementById(id);
@@ -609,7 +611,25 @@ function locationHelp(error) {  // under an answer when the location could not b
 
 // ---------- the conversation: a question, the answer in a sentence, and its cards (newest first) ----------
 let lastList = null;  // the last list, for "4 more"
-async function ask(text, how = 'typed') {
+// Names by sound (owner, 22 Nov 2026: "Match place names by sound… Ask when unsure"): the ears also say which place names fit the sounds
+// best (spot), so a name said with an accent and written wrong ("is a stroll open") still finds Estoril. When the words named no place
+// in a question about one place, a clear winner answers; two or three close ones are offered as buttons ("Did you mean …?"); on the
+// English page a name the words found but the sounds clearly contradict is asked about too. The rules and their measurements are in
+// /tiny-speech/engines/ears-spot.js (soundChoice): 560 accented test clips 370 → 402 names found, 81 more one tap away, a wrong
+// place 14 → 10; 659 ordinary English and Spanish questions: no new wrong answer.
+let spotLib = null;
+async function bySound(text, spot) {
+  if (!spot || !spot.length) return null;
+  try {
+    spotLib ||= import('/tiny-speech/engines/ears-spot.js?v=20261122');
+    const { soundChoice } = await spotLib;
+    const list = spot.filter((s) => byId[s.id] && asker.shown(byId[s.id]));
+    const q = asker.read(text, nowMX());
+    const c = soundChoice(text, q, list, { override: !ES });
+    return c.pick || c.ask.length ? { ...c, q } : null;
+  } catch (err) { console.warn('names by sound', err); return null; }
+}
+async function ask(text, how = 'typed', spot = null) {
   text = String(text || '').trim();
   if (!text) return;
   hideMicFix(); closeDetail(true);
@@ -623,7 +643,11 @@ async function ask(text, how = 'typed') {
     if (got.pos) here = got.pos; else hereError = got.error;
     status('');
   }
-  const res = asker.answer(text, nowMX(), lastList, here);
+  const sound = await bySound(text, spot);
+  let res;
+  if (sound?.pick) { res = asker.answerRequest({ ...sound.q, named: { id: sound.pick, score: 1, bySound: true } }, nowMX(), lastList, here); res.bySound = sound.pick; }
+  else if (sound && !sound.keep) res = asker.answerRequest({ ...sound.q, named: null, soundNear: sound.ask, nearNames: sound.ask }, nowMX(), lastList, here);
+  else { res = asker.answer(text, nowMX(), lastList, here); if (sound) { res.near = sound.ask; res.nearOr = true; } }
   if (hereError) res.locHelp = locationHelp(hereError);
   if (res.kind === 'list' && res.ids.length && !(res.ids.length === 1 && !res.all.length)) lastList = res;
   const turn = renderTurn(text, res);
@@ -647,6 +671,11 @@ function renderTurn(text, res) {
   el.className = 'turn';
   el.innerHTML = `<div class="qrow"><p class="q"></p><button type="button" class="again" title="${tx('Read the answer aloud again', 'Leer otra vez la respuesta en voz alta')}">${tx('🔊 Again', '🔊 Otra vez')}</button></div><p class="a"></p><div class="chat">${chatHTML(res)}</div>`;
   el.querySelector('.q').textContent = text;  // the quote marks come from the style sheet (none in Quiet's chat bubbles)
+  if (res.bySound && byId[res.bySound]) {  // the name came from the sounds, not the written words: say so, small
+    const b = document.createElement('p'); b.className = 'bysound';
+    b.textContent = tx(`Heard as ${byId[res.bySound].name}`, `Entendí ${byId[res.bySound].name}`);
+    el.querySelector('.qrow').after(b);
+  }
   el.querySelector('.a').textContent = res.show;
   el.querySelectorAll('.chat [data-id]').forEach((b) => b.addEventListener('click', () => openDetail(b.dataset.id)));
   const targets = new Map();
@@ -680,6 +709,7 @@ function renderTurn(text, res) {
   if (res.near && res.near.length) {  // a name not caught: the closest names, one tap each
     const row = document.createElement('div');
     row.className = 'nearrow';
+    if (res.nearOr) { const l = document.createElement('span'); l.className = 'nearor'; l.textContent = tx('Or did you mean:', '¿O quisiste decir:'); row.appendChild(l); }
     for (const id of res.near) {
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'more'; b.textContent = byId[id].name;
@@ -755,7 +785,7 @@ if ('ResizeObserver' in window) new ResizeObserver(() => document.documentElemen
 // ears cannot load. The worker keeps Whisper's files in the same cache as before (mapsma-voice-libs-1): nothing downloaded twice.
 // The word list leaning to the page's language (owner, 22 Nov 2026: "why can't the ear model give more preference to English words" when
 // EN is selected, "and the same for Spanish when ES is selected"); the ES|EN switch reloads the page. ?v=: a new list reaches phones at once.
-const ASR_URL = `/tiny-speech/browser/asr-worker.js?v=0.3.0&libs=mapsma-voice-libs-1&ears=%2Ftiny-speech%2Fengines%2Fears%2Fears-int8-2026-11-22.onnx&lexicon=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-lexicon-${ES ? 'es' : 'en'}.json%3Fv%3D20261122`;
+const ASR_URL = `/tiny-speech/browser/asr-worker.js?v=0.3.0&libs=mapsma-voice-libs-1&ears=%2Ftiny-speech%2Fengines%2Fears%2Fears-int8-2026-11-22.onnx&lexicon=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-lexicon-${ES ? 'es' : 'en'}.json%3Fv%3D20261122&names=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-names.json%3Fv%3D20261122`;
 const WHISPER = ES ? 'onnx-community/whisper-tiny' : 'onnx-community/whisper-tiny.en';
 const ASR_LANG = ES ? 'es' : undefined;
 let earsFailed = false;
@@ -770,7 +800,7 @@ function asrW() {
     else if (data.type === 'ready') { if (data.id && data.id !== asrModel()) return; asrReady = true; prep.asr = 'ready'; keepStorage(); prepFinished(); if (voiceAfterAsr) { voiceAfterAsr = false; warmVoice(); render(); } }
     else if (data.type === 'error' && data.id === 'tiny-ears' && !earsFailed) { earsFailed = true; prep.asr = { frac: 0 }; render(); asrW().postMessage({ type: 'load', model: WHISPER }); }  // no ears: Whisper
     else if (data.type === 'error') { prep.asr = { error: data.message }; render(); if (voiceAfterAsr) { voiceAfterAsr = false; warmVoice(); } }
-    else if (data.type === 'text') { const r = asrReqs.get(data.reqId); asrReqs.delete(data.reqId); if (r) { if (data.error) r.reject(new Error(data.error)); else r.resolve(data.text); } }
+    else if (data.type === 'text') { const r = asrReqs.get(data.reqId); asrReqs.delete(data.reqId); if (r) { if (data.error) r.reject(new Error(data.error)); else r.resolve({ text: data.text, spot: data.spot || null }); } }
   };
   asrWorker.onerror = (e) => {
     prep.asr = { error: e.message || 'speech worker failed' }; render();
@@ -949,10 +979,10 @@ async function transcribe(r) {
     warmVoice();  // the question is over: the voice may load now (never during the recording)
     if (audio.length < 16000 * 0.4) { status(tx('That was too short. Tap and ask again.', 'Fue muy corto. Toca y pregunta otra vez.')); return; }
     status(asrReady ? '' : tx('Speech recognition is still loading…', 'El reconocimiento de voz aún se está cargando…'));
-    const text = spokenText(await transcribeText(audio));
+    const heard = await transcribeText(audio), text = spokenText(heard.text);
     if (!text) { status(tx("I didn't catch that. Tap the mic and ask again.", 'No te entendí. Toca el micrófono y pregunta otra vez.')); return; }
     transcribing = false;
-    const turn = await ask(text, 'voice');
+    const turn = await ask(text, 'voice', heard.spot);
     langTip(text, (turn && turn.el) || $('convo').querySelector('.turn')).catch(() => {});  // some answers do not return their turn
   } catch (err) {
     console.error(err); status(tx('Speech recognition failed on this phone. Please type your question.', 'El reconocimiento de voz falló en este teléfono. Escribe tu pregunta.'));
