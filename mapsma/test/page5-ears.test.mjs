@@ -89,7 +89,7 @@ test("a spoken Spanish question: heard by MapSMA's ears, word for word as the pr
   await page.click("#mic");
   await page.waitForFunction(() => window.__asr.got.some((m) => m.type === "text"), null, { timeout: 60000 });
   const a = await asr();
-  assert.match(a.urls[0], /^\/tiny-speech\/browser\/asr-worker\.js\?v=0\.3\.0&libs=mapsma-voice-libs-1&ears=%2Ftiny-speech%2Fengines%2Fears%2Fears-int8-2026-11-20\.onnx&lexicon=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-lexicon\.json%3Fv%3D\d{8}$/);
+  assert.match(a.urls[0], /^\/tiny-speech\/browser\/asr-worker\.js\?v=0\.3\.0&libs=mapsma-voice-libs-1&ears=%2Ftiny-speech%2Fengines%2Fears%2Fears-int8-2026-11-20\.onnx&lexicon=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-lexicon-es\.json%3Fv%3D\d{8}$/, "the Spanish page loads the list leaning to Spanish");
   const said = a.sent.find((m) => m.type === "transcribe");
   assert.equal(said.model, "tiny-ears");
   assert.equal(said.hint, undefined, "the ears need no names hint");
@@ -107,6 +107,7 @@ test("Whisper tiny chosen in Voice settings: the page asks for Whisper", { skip,
   assert.equal(await page.inputValue("#asr"), "whisper");
   await page.waitForFunction(() => window.__asr.sent.some((m) => m.type === "load"), null, { timeout: 20000 });
   assert.equal((await asr()).sent.find((m) => m.type === "load").model, "onnx-community/whisper-tiny.en");
+  assert.match((await asr()).urls[0], /ears-lexicon-en\.json/, "the English page loads the list leaning to English");
   assert.deepEqual(errors, []);
   await context.close();
 });
