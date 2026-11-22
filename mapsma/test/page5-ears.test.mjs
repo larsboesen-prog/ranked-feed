@@ -16,7 +16,7 @@ let chromium = null;
 try { ({ chromium } = require("playwright")); } catch { try { ({ chromium } = require("/opt/node-tools/node_modules/playwright")); } catch { /* skipped */ } }
 const HERE = fileURLToPath(new URL(".", import.meta.url));
 const TS = fileURLToPath(new URL("../../tiny-speech/", import.meta.url));
-const EARS = "engines/ears/ears-int8-2026-11-20.onnx";
+const EARS = "engines/ears/ears-int8-2026-11-22.onnx";
 const skip = !chromium ? "Playwright is not installed" : !existsSync(TS + EARS) ? "the ears model is not here" : false;
 const CLIP = JSON.parse(readFileSync(TS + "test/fixtures/ears/clips.json", "utf8")).clips.find((c) => /raindog/i.test(c.said));
 const P5 = HERE + "../page5/", LIVE = P5 + "live-2026-11-20/";
@@ -89,7 +89,7 @@ test("a spoken Spanish question: heard by MapSMA's ears, word for word as the pr
   await page.click("#mic");
   await page.waitForFunction(() => window.__asr.got.some((m) => m.type === "text"), null, { timeout: 60000 });
   const a = await asr();
-  assert.match(a.urls[0], /^\/tiny-speech\/browser\/asr-worker\.js\?v=0\.3\.0&libs=mapsma-voice-libs-1&ears=%2Ftiny-speech%2Fengines%2Fears%2Fears-int8-2026-11-20\.onnx&lexicon=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-lexicon-es\.json%3Fv%3D\d{8}$/, "the Spanish page loads the list leaning to Spanish");
+  assert.match(a.urls[0], /^\/tiny-speech\/browser\/asr-worker\.js\?v=0\.3\.0&libs=mapsma-voice-libs-1&ears=%2Ftiny-speech%2Fengines%2Fears%2Fears-int8-2026-11-22\.onnx&lexicon=%2Ftiny-speech%2Fpacks%2Fmx-sma%2Fears-lexicon-es\.json%3Fv%3D\d{8}$/, "the Spanish page loads the list leaning to Spanish");
   const said = a.sent.find((m) => m.type === "transcribe");
   assert.equal(said.model, "tiny-ears");
   assert.equal(said.hint, undefined, "the ears need no names hint");
