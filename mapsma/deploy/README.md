@@ -13,4 +13,5 @@ it (correctly) until the owner confirmed.
 | `UPDATE-3-WORDS.md` | the ears' word lists grown (venues, nightlife…), leaning to the page's language; the reminder to switch | live 22 Nov |
 | `UPDATE-4-ENGLISH-EARS.md` | the retrained ears (English 67% → 88%), /page5 and the config pointing at them | live 22 Nov (page5 `ae4b1338…`) |
 | `UPDATE-5-NAMES.md` | names by sound: a place name said with an accent still found, or offered as buttons | not applied; update 6 contains it |
-| `UPDATE-6-LEARN.md` | update 5 plus learning from picks: a name picked under "Did you mean" is remembered on the phone | waiting |
+| `UPDATE-6-LEARN.md` | update 5 plus learning from picks: a name picked under "Did you mean" is remembered on the phone | live 22 Nov (page5 `9d0de4b1…`) |
+| `UPDATE-7-STREETS.md` | restaurants on a street, near a hotel, "quality"; street and hotel names and "restaurants" heard better | waiting |
