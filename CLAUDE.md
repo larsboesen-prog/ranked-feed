@@ -109,7 +109,7 @@ unless the owner asks. Commits end with the two attribution lines the session gi
 - The owner's recordings (22 Nov, 80 questions via the hand-over page, asset c2e2b70d…; WAVs only in gitignored training/names-test/):
   words only 55/80; update-6 rules 58 + 5 buttons; with `ONE_PLACE_LOOSE` ("… when is el/it", ≤4 words ending "open", no subject),
   "where is a/an" not a place, street/hotel questions keep their list: **58 + 16 buttons = 74/80 (92.5%)**, wrong 1; learning from
-  picks: take 2 30 → 31 (32 learning every miss). Probe README "The owner's own voice". Folded into update 7 (ears-spot.js).
+  picks: take 2 30 → 31 (32 learning every miss). Probe README "The owner's own voice". Folded into update 7 (ears-spot.js; files pinned to 613e94a).
 
 ## Waiting on the owner
 
