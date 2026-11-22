@@ -93,7 +93,7 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   so. New rule `strong` 1.0 / `strongGap` 1.5 (a non-place-shaped question answers a very clear name; changes nothing without learned
   readings). Simulated (`training/asr/probe/learn_eval.mjs`): take 2 "X, when is it open?" 192 → 211 of 280 after taps on take 1
   (216 learning from every miss), wrong 4 → 4, controls unchanged. Recorder now 80 questions (take 1 "Is X open?", take 2 prompt2);
-  names-test.mjs reports learning on take 2 (Danish stand-in: 16 → 20 of 40). Update 6 (cumulative, includes 5) waiting.
+  names-test.mjs reports learning on take 2 (Danish stand-in: 16 → 20 of 40). Update 6 (cumulative, includes 5; files pinned to e5d6b70) waiting: mapsma/deploy/UPDATE-6-LEARN.md.
 
 ## Waiting on the owner
 
