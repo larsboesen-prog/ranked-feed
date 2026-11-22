@@ -57,14 +57,16 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   (`larsbo99/tiny-ears-english` v1, started 23:55 UTC, ~6 GPU h; `run.py --mode english`: Piper LibriTTS-R + VCTK read the English
   and mixed training sentences ×10, English transcripts as sounds, from `kaggle-init/ears-v2-best.fp16.pt`). Then: download the onnx,
   English test (`training/asr/probe/synth_en_test.py` set) and Spanish dev; ship only if English up and Spanish not down.
-- /page5 deployed 21 Nov 22:45 UTC by the owner's server session. Update 1 (venues, `mapsma/deploy/UPDATE-1-VENUES.md`): waiting.
-- Update 2 (22 Nov, owner: "Add ask icon to the main photo/map menu on page 2"): Photos | Map | Ask on /page2 and /page3 (phone:
-  mic icon), /page2 rebased on the 21 Nov 23:02 live page (new SEO head) with the waiting shuffle/Susan/descs; `mapsma/deploy/UPDATE-2-ASK.md`: waiting.
+- /page5 deployed 21 Nov 22:45 UTC by the owner's server session. Update 1 (venues) and update 2 (Ask menu on /page2 and /page3,
+  with the waiting /page2 changes) **live 22 Nov ~01:00 UTC** (page2 00060cfd…, page3 7e73c881…, page5 99a039ca…; checked in a browser).
+  Lesson: GitHub's raw cache (5 min) served old instructions with new files: pin raw links to a commit SHA in future update files.
+- Update 2 (22 Nov, owner: "Add ask icon to the main photo/map menu on page 2", then "I like ask not mic image, Voz ok for Spanish"):
+  Photos | Map | Ask (Fotos | Mapa | Voz) on /page2 and /page3, /page2 rebased on the 21 Nov 23:02 live page (new SEO head) with the
+  shuffle/Susan/descs. Deployed (above).
   Someone (the owner's other session?) edits the live site: always compare live checksums before building on a copy.
 
 ## Waiting on the owner
 
-- **Deploy**: the shared core to mapsma.com (`tiny-speech/browser/README.md`) and `mapsma/page2/index.html`.
 - **Spanish tiny-voca, designed voice (owner, 20 Nov: "develop a tiny voca for Spanish output so I control the experience";
   chose a designed voice, trained free on Kaggle)**: `training/gpu/design.py` + `gpu/kaggle/voice.ipynb` (push with
   `training/ears/kaggle/push.py push design|teach|learn --kit voice --user larsbo99 [--set PICK=M1]`). Design run done (T4, fp16):
