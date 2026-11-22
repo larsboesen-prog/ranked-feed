@@ -90,6 +90,7 @@ html.quiet .chat{display:block;max-width:92%;margin-top:8px;background:var(--pap
 .nearrow .more{margin-top:0}
 .nearor{align-self:center;font-size:14px;color:var(--muted,#6b625a)}
 .bysound{margin:2px 0 0;font-size:13px;color:var(--muted,#6b625a)}
+.linkish{border:0;background:none;padding:0;font:inherit;color:var(--accent);text-decoration:underline;cursor:pointer}
 .credit{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.45}
 .credit a{color:var(--muted)}
 
@@ -334,7 +335,8 @@ html.quiet .chat{display:block;max-width:92%;margin-top:8px;background:var(--pap
     </select>
     <label class="check"><input type="checkbox" id="preload"><span data-es="Preparar el reconocimiento de voz y la voz al abrir la página (unos 30 MB la primera vez, 50 MB con Whisper; luego se guardan en este teléfono)">Get speech recognition and the voice ready when the page opens (about 30 MB the first time, 50 MB with Whisper; then kept on this phone)</span></label>
     <p class="small" id="prepState"></p>
-    <p class="small" data-es="Tu pregunta se convierte en texto en este teléfono: nada de lo que dices sale de él. Cuando preguntas qué hay cerca, tu ubicación también se queda en este teléfono. Las respuestas vienen de los lugares y horarios de este sitio.">Your question is turned into text on this phone: nothing you say leaves it. When you ask what's near you, your location stays on this phone too. The answers come from the places and opening hours on this site.</p>
+    <p class="small" data-es="Tu pregunta se convierte en texto en este teléfono: nada de lo que dices sale de él. Cuando preguntas qué hay cerca, tu ubicación también se queda en este teléfono. Las respuestas vienen de los lugares y horarios de este sitio. Cuando eliges un nombre tras «¿Quisiste decir…?», este teléfono recuerda cómo lo dijiste.">Your question is turned into text on this phone: nothing you say leaves it. When you ask what's near you, your location stays on this phone too. The answers come from the places and opening hours on this site. When you pick a name after “Did you mean”, this phone remembers how you said it.</p>
+    <p class="small" id="learnedState" hidden><span></span> <button type="button" id="forgetNames" class="linkish"></button></p>
     <div class="small" id="micTip"></div>
     <p class="credit" data-esh="Reconocimiento de voz: los oídos de MapSMA (&lt;a href=&quot;/tiny-speech/NOTICE&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;tiny-speech&lt;/a&gt;, &lt;a href=&quot;https://creativecommons.org/licenses/by-sa/4.0/deed.es&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;CC BY-SA 4.0&lt;/a&gt;; aprendieron de grabaciones de CIEMPIESS/UNAM, Google y LibriSpeech). Voz: la de MapSMA, basada en tiny-voca de Muhammed Nazeem (Apache 2.0).">Speech recognition: MapSMA's ears (<a href="/tiny-speech/NOTICE" target="_blank" rel="noopener">tiny-speech</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>; they learned from speech by CIEMPIESS/UNAM, Google and LibriSpeech). Voice: MapSMA's, built on tiny-voca by Muhammed Nazeem (Apache 2.0).</p>
     <div class="row"><button type="button" id="testVoice" data-es="Probar la voz">Test the voice</button><button type="button" class="primary" id="setClose" data-es="Listo">Done</button></div>
@@ -629,7 +631,46 @@ async function bySound(text, spot) {
     return c.pick || c.ask.length ? { ...c, q } : null;
   } catch (err) { console.warn('names by sound', err); return null; }
 }
-async function ask(text, how = 'typed', spot = null) {
+// Learning from picks (owner, 22 Nov 2026: "Will model learn and further improve from did you mean selection?", then "build option 1"):
+// a name picked among "Did you mean" for a question the ears heard teaches them how this visitor says it. The ears keep the sounds of
+// the last few questions; on a pick they read how that name sounded ({type: 'learn'}) and give it back ({type: 'learned', phones}),
+// which this page keeps in localStorage (the latest three per name) and hands to the ears on every visit ({type: 'readings'}). Sounds
+// only, never audio, and only on this phone; Voice settings can forget them. Measured on stand-in accented voices (tiny-speech
+// training/asr/probe/README.md, "Learning from picks"): after one pick on "Is X open?", "X, when is it open?" found 192 → 211 of 280,
+// no new wrong answer on ordinary questions.
+const LEARN_KEY = 'names-learned', learnWait = new Map();
+function learnedList() { try { const v = JSON.parse(store.get(LEARN_KEY, '[]')); return Array.isArray(v) ? v.filter((r) => r && byId[r.id] && Array.isArray(r.phones)) : []; } catch { return []; } }
+function keepLearned(id, phones) {
+  const key = phones.join(' ');
+  let list = learnedList().filter((r) => !(r.id === id && r.phones.join(' ') === key));
+  list.push({ id, phones });
+  const mine = list.filter((r) => r.id === id);
+  if (mine.length > 3) list = list.filter((r) => r !== mine[0]);
+  store.set(LEARN_KEY, JSON.stringify(list.slice(-120)));
+  learnedNote();
+}
+function learnFromPick(heardId, id, el) {
+  if (!heardId || !asrWorker || !byId[id]) return;
+  learnWait.set(heardId, el);
+  asrWorker.postMessage({ type: 'learn', heardId, id });
+}
+function learnedShown(heardId, id) {  // under the row of names in the turn where the pick was made
+  const el = learnWait.get(heardId); learnWait.delete(heardId);
+  if (!el || !byId[id] || el.querySelector('.learned')) return;
+  const p = document.createElement('p'); p.className = 'bysound learned';
+  p.textContent = tx(`I'll remember how you say ${byId[id].name}, on this phone.`, `Recordaré cómo dices ${byId[id].name}, en este teléfono.`);
+  (el.querySelector('.nearrow') || el).after(p);
+}
+function learnedNote() {  // Voice settings: how many names were learned, and a way to forget them
+  const n = new Set(learnedList().map((r) => r.id)).size, box = $('learnedState');
+  if (!box) return;
+  box.hidden = !n;
+  box.querySelector('span').textContent = tx(`MapSMA has learned how you say ${n} name${n === 1 ? '' : 's'}, on this phone.`, `MapSMA aprendió cómo dices ${n} nombre${n === 1 ? '' : 's'}, en este teléfono.`);
+  $('forgetNames').textContent = tx('Forget them', 'Olvidarlos');
+}
+$('forgetNames')?.addEventListener('click', () => { store.set(LEARN_KEY, '[]'); asrWorker?.postMessage({ type: 'forget' }); learnedNote(); });
+learnedNote();
+async function ask(text, how = 'typed', spot = null, heardId = 0) {
   text = String(text || '').trim();
   if (!text) return;
   hideMicFix(); closeDetail(true);
@@ -649,6 +690,7 @@ async function ask(text, how = 'typed', spot = null) {
   else if (sound && !sound.keep) res = asker.answerRequest({ ...sound.q, named: null, soundNear: sound.ask, nearNames: sound.ask }, nowMX(), lastList, here);
   else { res = asker.answer(text, nowMX(), lastList, here); if (sound) { res.near = sound.ask; res.nearOr = true; } }
   if (hereError) res.locHelp = locationHelp(hereError);
+  if (heardId) res.heardId = heardId;  // a question the ears heard: a pick among "Did you mean" teaches them (learnFromPick)
   if (res.kind === 'list' && res.ids.length && !(res.ids.length === 1 && !res.all.length)) lastList = res;
   const turn = renderTurn(text, res);
   if ($('q').value.trim() === text) $('q').value = '';
@@ -713,7 +755,7 @@ function renderTurn(text, res) {
     for (const id of res.near) {
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'more'; b.textContent = byId[id].name;
-      b.addEventListener('click', () => { unlockAudio(); const n = byId[id].name; ask(ES ? `¿Está abiert${/^(la|las)\s/i.test(n) ? 'a' : 'o'} ${n}?` : `Is ${n} open?`); });
+      b.addEventListener('click', () => { unlockAudio(); learnFromPick(res.heardId, id, el); const n = byId[id].name; ask(ES ? `¿Está abiert${/^(la|las)\s/i.test(n) ? 'a' : 'o'} ${n}?` : `Is ${n} open?`); });
       row.appendChild(b);
     }
     el.appendChild(row);
@@ -795,12 +837,15 @@ const asrReqs = new Map();
 function asrW() {
   if (asrWorker) return asrWorker;
   asrWorker = new Worker(ASR_URL, { type: 'module' });
+  const kept = learnedList();
+  if (kept.length) asrWorker.postMessage({ type: 'readings', readings: kept });  // the names learned on earlier visits
   asrWorker.onmessage = ({ data }) => {
+    if (data.type === 'learned') { if (data.phones) { keepLearned(data.id, data.phones); learnedShown(data.heardId, data.id); } return; }
     if (data.type === 'progress') { if (!asrReady) { prep.asr = { frac: Math.max(prep.asr?.frac || 0, 0.97 * data.frac) }; render(); } }
     else if (data.type === 'ready') { if (data.id && data.id !== asrModel()) return; asrReady = true; prep.asr = 'ready'; keepStorage(); prepFinished(); if (voiceAfterAsr) { voiceAfterAsr = false; warmVoice(); render(); } }
     else if (data.type === 'error' && data.id === 'tiny-ears' && !earsFailed) { earsFailed = true; prep.asr = { frac: 0 }; render(); asrW().postMessage({ type: 'load', model: WHISPER }); }  // no ears: Whisper
     else if (data.type === 'error') { prep.asr = { error: data.message }; render(); if (voiceAfterAsr) { voiceAfterAsr = false; warmVoice(); } }
-    else if (data.type === 'text') { const r = asrReqs.get(data.reqId); asrReqs.delete(data.reqId); if (r) { if (data.error) r.reject(new Error(data.error)); else r.resolve({ text: data.text, spot: data.spot || null }); } }
+    else if (data.type === 'text') { const r = asrReqs.get(data.reqId); asrReqs.delete(data.reqId); if (r) { if (data.error) r.reject(new Error(data.error)); else r.resolve({ text: data.text, spot: data.spot || null, heardId: data.heardId || 0 }); } }
   };
   asrWorker.onerror = (e) => {
     prep.asr = { error: e.message || 'speech worker failed' }; render();
@@ -982,7 +1027,7 @@ async function transcribe(r) {
     const heard = await transcribeText(audio), text = spokenText(heard.text);
     if (!text) { status(tx("I didn't catch that. Tap the mic and ask again.", 'No te entendí. Toca el micrófono y pregunta otra vez.')); return; }
     transcribing = false;
-    const turn = await ask(text, 'voice', heard.spot);
+    const turn = await ask(text, 'voice', heard.spot, heard.heardId);
     langTip(text, (turn && turn.el) || $('convo').querySelector('.turn')).catch(() => {});  // some answers do not return their turn
   } catch (err) {
     console.error(err); status(tx('Speech recognition failed on this phone. Please type your question.', 'El reconocimiento de voz falló en este teléfono. Escribe tu pregunta.'));

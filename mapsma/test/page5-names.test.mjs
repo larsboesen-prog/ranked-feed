@@ -10,6 +10,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { join, normalize } from "node:path";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 
 const require = createRequire(import.meta.url);
 let chromium = null;
@@ -52,14 +54,15 @@ before(async () => {
 after(async () => { for (const b of browsers) await b.close().catch(() => {}); server?.close(); });
 
 // The English page, the fake microphone playing one clip; returns once the answer to the spoken question is on the page.
-async function askAloud(wav) {
+// profile: a folder to keep the browser's storage in (a returning visitor), else a fresh browser.
+async function askAloud(wav, profile = null) {
   const proxy = process.env.HTTPS_PROXY || process.env.https_proxy;
-  const browser = await chromium.launch({
-    ...(proxy ? { proxy: { server: proxy, bypass: "localhost,127.0.0.1" } } : {}),
-    args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream", `--use-file-for-fake-audio-capture=${TS}test/fixtures/ears/${wav}%noloop`],
-  });
+  const opts = { ...(proxy ? { proxy: { server: proxy, bypass: "localhost,127.0.0.1" } } : {}),
+    args: ["--use-fake-ui-for-media-stream", "--use-fake-device-for-media-stream", `--use-file-for-fake-audio-capture=${TS}test/fixtures/ears/${wav}%noloop`] };
+  let browser, context;
+  if (profile) { context = await chromium.launchPersistentContext(profile, { ...opts, permissions: ["microphone"] }); browser = context; }
+  else { browser = await chromium.launch(opts); context = await browser.newContext({ permissions: ["microphone"] }); }
   browsers.push(browser);
-  const context = await browser.newContext({ permissions: ["microphone"] });
   await context.addInitScript(() => {
     try { if (!sessionStorage.getItem("t-set")) { sessionStorage.setItem("t-set", "1"); localStorage.setItem("sma-lang", "en"); localStorage.setItem("sma-ask:voice", "off"); } } catch { /* none */ }
     window.__heard = [];
@@ -124,4 +127,42 @@ test("a Danish voice's 'Is Casa Nostra open?', the name written wrong: two close
   assert.match(await next.locator(".one").textContent(), /Casa Nostra/);
   assert.deepEqual(errors, []);
   await browser.close();
+});
+
+// Learning from picks (owner, 22 Nov 2026: "build option 1"): the visitor taps Casa Nostra among "Did you mean"; the phone keeps how
+// the ears heard it; on the next visit the same question is answered about Casa Nostra at once.
+test("a pick among 'Did you mean' is remembered on the phone: next visit the same question is answered directly", { skip, timeout: 480000 }, async () => {
+  const profile = mkdtempSync(join(tmpdir(), "p5-learn-"));
+  try {
+    let { browser, page, errors, heard } = await askAloud("acc-51-0-da_DK-talesyntese-medium.wav", profile);
+    console.log(JSON.stringify({ first: heard.text, spot: (heard.spot || []).slice(0, 2), heardId: heard.heardId }));
+    let turn = page.locator("#convo .turn").first();
+    assert.ok(await turn.locator(".nearrow button").count() > 0, "this clip is asked about (Casa Nostra and others close by sound)");
+    await turn.locator(".nearrow button", { hasText: "Casa Nostra" }).click();  // the pick teaches the ears
+    await page.waitForSelector("#convo .turn .learned", { timeout: 15000 });
+    assert.equal(await page.locator("#convo .turn .learned").textContent(), "I'll remember how you say Casa Nostra, on this phone.");
+    const kept = await page.evaluate(() => JSON.parse(localStorage.getItem("sma-ask:names-learned")));
+    assert.equal(kept.length, 1);
+    assert.equal(kept[0].id, "51");
+    assert.ok(kept[0].phones.length >= 3, JSON.stringify(kept));
+    assert.equal(await page.evaluate(() => document.getElementById("learnedState").hidden), false);
+    assert.match(await page.evaluate(() => document.querySelector("#learnedState span").textContent), /has learned how you say 1 name, on this phone/);
+    assert.deepEqual(errors, []);
+    await browser.close();
+
+    ({ browser, page, errors, heard } = await askAloud("acc-51-0-da_DK-talesyntese-medium.wav", profile));  // the next visit
+    console.log(JSON.stringify({ again: heard.text, spot: (heard.spot || []).slice(0, 2) }));
+    assert.equal(heard.spot[0].name, "Casa Nostra");
+    assert.ok(heard.spot[0].perSound < 1, `learned: ${heard.spot[0].perSound}`);
+    turn = page.locator("#convo .turn").first();
+    assert.equal(await turn.locator(".bysound").textContent(), "Heard as Casa Nostra");
+    assert.match(await turn.locator(".one").textContent(), /Casa Nostra/);
+    assert.equal(await turn.locator(".nearrow").count(), 0, "no need to ask");
+    // Voice settings: forget them
+    await page.evaluate(() => document.getElementById("forgetNames").click());
+    assert.equal(await page.evaluate(() => localStorage.getItem("sma-ask:names-learned")), "[]");
+    assert.equal(await page.evaluate(() => document.getElementById("learnedState").hidden), true);
+    assert.deepEqual(errors, []);
+    await browser.close();
+  } finally { rmSync(profile, { recursive: true, force: true }); }
 });

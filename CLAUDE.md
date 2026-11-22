@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 125 tiny-speech tests + 26 mapsma tests passing)
+## Done (all on the branch, 126 tiny-speech tests + 27 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -86,6 +86,14 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   by asset id): https://claude.ai/artifact/QhChVhrAZ6L63LR6prkWhq. Update 5 waiting (owner decides):
   https://raw.githubusercontent.com/larsboesen-prog/ranked-feed/7fe11ca/mapsma/deploy/UPDATE-5-NAMES.md (files pinned to 53ae13d).
   Owner's recordings not yet in: when they are, `node tools/names-test.mjs <file> --out …` and report before/after.
+- Learning from picks (22 Nov, owner: "Will model learn… from did you mean selection?" → "Yes build option 1 and add the second take"):
+  on a "Did you mean" tap, /page5 → worker {type:"learn", heardId, id} → engine (asr-ears.js keeps the last 8 questions' frames)
+  `spotter.heardAs` (greedy sounds in the name's best window) + `learn` (latest 3 per name) → {type:"learned", phones} → localStorage
+  `sma-ask:names-learned`, sent back each visit {type:"readings"}; Voice settings "Forget them" ({type:"forget"}); privacy line says
+  so. New rule `strong` 1.0 / `strongGap` 1.5 (a non-place-shaped question answers a very clear name; changes nothing without learned
+  readings). Simulated (`training/asr/probe/learn_eval.mjs`): take 2 "X, when is it open?" 192 → 211 of 280 after taps on take 1
+  (216 learning from every miss), wrong 4 → 4, controls unchanged. Recorder now 80 questions (take 1 "Is X open?", take 2 prompt2);
+  names-test.mjs reports learning on take 2 (Danish stand-in: 16 → 20 of 40). Update 6 (cumulative, includes 5) waiting.
 
 ## Waiting on the owner
 
