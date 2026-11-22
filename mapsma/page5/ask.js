@@ -212,14 +212,14 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
     pool = pool.filter((p) => catsOf(p).some((c) => want.has(c)));
     if (q.picksOnly || (q.surprise && !topics.length)) pool = pool.filter((p) => !p.other);  // "four we recommend", "surprise me": our picks only
     const base = pool;  // before the where (Centro, an area) and who (Susan, unusual, local) filters
-    const og = q.nearSight ? { o: byId[q.nearSight], sight: q.nearSight } : q.hotel && q.hotel.ids.length ? { o: byId[q.hotel.ids[0]], sight: q.hotel.ids[0], hotel: q.hotel }
-      : q.near ? origin(here) : null;  // a hotel: nearest first from the place inside it
+    const og = q.nearSight ? { o: byId[q.nearSight], sight: q.nearSight }
+      : q.hotel && (q.hotel.ids.length || q.hotel.at) ? { o: q.hotel.ids.length ? byId[q.hotel.ids[0]] : q.hotel.at, sight: q.hotel.ids[0] || 'hotel', hotel: q.hotel }
+      : q.near ? origin(here) : null;  // a hotel: nearest first from the place inside it, or from the hotel's own pin
     if (q.centro) pool = pool.filter(inCentro);
     if (q.area && !q.nearSight) pool = pool.filter((p) => { const a = fold(p.area + ' ' + ((INFO[p.id] || {}).address || '')); return a.includes(q.area) || (q.area === 'out of town' && a.includes('fuera de la ciudad')); });  // the Spanish page's areas are in Spanish
-    // a street: the places on it; none of the kind asked for there: said so, and the others shown (as for an area); a hotel with none
-    // of its places on MapSMA: said so, and Centro shown
-    let streetMiss = !!(q.hotel && !q.hotel.ids.length);
-    if (streetMiss && q.hotel.centro) pool = pool.filter(inCentro);
+    // a street: the places on it; none of the kind asked for there: said so, and the others shown (as for an area); "in" a hotel with
+    // none of its places on MapSMA: said so, and the nearest shown
+    let streetMiss = !!(q.hotel && !q.hotel.ids.length && !q.hotel.near);  // "in Live Aqua": none on MapSMA inside it (said so); the nearest shown
     if (q.street) { const f = pool.filter((p) => STREETS.byId.get(p.id) === q.street.key); if (f.length || !pool.length) pool = f; else streetMiss = true; }
     if (q.susan) pool = pool.filter((p) => picks[p.id]);
     if (q.unique) pool = pool.filter((p) => F(p).x);
@@ -323,8 +323,8 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
   // hours" (Spanish agrees with the noun: "abiertos", "abierta"); digits: "2 hours", as the screen writes it.
   function describe(q, n, og = null, ranked = {}) {
     const where = (q.centro && !(og && og.sight === 'S2') ? W.inCentro : q.area === 'out of town' ? W.outOfTown : q.area && !(og && og.sight) ? W.inArea(q.area.replace(/\b\w/g, (c) => c.toUpperCase())) : '')
-      + (q.street ? W.onStreet(q.street.name) : '') + (q.hotel && !q.hotel.ids.length ? W.inArea(q.hotel[W.lang] || q.hotel.en) : '')
-      + (og ? W.near(og, og.hotel ? og.hotel[W.lang] || og.hotel.en : og.sight ? sightName(og.sight) : null) : '');
+      + (q.street ? W.onStreet(q.street.name) : '') + (q.hotel && !q.hotel.ids.length && !q.hotel.near ? W.inArea(q.hotel[W.lang] || q.hotel.en) : '')
+      + (og && !(og.hotel && q.hotel && !q.hotel.ids.length && !q.hotel.near) ? W.near(og, og.hotel ? og.hotel[W.lang] || og.hotel.en : og.sight ? sightName(og.sight) : null) : '');
     const ts = shownTopics(q, ranked);
     let kind = ts.length || q.price || q.local || q.unique ? kindPhrase({ ...q, priceMiss: ranked.priceMiss }, ts) : q.cats && q.cats.length === 1 ? W.kinds[q.cats[0]] || null : null;
     if ((q.unclear || ranked.recommend) && (!kind || kind[0] === W.places[0])) kind = W.recommended;
@@ -338,8 +338,8 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
   function listAnswer(q, n, ranked, offset, count) {
     const page = ranked.rows.slice(offset, offset + count), total = ranked.rows.length;
     const og = ranked.origin || null;
-    const elsewhere = { ...q, centro: !!(q.hotel && !q.hotel.ids.length), area: null, street: null, hotel: null, unique: false, local: false, susan: false };  // "rooftops in Guadalupe": none there, the ones elsewhere (a hotel with none: Centro)
-    const d = describe(ranked.whereMiss ? elsewhere : q, n, ranked.whereMiss ? null : og, ranked), k = page.length, asked = q.count || 0;  // "only" when a number was asked for
+    const elsewhere = { ...q, centro: false, area: null, street: null, hotel: null, unique: false, local: false, susan: false };  // "rooftops in Guadalupe": none there, the ones elsewhere (a hotel with none: Centro)
+    const d = describe(ranked.whereMiss ? elsewhere : q, n, ranked.whereMiss && !(og && og.hotel) ? null : og, ranked), k = page.length, asked = q.count || 0;  // "only" when a number was asked for
     const out = { kind: 'list', q, ids: page.map((r) => r.p.id), all: ranked.rows.map((r) => r.p.id), offset, count, left: Math.max(0, total - offset - k), say: [], lines: [], show: '', susan: q.susan,
       here: ranked.here || null, dist: og ? Object.fromEntries(page.map((r) => [r.p.id, r.m])) : null, mine: !!(og && og.mine) };
     const said = (text, id) => out.say.push({ text: stop(text.replace(/\s+/g, ' ').trim()), id });
@@ -395,10 +395,11 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
   // Reading (read.js) turns the words into a request; answerRequest() answers a request, whoever wrote it (Lars, 18 Nov 2026: "Do 1-3
   // proposal", 2: reading the question apart from finding the answer).
   // streets from the addresses; hotels: the places inside them (owner, 22 Nov 2026: "show me restaurants in Live Aqua"). Live Aqua
-  // (Calzada de la Presa 85, Zona Centro) has none on MapSMA yet: the answer says so and shows Centro.
+  // (Calzada de la Presa 85, Zona Centro) has none on MapSMA yet: "in Live Aqua" says so and shows the nearest; "near Live Aqua" the
+  // nearest from its pin (Google Maps, the owner's link, 22 Nov 2026).
   const STREETS = streetIndex(places.map((p) => ({ id: p.id, address: (INFO[p.id] || {}).address })));
   const HOTELS = [
-    { words: 'live aqua', en: 'Live Aqua', es: 'Live Aqua', ids: [], centro: true },
+    { words: 'live aqua', en: 'Live Aqua', es: 'Live Aqua', ids: [], at: { lat: 20.919975, lng: -100.739347 } },
     { words: 'rosewood', en: 'the Rosewood', es: 'el Rosewood', ids: ['62'] },  // Luna Rooftop
     { words: 'belmond|casa de sierra nevada|sierra nevada', en: 'the Belmond', es: 'el Belmond', ids: ['42'] },  // Andanza
     { words: 'casa blanca (7|siete)|casa blanca', en: 'Casa Blanca 7', es: 'Casa Blanca 7', ids: ['X14'] },  // Fátima 7 Rooftop

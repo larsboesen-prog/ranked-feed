@@ -98,8 +98,9 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   restaurants → rooftop esta", "restaurants in live aqua → están sin light"; "run English test and see what's written and improve"):
   reader: streets from addresses (`domains/places/streets.js`; /page5 read.js copy: `streetIndex`, `findStreet`, after on/along/calle/
   en la calle, before "street"; masks the words from name matching), "quality" = best; /page5 only: HOTELS in page5/ask.js (Rosewood
-  62, Belmond 42, Casa Blanca 7 X14, Golpe de Vista X15: nearest from the place inside; Live Aqua: none on MapSMA → "I found no places
-  in Live Aqua" + Centro; its coordinates unknown here: map hosts blocked). Word list: streets + `packs/src/mx-sma/landmarks.json`
+  62, Belmond 42, Casa Blanca 7 X14, Golpe de Vista X15: nearest from the place inside; Live Aqua: none on MapSMA, pin 20.919975,
+  -100.739347 (owner's Google Maps link, read in Chromium: maps.app.goo.gl, maps.google.com, www.google.com allowed 22 Nov; no Maps
+  API key here) → "in Live Aqua": "I found no places in Live Aqua" + nearest; "near": nearest). Word list: streets + `packs/src/mx-sma/landmarks.json`
   (not in the pack) both readings (EN page free; ES page the English reading costs), T_LIST/T_STREET/T_LANDMARK templates, EN page:
   every English word also spelled by Spanish rules at cost 1. Measured (`training/asr/probe/list_eval.mjs`, `list-questions*.json`,
   `voices_synth.py`): 168 list questions request right 31.5% → 47.6%; 160 held-out 19.4% → 35.0% (native 13 → 21 of 32); controls

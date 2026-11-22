@@ -33,14 +33,18 @@ test("restaurants on a street: the places on it, in either language; a name that
   assert.match(a.show, /Café Umarán/);
 });
 
-test("hotels: near the Rosewood, nearest first; Live Aqua has none on MapSMA: said so, and Centro shown", () => {
+test("hotels: near the Rosewood, nearest first; Live Aqua has none on MapSMA: 'in' says so, both show the nearest to its pin", () => {
   let a = en("show me restaurants near the rosewood");
   assert.match(a.show, /^4 places near the Rosewood\./);
   assert.equal(a.ids[0], "62", "Luna Rooftop, in the Rosewood, first");
   a = en("show me restaurants in live aqua");
-  assert.match(a.show, /^I found no places in Live Aqua\. 4 places in Centro\./);
+  assert.match(a.show, /^I found no places in Live Aqua\. 4 places near Live Aqua\./);
+  const m = a.ids.map((id) => a.dist[id]);
+  assert.ok(m.every((x, i) => i === 0 || x >= m[i - 1]) && m[0] < 800, `nearest first: ${m}`);
+  assert.match(en("show me restaurants near live aqua").show, /^4 places near Live Aqua\./);
   a = es("restaurantes en live aqua");
-  assert.match(a.show, /^No encontré lugares en Live Aqua\. 4 lugares en el Centro\./);
+  assert.match(a.show, /^No encontré lugares en Live Aqua\. 4 lugares cerca de Live Aqua\./);
+  assert.match(es("restaurantes cerca de live aqua").show, /^4 lugares cerca de Live Aqua\./);
 });
 
 test("quality and high end", () => {

@@ -335,11 +335,12 @@ function findStreet(s, index) {
   const at = m.index + m[0].indexOf(m[1] || m[2]), len = (m[1] || m[2]).length;
   return { key, name: st ? st.name : key, masked: s.slice(0, at) + s.slice(at, at + len).replace(/\S+/g, '§') + s.slice(at + len) };
 }
-// hotels: [{words (a regex source), en, es (its name in an answer), ids (places inside it), centro (where it is, when none is)}]
+// hotels: [{words (a regex source), en, es (its name in an answer), ids (places inside it), at ({lat, lng}: its pin, when none is)}]; a
+// hotel after "near", "by", "cerca de" is a where, not a place to be inside
 function findHotel(s, hotels) {
   for (const h of hotels || []) {
-    const m = new RegExp(`(?:^|\\s)(?:(?:the|el|hotel)\\s+)*(?:${h.words})(?=\\s|$)`).exec(s);
-    if (m) return { h, masked: s.slice(0, m.index) + m[0].replace(/\S+/g, '§') + s.slice(m.index + m[0].length) };
+    const m = new RegExp(`(?:^|\\s)((?:near|by|close to|next to|around|cerca de|cerca del|junto a|junto al)\\s+)?(?:(?:the|el|hotel)\\s+)*(?:${h.words})(?=\\s|$)`).exec(s);
+    if (m) return { h, near: !!m[1], masked: s.slice(0, m.index) + m[0].replace(/\S+/g, '§') + s.slice(m.index + m[0].length) };
   }
   return null;
 }
@@ -401,7 +402,7 @@ export function createReader({ places, MEALS, streets = null, hotels = null }) {
     const st = findStreet(q.s, streets);
     if (st) { q.street = { key: st.key, name: st.name }; q.sNames = st.masked; }
     const ho = findHotel(q.sNames || q.s, hotels);
-    if (ho) { q.hotel = { en: ho.h.en, es: ho.h.es, ids: ho.h.ids || [], centro: !!ho.h.centro }; q.sNames = ho.masked; }
+    if (ho) { q.hotel = { en: ho.h.en, es: ho.h.es, ids: ho.h.ids || [], at: ho.h.at || null, near: ho.near }; q.sNames = ho.masked; }
     let hit = matchPlace(q);
     q.nearNames = lastNear;
     // a number inside a name ("Is Cien 24 open?") is not a count of places
