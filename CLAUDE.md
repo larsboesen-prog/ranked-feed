@@ -70,7 +70,7 @@ unless the owner asks. Commits end with the two attribution lines the session gi
 - English retrain done (22 Nov, Kaggle tiny-ears-english v1, 5.7 GPU h; quota 22.5/30 until 28 Nov): `engines/ears/ears-int8-2026-11-22.onnx`
   (sha 9630d40e…). English held-out 67.2% → 88.1%, everyday English 68.9% → 87.8%, Mexican Spanish 87.5% → 91.0%; non-Mexican
   Spanish voices 86.1% → 82.6%. Update 4 live 22 Nov (page5 ae4b1338…; owner: "The English ear is much better").
-- Names by sound (22 Nov, owner: "still fails on place names said with my Danish-English accent. 'Estoril' is not recognised…
+- Names by sound (22 Nov, owner: "still fails on place names said with an accent. 'Estoril' is not recognised…
   1. Match place names by sound… 2. Ask when unsure… record 30 to 50 place names… test set, not training"): `engines/ears-spot.js`
   finds each name in the ears' SOUNDS (Viterbi CTC keyword spotting, free start/end, cost per sound vs free hearing; names from
   `packs/dist/mx-sma/ears-names.json`), `soundChoice` decides (only when the words named no place in a one-place-shaped question:

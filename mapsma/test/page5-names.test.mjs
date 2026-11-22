@@ -1,4 +1,4 @@
-// /page5 finds place names by sound (owner, 22 Nov 2026: "it still fails on place names said with my Danish-English accent. 'Estoril'
+// /page5 finds place names by sound (owner, 22 Nov 2026: "it still fails on place names said with an accent. 'Estoril'
 // is not recognised at all… 1. Match place names by sound… 2. Ask when unsure… One tap picks the place."). A Danish voice (Piper
 // da_DK talesyntese, CC0 data) asks through the fake microphone; the ears' words miss the name; the sounds find it. The clips start
 // with a second of silence: the fake microphone plays from the moment it opens, before the page records (a person starts after the tap).

@@ -1,4 +1,4 @@
-// The name recorder (record-names/, owner 22 Nov 2026: "a simple page where I can record 30 to 50 place names once in my own voice"):
+// The name recorder (record-names/, owner 22 Nov 2026: "a simple page where I can record 30 to 50 place names once in [the owner's] own voice"):
 // in Chromium with a fake microphone saying "Is Estoril open?", one take is kept, survives a reload, and is saved as the file
 // tools/names-test.mjs reads (16 kHz 16-bit mono WAV in base64). Nothing goes over the network but the page's own files.
 import { test, before, after } from "node:test";

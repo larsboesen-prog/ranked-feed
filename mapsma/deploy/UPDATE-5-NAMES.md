@@ -1,6 +1,6 @@
 # MapSMA update 5: place names found by sound (for a Claude session with server access)
 
-The owner (22 Nov 2026): "it still fails on place names said with my Danish-English accent. 'Estoril' is not recognised at all…
+The owner (22 Nov 2026): "it still fails on place names said with an accent. 'Estoril' is not recognised at all…
 1. Match place names by sound… 2. Ask when unsure… One tap picks the place." No new model. The ears now also look for each place
 name in the sounds they hear; when the written words miss the name, /page5 answers about a clear winner ("Heard as Estoril") or
 offers the two or three closest names as buttons ("Did you mean: Estoril, …"). Measured on 560 accented test questions: names

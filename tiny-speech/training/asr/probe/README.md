@@ -95,7 +95,7 @@ Run: `node training/asr/probe/lexicon.mjs lexicon.json`, then
 
 ## Names by sound (22 Nov 2026)
 
-The owner, after the English retrain: "it still fails on place names said with my Danish-English accent. 'Estoril' is not recognised
+The owner, after the English retrain: "it still fails on place names said with an accent. 'Estoril' is not recognised
 at all. 1. Match place names by sound… ('a story', 'es to real' → Estoril). No retraining. 2. Ask when unsure… One tap picks the
 place." Matching the written guess against the names loses too much: the matcher has already turned "Estoril" into "is it" or "a
 stroll". So `engines/ears-spot.js` looks for each of the city's names in the ears' **sounds** (the 20 ms frames, before words are
