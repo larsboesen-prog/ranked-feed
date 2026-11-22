@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 116 tiny-speech tests + 22 mapsma tests passing)
+## Done (all on the branch, 118 tiny-speech tests + 24 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -64,6 +64,10 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   Photos | Map | Ask (Fotos | Mapa | Voz) on /page2 and /page3, /page2 rebased on the 21 Nov 23:02 live page (new SEO head) with the
   shuffle/Susan/descs. Deployed (above).
   Someone (the owner's other session?) edits the live site: always compare live checksums before building on a copy.
+- Words (22 Nov): the ears' list grown to the reader's words + everyday ones (2,794; "venues" was missing), template questions at
+  small weight; lists leaning to the page's language (`ears-lexicon-en|es.json`, 6x / cost 1: best of 9 settings); /page5 loads its
+  language's and reminds to switch (names masked; 2 in a row or 1 clear; 0 false of 515 matched). Update 3 waiting:
+  https://raw.githubusercontent.com/larsboesen-prog/ranked-feed/e274701439fdfe3a47a5348aeda12d472a9eb9a2/mapsma/deploy/UPDATE-3-WORDS.md
 
 ## Waiting on the owner
 
