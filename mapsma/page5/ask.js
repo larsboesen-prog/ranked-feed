@@ -14,12 +14,12 @@
 
 // Reading the question (words -> request) lives in read.js; this file answers requests; words.js says the answers in English and
 // Spanish; rules.js holds the rules. The same ?v= as index.html's.
-import { fold, SOON, parse, TOPIC, dayOff, createReader } from './read.js?v=20261118f';
+import { fold, SOON, parse, TOPIC, dayOff, createReader, streetIndex } from './read.js?v=20261122s';
 export { fold, SOON, parse, sound, requestOf } from './read.js?v=20261118f';
 import { RULES, span as ruleSpan } from './rules.js?v=20261118f';  // the answer rules, in one place (rules.js)
-import { WORDS } from './words.js?v=20261118f';  // the words of the answers, English and Spanish (words.js)
+import { WORDS } from './words.js?v=20261122s';  // the words of the answers, English and Spanish (words.js)
 // the time, number and distance words, for anything that took them from here (index.html: DAYNAMES, showDist)
-export { DAYNAMES, DIAS, clock, sayTime, sayTimeEs, aTimeEs, showTimeEs, sayNum, sayNumEs, sayDist, sayDistEs, showDist, showDistEs, sayName, walkMin } from './words.js?v=20261118f';
+export { DAYNAMES, DIAS, clock, sayTime, sayTimeEs, aTimeEs, showTimeEs, sayNum, sayNumEs, sayDist, sayDistEs, showDist, showDistEs, sayName, walkMin } from './words.js?v=20261122s';
 
 export const EAT = ['bfast', 'mex', 'world', 'street', 'share', 'roof'];
 
@@ -212,9 +212,15 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
     pool = pool.filter((p) => catsOf(p).some((c) => want.has(c)));
     if (q.picksOnly || (q.surprise && !topics.length)) pool = pool.filter((p) => !p.other);  // "four we recommend", "surprise me": our picks only
     const base = pool;  // before the where (Centro, an area) and who (Susan, unusual, local) filters
-    const og = q.nearSight ? { o: byId[q.nearSight], sight: q.nearSight } : q.near ? origin(here) : null;
+    const og = q.nearSight ? { o: byId[q.nearSight], sight: q.nearSight } : q.hotel && q.hotel.ids.length ? { o: byId[q.hotel.ids[0]], sight: q.hotel.ids[0], hotel: q.hotel }
+      : q.near ? origin(here) : null;  // a hotel: nearest first from the place inside it
     if (q.centro) pool = pool.filter(inCentro);
     if (q.area && !q.nearSight) pool = pool.filter((p) => { const a = fold(p.area + ' ' + ((INFO[p.id] || {}).address || '')); return a.includes(q.area) || (q.area === 'out of town' && a.includes('fuera de la ciudad')); });  // the Spanish page's areas are in Spanish
+    // a street: the places on it; none of the kind asked for there: said so, and the others shown (as for an area); a hotel with none
+    // of its places on MapSMA: said so, and Centro shown
+    let streetMiss = !!(q.hotel && !q.hotel.ids.length);
+    if (streetMiss && q.hotel.centro) pool = pool.filter(inCentro);
+    if (q.street) { const f = pool.filter((p) => STREETS.byId.get(p.id) === q.street.key); if (f.length || !pool.length) pool = f; else streetMiss = true; }
     if (q.susan) pool = pool.filter((p) => picks[p.id]);
     if (q.unique) pool = pool.filter((p) => F(p).x);
     if (q.local) pool = pool.filter(local);
@@ -223,7 +229,7 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
     // (pizza -> Italian food), or else the rest of the question, or else places we recommend, takes its place; a topic the site has, but
     // not there ("rooftops in Guadalupe"), is said so, and the ones elsewhere are shown.
     const score = new Map();
-    let miss = null, whereMiss = false, recommend = false;
+    let miss = null, whereMiss = streetMiss, recommend = false;
     if (topics.length) {
       const scoreAll = (ts, from = pool) => {
         const m = new Map();
@@ -317,7 +323,8 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
   // hours" (Spanish agrees with the noun: "abiertos", "abierta"); digits: "2 hours", as the screen writes it.
   function describe(q, n, og = null, ranked = {}) {
     const where = (q.centro && !(og && og.sight === 'S2') ? W.inCentro : q.area === 'out of town' ? W.outOfTown : q.area && !(og && og.sight) ? W.inArea(q.area.replace(/\b\w/g, (c) => c.toUpperCase())) : '')
-      + (og ? W.near(og, og.sight ? sightName(og.sight) : null) : '');
+      + (q.street ? W.onStreet(q.street.name) : '') + (q.hotel && !q.hotel.ids.length ? W.inArea(q.hotel[W.lang] || q.hotel.en) : '')
+      + (og ? W.near(og, og.hotel ? og.hotel[W.lang] || og.hotel.en : og.sight ? sightName(og.sight) : null) : '');
     const ts = shownTopics(q, ranked);
     let kind = ts.length || q.price || q.local || q.unique ? kindPhrase({ ...q, priceMiss: ranked.priceMiss }, ts) : q.cats && q.cats.length === 1 ? W.kinds[q.cats[0]] || null : null;
     if ((q.unclear || ranked.recommend) && (!kind || kind[0] === W.places[0])) kind = W.recommended;
@@ -331,7 +338,7 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
   function listAnswer(q, n, ranked, offset, count) {
     const page = ranked.rows.slice(offset, offset + count), total = ranked.rows.length;
     const og = ranked.origin || null;
-    const elsewhere = { ...q, centro: false, area: null, unique: false, local: false, susan: false };  // "rooftops in Guadalupe": none there, the ones elsewhere
+    const elsewhere = { ...q, centro: !!(q.hotel && !q.hotel.ids.length), area: null, street: null, hotel: null, unique: false, local: false, susan: false };  // "rooftops in Guadalupe": none there, the ones elsewhere (a hotel with none: Centro)
     const d = describe(ranked.whereMiss ? elsewhere : q, n, ranked.whereMiss ? null : og, ranked), k = page.length, asked = q.count || 0;  // "only" when a number was asked for
     const out = { kind: 'list', q, ids: page.map((r) => r.p.id), all: ranked.rows.map((r) => r.p.id), offset, count, left: Math.max(0, total - offset - k), say: [], lines: [], show: '', susan: q.susan,
       here: ranked.here || null, dist: og ? Object.fromEntries(page.map((r) => [r.p.id, r.m])) : null, mine: !!(og && og.mine) };
@@ -387,7 +394,17 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
   // The answer to a question: {kind: 'list'|'one'|'none', ids, say: [{text, id?}], show}. `last` is the previous list, for "4 more".
   // Reading (read.js) turns the words into a request; answerRequest() answers a request, whoever wrote it (Lars, 18 Nov 2026: "Do 1-3
   // proposal", 2: reading the question apart from finding the answer).
-  const reader = createReader({ places, MEALS });
+  // streets from the addresses; hotels: the places inside them (owner, 22 Nov 2026: "show me restaurants in Live Aqua"). Live Aqua
+  // (Calzada de la Presa 85, Zona Centro) has none on MapSMA yet: the answer says so and shows Centro.
+  const STREETS = streetIndex(places.map((p) => ({ id: p.id, address: (INFO[p.id] || {}).address })));
+  const HOTELS = [
+    { words: 'live aqua', en: 'Live Aqua', es: 'Live Aqua', ids: [], centro: true },
+    { words: 'rosewood', en: 'the Rosewood', es: 'el Rosewood', ids: ['62'] },  // Luna Rooftop
+    { words: 'belmond|casa de sierra nevada|sierra nevada', en: 'the Belmond', es: 'el Belmond', ids: ['42'] },  // Andanza
+    { words: 'casa blanca (7|siete)|casa blanca', en: 'Casa Blanca 7', es: 'Casa Blanca 7', ids: ['X14'] },  // Fátima 7 Rooftop
+    { words: 'golpe de vista', en: 'El Golpe de Vista', es: 'El Golpe de Vista', ids: ['X15'] },  // Terraza La Vista
+  ].map((h) => ({ ...h, ids: h.ids.filter((id) => byId[id]) }));
+  const reader = createReader({ places, MEALS, streets: STREETS, hotels: HOTELS });
   function answer(text, n, last = null, here = null) { return answerRequest(reader.read(text, n), n, last, here); }
   function answerRequest(q, n, last = null, here = null) {
     if (q.more && last && last.kind === 'list') {
@@ -398,13 +415,13 @@ export function createAsker({ places, INFO, HOURS, CATS, ALSO = {}, SUSAN = null
     if (named && !q.wantsList) return { ...one(named, n, q, here), q };
     // "Is … open?" about one place whose name was not caught: say so, and offer the closest names, rather than a list of other places
     // (q.soundNear: the names by sound were close, so the page asks between them, index.html bySound)
-    const onePlace = (q.soundNear && q.soundNear.length) || ((/^(is|are|when|what time|does|do|how late|until when|till when|tell me about|how about|what about|esta|estan|a que hora|cuando|abre|cierra|hasta que hora|que tal|donde esta|como llego)\b/.test(q.s) || q.howFar) && !q.wantsList && !q.near && !q.centro && !q.area && !q.cats && !q.asks && !q.nearSight);
+    const onePlace = (q.soundNear && q.soundNear.length) || ((/^(is|are|when|what time|does|do|how late|until when|till when|tell me about|how about|what about|esta|estan|a que hora|cuando|abre|cierra|hasta que hora|que tal|donde esta|como llego)\b/.test(q.s) || q.howFar) && !q.wantsList && !q.near && !q.centro && !q.area && !q.street && !q.hotel && !q.cats && !q.asks && !q.nearSight);
     if (onePlace) {
       const near = (q.nearNames || []).map((id) => byId[id]).filter((p) => p && shown(p));
       const [show, say] = W.didntCatch(near.map((p) => W.place(p).sn));
       return { kind: 'none', q, ids: [], near: near.map((p) => p.id), say: [{ text: say }], show, lines: [{ text: show }] };
     }
-    if (q.wantsList || q.asks || q.near || q.nearSight || q.centro || q.area || q.cats || q.window != null || q.dayIdx != null) {
+    if (q.wantsList || q.asks || q.near || q.nearSight || q.centro || q.area || q.street || q.hotel || q.cats || q.window != null || q.dayIdx != null) {
       const count = q.count || (q.susan ? RULES.susanCount : RULES.listCount);
       return listAnswer(q, n, { ...list(q, n, here), here }, 0, count);
     }

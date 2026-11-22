@@ -20,7 +20,7 @@ const VOICE = "vendor/tiny-voca/tiny-voca-mx1-2026-11-21.gguf";
 const skip = !chromium ? "Playwright is not installed" : !existsSync(TS + VOICE) ? "the voice file is not here" : false;
 const P5 = HERE + "../page5/", LIVE = P5 + "live-2026-11-20/";
 const FILES = { "/page5/": P5 + "index.html", "/page5/ask.js": P5 + "ask.js", "/page5/words.js": P5 + "words.js", "/page5/rules.js": P5 + "rules.js",
-  "/page5/susan.js": P5 + "susan.js", "/page5/read.js": LIVE + "read.js", "/page5/listen.js": LIVE + "listen.js", "/page5/spanish.js": LIVE + "spanish.js",
+  "/page5/susan.js": P5 + "susan.js", "/page5/read.js": P5 + "read.js", "/page5/listen.js": LIVE + "listen.js", "/page5/spanish.js": LIVE + "spanish.js",
   "/places.js": HERE + "fixtures/data.js", "/i18n.js": HERE + "fixtures/i18n.js", "/icons.js": HERE + "fixtures/icons.js",
   "/photos/selected.json": HERE + "fixtures/photos/selected.json", "/photos/hours.json": HERE + "fixtures/photos/hours.json" };
 const INLINE = { "/page5/facts.js": "window.FACTS={};", "/descs.js": "window.DESCS={};" };

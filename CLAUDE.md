@@ -15,7 +15,7 @@ language → a deterministic reader turns words into a request (no LLM at run ti
 Work happens on branch `claude/tiny-speech-bilingual-v7lyp0` of `larsboesen-prog/ranked-feed` (public). No pull request
 unless the owner asks. Commits end with the two attribution lines the session gives.
 
-## Done (all on the branch, 126 tiny-speech tests + 27 mapsma tests passing)
+## Done (all on the branch, 130 tiny-speech tests + 30 mapsma tests passing)
 
 - Plan steps B0–B13 (ARCHITECTURE.md section 11): golden answers from /page5 (the code still reproduces them with the
   imported pack), city packs (San Miguel `mx-sma`, a made-up second city), pack loader, language decision, Spanish sound
@@ -93,7 +93,18 @@ unless the owner asks. Commits end with the two attribution lines the session gi
   so. New rule `strong` 1.0 / `strongGap` 1.5 (a non-place-shaped question answers a very clear name; changes nothing without learned
   readings). Simulated (`training/asr/probe/learn_eval.mjs`): take 2 "X, when is it open?" 192 → 211 of 280 after taps on take 1
   (216 learning from every miss), wrong 4 → 4, controls unchanged. Recorder now 80 questions (take 1 "Is X open?", take 2 prompt2);
-  names-test.mjs reports learning on take 2 (Danish stand-in: 16 → 20 of 40). Update 6 (cumulative, includes 5; files pinned to e5d6b70) waiting: mapsma/deploy/UPDATE-6-LEARN.md.
+  names-test.mjs reports learning on take 2 (Danish stand-in: 16 → 20 of 40). Update 6 (cumulative, includes 5) **live 22 Nov** (page5 9d0de4b1…).
+- Restaurants, streets, hotels (22 Nov, owner: "show me some high end/quality restaurants", "restaurants on umaran", "rooftop
+  restaurants → rooftop esta", "restaurants in live aqua → están sin light"; "run English test and see what's written and improve"):
+  reader: streets from addresses (`domains/places/streets.js`; /page5 read.js copy: `streetIndex`, `findStreet`, after on/along/calle/
+  en la calle, before "street"; masks the words from name matching), "quality" = best; /page5 only: HOTELS in page5/ask.js (Rosewood
+  62, Belmond 42, Casa Blanca 7 X14, Golpe de Vista X15: nearest from the place inside; Live Aqua: none on MapSMA → "I found no places
+  in Live Aqua" + Centro; its coordinates unknown here: map hosts blocked). Word list: streets + `packs/src/mx-sma/landmarks.json`
+  (not in the pack) both readings (EN page free; ES page the English reading costs), T_LIST/T_STREET/T_LANDMARK templates, EN page:
+  every English word also spelled by Spanish rules at cost 1. Measured (`training/asr/probe/list_eval.mjs`, `list-questions*.json`,
+  `voices_synth.py`): 168 list questions request right 31.5% → 47.6%; 160 held-out 19.4% → 35.0% (native 13 → 21 of 32); controls
+  unchanged; names 402 found, wrong 10 → 12. Pitfall: "the rosewood" put "the" into Spanish questions (fixed: no small words).
+  Update 7 waiting: mapsma/deploy/UPDATE-7-STREETS.md (page5 read.js now ours, not the live copy; tests serve P5 read.js).
 
 ## Waiting on the owner
 

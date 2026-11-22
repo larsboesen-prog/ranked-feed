@@ -132,7 +132,7 @@ const EN = {
     return [adj + pl + food + withs, adj + sg + food + oneVerb(withs)];
   },
   label: (f, unique) => (unique && f.u) || f.w || '',  // what each place is, when the question did not say (facts.js)
-  inCentro: ' in Centro', outOfTown: ' out of town', inArea: (a) => ` in ${a}`,
+  inCentro: ' in Centro', outOfTown: ' out of town', inArea: (a) => ` in ${a}`, onStreet: (s) => ` on ${s}`, lang: 'en',
   near: (og, sight) => (og.sight ? ` near ${sight}` : og.mine ? ' near you' : ' near the Jardín'),
   when(s, n, g, one, digits) {
     if (s.late) return s.late === 'tonight' ? ' open now' : ` open now for a late ${MEAL[s.late]}`;
@@ -245,7 +245,7 @@ const ES = {
     return [ins(pl, adj(false)) + food + withs, ins(sg, adj(true)) + food + withs, g];
   },
   label: (f, unique) => (unique && f.u_es) || f.w_es || '',
-  inCentro: ' en el Centro', outOfTown: ' fuera de la ciudad', inArea: (a) => ` en ${a}`,
+  inCentro: ' en el Centro', outOfTown: ' fuera de la ciudad', inArea: (a) => ` en ${a}`, onStreet: (s) => ` en la calle ${s}`, lang: 'es',
   near: (og, sight) => (og.sight ? ` cerca de ${sight}`.replace(' de el ', ' del ') : og.mine ? ' cerca de ti' : ' cerca del Jardín'),
   when(s, n, g, one, digits) {  // the adjective agrees with the noun: lugares abiertos, terrazas abiertas, un lugar abierto
     const adj = one ? (g === 'f' ? 'abierta' : 'abierto') : g === 'f' ? 'abiertas' : 'abiertos';
